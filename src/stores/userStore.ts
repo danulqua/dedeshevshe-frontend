@@ -2,6 +2,7 @@ import { authService } from '@/api/auth';
 import type { UserRole } from '@/api/types/user.dto';
 import { defineStore } from 'pinia';
 import { useLocalStorage } from '@vueuse/core';
+import { useRouter } from 'vue-router';
 
 interface UserStore {
   id: number | null;
@@ -18,6 +19,8 @@ export const useUserStore = defineStore('user', () => {
     isAuthenticated: false
   });
 
+  const router = useRouter();
+
   const signIn = async (userEmail: string, userPassword: string) => {
     const { id, email, role } = await authService.signIn(userEmail, userPassword);
 
@@ -27,15 +30,21 @@ export const useUserStore = defineStore('user', () => {
       role,
       isAuthenticated: true
     };
+
+    router.push({ name: 'home' });
   };
 
-  const signOut = () => {
+  const signOut = async () => {
+    await authService.signOut();
+
     user.value = {
       id: null,
       email: null,
       role: null,
       isAuthenticated: false
     };
+
+    router.push({ name: 'signIn' });
   };
 
   return {

@@ -52,7 +52,6 @@ import { useToast } from 'primevue/usetoast';
 import { RouterLink } from 'vue-router';
 import { toTypedSchema } from '@vee-validate/zod';
 import { signInSchema } from '@/schemas/auth/signIn.schema';
-import { authService } from '@/api/auth';
 import { useUserStore } from '@/stores/userStore';
 
 const { handleSubmit, errors } = useForm({
