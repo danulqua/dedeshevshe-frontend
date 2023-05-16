@@ -23,6 +23,7 @@ import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import './assets/main.css';
+import Dropdown from 'primevue/dropdown';
 
 const app = createApp(App);
 
@@ -35,6 +36,7 @@ app.component('PButton', Button);
 app.component('PInputText', InputText);
 app.component('PInputNumber', InputNumber);
 app.component('PPassword', Password);
+app.component('PDropdown', Dropdown);
 app.component('PCheckbox', Checkbox);
 app.component('PRadioButton', RadioButton);
 app.component('PPaginator', Paginator);

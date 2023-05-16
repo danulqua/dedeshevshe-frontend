@@ -1,5 +1,5 @@
 import { apiClient } from '@/api/apiClient';
-import type { UserDTO } from '@/api/types/user.dto';
+import type { UserDTO } from '@/api/types/user';
 
 class UserService {
   async getMyProfile() {

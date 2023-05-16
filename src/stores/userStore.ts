@@ -1,5 +1,5 @@
 import { authService } from '@/api/auth';
-import type { UserRole } from '@/api/types/user.dto';
+import type { UserRole } from '@/api/types/user';
 import { defineStore } from 'pinia';
 import { useLocalStorage } from '@vueuse/core';
 import { useRouter } from 'vue-router';
