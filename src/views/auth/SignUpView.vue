@@ -45,7 +45,8 @@
       <PButton
         label="Зареєструватись"
         class="w-full mt-3"
-        :disabled="!isValid"
+        :disabled="!isValid || isLoading"
+        :loading="isLoading"
         @click="submit"
       ></PButton>
     </form>
@@ -53,7 +54,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useField, useForm, ErrorMessage } from 'vee-validate';
 import { useToast } from 'primevue/usetoast';
 import { useRouter } from 'vue-router';
@@ -79,11 +80,13 @@ const isValid = computed(() => {
 const toast = useToast();
 const router = useRouter();
 
-const submit = handleSubmit(async (values) => {
-  console.log(values);
+const isLoading = ref(false);
 
+const submit = handleSubmit(async (values) => {
   try {
+    isLoading.value = true;
     await authService.signUp(values.email, values.password);
+
     router.push({ name: 'signIn' });
     toast.add({
       severity: 'success',
@@ -106,6 +109,8 @@ const submit = handleSubmit(async (values) => {
         life: 3000
       });
     }
+  } finally {
+    isLoading.value = false;
   }
 });
 </script>

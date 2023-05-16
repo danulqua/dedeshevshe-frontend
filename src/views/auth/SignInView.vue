@@ -40,7 +40,13 @@
         </RouterLink>
       </div>
 
-      <PButton label="Увійти" class="w-full" :disabled="!isValid" @click="submit"></PButton>
+      <PButton
+        label="Увійти"
+        class="w-full"
+        :disabled="!isValid || isLoading"
+        :loading="isLoading"
+        @click="submit"
+      ></PButton>
     </form>
   </div>
 </template>
@@ -53,6 +59,7 @@ import { RouterLink } from 'vue-router';
 import { toTypedSchema } from '@vee-validate/zod';
 import { signInSchema } from '@/schemas/auth/signIn.schema';
 import { useUserStore } from '@/stores/userStore';
+import { ref } from 'vue';
 
 const { handleSubmit, errors } = useForm({
   validationSchema: toTypedSchema(signInSchema),
@@ -72,11 +79,13 @@ const isValid = computed(() => {
 });
 
 const toast = useToast();
-
 const userStore = useUserStore();
+
+const isLoading = ref(false);
 
 const submit = handleSubmit(async (values) => {
   try {
+    isLoading.value = true;
     await userStore.signIn(values.email, values.password);
   } catch (error) {
     toast.add({
@@ -85,6 +94,8 @@ const submit = handleSubmit(async (values) => {
       detail: 'Неправильні дані для входу',
       life: 3000
     });
+  } finally {
+    isLoading.value = false;
   }
 });
 </script>
