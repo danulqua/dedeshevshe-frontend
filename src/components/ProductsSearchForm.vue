@@ -8,7 +8,12 @@
           placeholder="Назва продукту..."
           :class="{ 'p-invalid': errorProductTitle }"
         />
-        <PButton icon="pi pi-search" :disabled="!isValid" />
+        <PButton
+          icon="pi pi-search"
+          :disabled="!isValid || productsStore.isLoading"
+          :loading="productsStore.isLoading"
+          @click="searchProducts"
+        />
       </div>
       <small v-if="errorProductTitle" class="p-error">{{ errorProductTitle }}</small>
     </div>
@@ -16,12 +21,14 @@
     <div class="flex flex-column gap-2">
       <span>Супермаркет</span>
       <PDropdown
-        v-model="selectedShop"
+        v-model="selectedShopId"
         :options="shops"
         option-label="title"
+        option-value="id"
         show-clear
         placeholder="Обрати..."
         class="w-full"
+        :loading="initialLoading"
       />
     </div>
 
@@ -63,21 +70,25 @@ import { useField } from 'vee-validate';
 import { z } from 'zod';
 import { toTypedSchema } from '@vee-validate/zod';
 import { productTitleSchema } from '@/schemas/searchProducts.schema';
+import { useProductsStore } from '@/stores/productsStore';
 
 const toast = useToast();
 const initialLoading = ref(true);
 const shops = ref<ShopDTO[]>([]);
+const productsStore = useProductsStore();
 
 const { value: productTitle, errorMessage: errorProductTitle } = useField(
   'productTitle',
-  toTypedSchema(productTitleSchema)
+  toTypedSchema(productTitleSchema),
+  { initialValue: productsStore.title }
 );
 const { value: maxPrice, errorMessage: errorMaxPrice } = useField(
   'maxPrice',
-  toTypedSchema(z.number().min(0.01, 'Ціна не може бути 0').nullable())
+  toTypedSchema(z.number().min(0.01, 'Ціна не може бути 0').nullable()),
+  { initialValue: productsStore.maxPrice }
 );
-const selectedShop = ref<number | null>(null);
-const discountsOnly = ref(false);
+const selectedShopId = ref<number | null>(null);
+const discountsOnly = ref(productsStore.discountsOnly);
 
 const isValid = computed(() => {
   return productTitle.value && !errorProductTitle.value && !errorMaxPrice.value;
@@ -87,6 +98,7 @@ onMounted(async () => {
   try {
     const shopList = await shopService.getAllShops();
     shops.value = shopList.items;
+    selectedShopId.value = productsStore.shopId;
   } catch (error) {
     toast.add({
       severity: 'error',
@@ -99,8 +111,30 @@ onMounted(async () => {
   }
 });
 
-const searchProducts = () => {
-  console.log('searching products...');
+const searchProducts = async () => {
+  try {
+    productsStore.title = productTitle.value;
+    productsStore.shopId = selectedShopId.value;
+    productsStore.maxPrice = maxPrice.value;
+    productsStore.discountsOnly = discountsOnly.value;
+    productsStore.page = 1;
+
+    await productsStore.searchProducts({
+      title: productTitle.value,
+      maxPrice: maxPrice.value || undefined,
+      shopId: selectedShopId.value || undefined,
+      discountsOnly: discountsOnly.value || undefined,
+      limit: 10,
+      page: 1
+    });
+  } catch (error) {
+    toast.add({
+      severity: 'error',
+      summary: 'Помилка',
+      detail: 'Під час пошуку сталась помилка. Спробуйте пізніше.',
+      life: 3000
+    });
+  }
 };
 </script>
 
