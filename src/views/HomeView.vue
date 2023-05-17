@@ -1,10 +1,10 @@
 <template>
   <main class="container">
     <div class="grid">
-      <div class="col-4">
+      <div class="col-12 lg:col-4">
         <ProductsSearchForm />
       </div>
-      <div class="col-8">
+      <div class="col-12 lg:col-8">
         <div v-if="productsStore.isLoading" class="flex justify-content-center">
           <PProgressSpinner />
         </div>
@@ -26,8 +26,8 @@
           class="w-9 mx-auto"
         >
           <p class="flex flex-column gap-1 align-items-center text-lg">
-            <span>Продукт не знайдено!</span>
-            <span>Бажаєте створити запит на додавання продукту у систему?</span>
+            <span class="text-center">Продукт не знайдено!</span>
+            <span class="text-center">Бажаєте створити запит на додавання продукту у систему?</span>
             <RouterLink :to="{ name: 'createProductRequest' }">
               <PButton class="mt-4" label="Створити запит" />
             </RouterLink>

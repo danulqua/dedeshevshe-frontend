@@ -1,5 +1,5 @@
 <template>
-  <div class="col-4">
+  <div class="col-12 sm:col-6 xl:col-4">
     <a :href="product.url" class="no-underline" target="_blank">
       <PCard class="h-full relative">
         <template #header>
