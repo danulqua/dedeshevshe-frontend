@@ -19,12 +19,14 @@ import Chip from 'primevue/chip';
 import Tag from 'primevue/tag';
 import Dropdown from 'primevue/dropdown';
 import ProgressSpinner from 'primevue/progressspinner';
+import Avatar from 'primevue/avatar';
 
 import 'primevue/resources/themes/lara-light-blue/theme.css';
 import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import './assets/main.css';
+import Menu from 'primevue/menu';
 
 const app = createApp(App);
 
@@ -48,5 +50,7 @@ app.component('PImage', Image);
 app.component('PChip', Chip);
 app.component('PTag', Tag);
 app.component('PProgressSpinner', ProgressSpinner);
+app.component('PAvatar', Avatar);
+app.component('PMenu', Menu);
 
 app.mount('#app');

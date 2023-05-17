@@ -29,6 +29,7 @@
         show-clear
         placeholder="Обрати..."
         class="w-full"
+        :disabled="initialLoading"
         :loading="initialLoading"
       />
     </div>
@@ -41,6 +42,7 @@
           input-id="maxPrice"
           name="maxPrice"
           prefix="₴"
+          placeholder="Введіть ціну..."
           :min-fraction-digits="2"
           :max-fraction-digits="2"
           :class="{ 'p-invalid': errorMaxPrice }"

@@ -27,6 +27,11 @@ const router = createRouter({
       component: () => import('@/views/auth/ForgotPasswordView.vue')
     },
     {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('@/views/profile/ProfileView.vue')
+    },
+    {
       path: '/createProductRequest',
       name: 'createProductRequest',
       component: () => import('@/views/ProductRequestView.vue'),
