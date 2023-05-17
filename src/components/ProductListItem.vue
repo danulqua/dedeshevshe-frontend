@@ -23,9 +23,9 @@
             <span>{{ product.weight ? product.weight + ' гр' : product.volume + ' мл' }}</span>
           </div>
         </template>
-        <template #subtitle>{{
-          isExternalProduct(product) ? product.shop : product.shop?.title
-        }}</template>
+        <template #subtitle>
+          {{ isExternalProduct(product) ? product.shop : product.shop?.title }}
+        </template>
         <template #footer>
           <div class="absolute card-footer">
             <div v-if="product.discount">
@@ -48,11 +48,14 @@
         </template>
       </PCard>
     </a>
+    <PTag v-if="showStatus && tagData" class="w-full mt-1" :severity="tagData.severity">
+      {{ tagData.label }}
+    </PTag>
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from 'vue';
+import { computed, type PropType } from 'vue';
 import {
   isExternalProduct,
   isInternalProduct,
@@ -61,13 +64,22 @@ import {
 } from '@/api/types/product';
 import { getInternalImageUrl } from '@/utilities/getInternalImageUrl';
 import { formatPrice } from '@/utilities/formatPrice';
+import { getProductStatusTagData } from '@/utilities/formatProductStatus';
 
-defineProps({
+const props = defineProps({
   product: {
     type: Object as PropType<ProductExternal | ProductInternal>,
     required: true
+  },
+  showStatus: {
+    type: Boolean,
+    default: false
   }
 });
+
+const tagData = computed(
+  () => isInternalProduct(props.product) && getProductStatusTagData(props.product.status)
+);
 </script>
 
 <style scoped lang="scss">

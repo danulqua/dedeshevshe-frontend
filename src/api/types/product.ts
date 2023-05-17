@@ -17,7 +17,7 @@ export interface ProductExternal {
   isExternal: true;
 }
 
-export type ProductStatus = 'ACTIVE' | 'INACTIVE' | 'IN_REVIIEW';
+export type ProductStatus = 'ACTIVE' | 'INACTIVE' | 'IN_REVIEW';
 
 export interface ProductInternal {
   id: number;
@@ -44,10 +44,10 @@ export interface ProductInternal {
   image: { id: number; url: string };
 }
 
-export interface ProductListDTO {
+export interface ProductListDTO<T = ProductInternal | ProductExternal> {
   totalCount: number;
   totalPages: number;
-  items: (ProductInternal | ProductExternal)[];
+  items: T[];
 }
 
 export const isInternalProduct = (

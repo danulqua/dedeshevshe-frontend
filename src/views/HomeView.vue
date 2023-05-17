@@ -8,9 +8,12 @@
         <div v-if="productsStore.isLoading" class="flex justify-content-center">
           <PProgressSpinner />
         </div>
-        <div v-else-if="productsStore.products.length">
-          <ProductList :products="productsStore.products" :show-statuses="true" />
-        </div>
+        <ProductList
+          v-else-if="productsStore.products.length"
+          :products="productsStore.products"
+          :show-statuses="true"
+        />
+
         <PPaginator
           v-if="productsStore.products.length"
           v-model="productsStore.page"
