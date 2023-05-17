@@ -50,6 +50,19 @@ export interface ProductListDTO<T = ProductInternal | ProductExternal> {
   items: T[];
 }
 
+export interface CreateProductDTO {
+  title: string;
+  description: string | null;
+  url: string;
+  price: number;
+  discount: Discount | null;
+  volume: number | null;
+  weight: number | null;
+  status?: ProductStatus;
+  shopId: number;
+  imageId: number | null;
+}
+
 export const isInternalProduct = (
   product: ProductInternal | ProductExternal
 ): product is ProductInternal => {

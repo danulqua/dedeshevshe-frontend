@@ -1,8 +1,10 @@
 <template>
   <Toast />
-  <MainHeader class="mb-6" />
+  <MainHeader />
 
-  <RouterView />
+  <div class="my-6">
+    <RouterView />
+  </div>
 </template>
 
 <script setup lang="ts">

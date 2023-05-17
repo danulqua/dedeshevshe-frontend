@@ -1,5 +1,5 @@
 import { apiClient } from '@/api/apiClient';
-import type { ProductInternal, ProductListDTO } from '@/api/types/product';
+import type { CreateProductDTO, ProductInternal, ProductListDTO } from '@/api/types/product';
 
 export interface ProductsSearchParams {
   title: string;
@@ -33,6 +33,15 @@ class ProductsService {
     const response = await apiClient<ProductListDTO<ProductInternal>>('/api/product/request/my');
     return response.data;
   }
+
+  async createRequest(product: CreateProductDTO) {
+    const response = await apiClient.post<ProductInternal>('/api/product/request', product);
+    return response.data;
+  }
+
+  // async createProduct(product: CreateProductDTO) {
+  //   const response = await apiClient.post<ProductInternal>('/api/product/request')
+  // }
 }
 
 export const productsService = new ProductsService();

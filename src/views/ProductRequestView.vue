@@ -1,100 +1,315 @@
 <template>
   <div class="mx-auto surface-card p-4 shadow-2 border-round">
-    <div class="text-center mb-5 text-900 text-3xl font-medium mb-3">Створення запиту</div>
+    <div class="text-center mb-5 text-900 text-3xl font-medium mb-3">
+      Створення запиту на додавання
+    </div>
 
     <form>
-      <label for="email" class="block text-900 font-medium mb-2">Email</label>
-      <PInputText
-        id="email"
-        v-model="email"
-        name="email"
-        type="email"
-        class="w-full"
-        :class="{ 'p-invalid': errors.email }"
-        @keydown.enter="submit"
-      />
-      <ErrorMessage name="email" as="small" class="p-error">{{ errors.email }}</ErrorMessage>
+      <div>
+        <label for="title" class="block text-900 font-medium mb-2">Назва продукту</label>
+        <PInputText
+          id="title"
+          v-model="title"
+          name="title"
+          type="text"
+          class="w-full"
+          :class="{ 'p-invalid': errors.title }"
+        />
+        <ErrorMessage name="title" as="small" class="p-error">{{ errors.title }}</ErrorMessage>
+      </div>
 
-      <label for="password" class="block text-900 font-medium mt-3 mb-2">Пароль</label>
-      <PInputText
-        id="password"
-        v-model="password"
-        name="password"
-        type="password"
-        class="w-full"
-        :class="{ 'p-invalid': errors.password }"
-        @keydown.enter="submit"
-      />
-      <ErrorMessage name="password" as="small" class="p-error">{{ errors.password }}</ErrorMessage>
+      <div>
+        <label for="description" class="block text-900 font-medium mt-3 mb-2">Опис</label>
+        <PTextarea
+          id="description"
+          v-model="description"
+          name="description"
+          type="text"
+          class="w-full"
+          :class="{ 'p-invalid': errors.description }"
+          rows="3"
+          auto-resize
+        />
+        <ErrorMessage name="description" as="small" class="p-error">{{
+          errors.description
+        }}</ErrorMessage>
+      </div>
 
-      <div class="flex align-items-center justify-content-between my-3">
-        <RouterLink
-          :to="{ name: 'forgotPassword' }"
-          class="font-medium no-underline text-blue-500 text-right cursor-pointer"
-        >
-          Забули пароль?
-        </RouterLink>
+      <div>
+        <label for="shopId" class="block text-900 font-medium mt-3 mb-2">Супермаркет</label>
+        <PDropdown
+          v-model="shopId"
+          input-id="shopId"
+          :options="shopsStore.shops"
+          option-label="title"
+          option-value="id"
+          name="shopId"
+          placeholder="Обрати..."
+          class="w-full"
+          :class="{ 'p-invalid': errors.shopId }"
+          :disabled="shopsStore.isLoading"
+          :loading="shopsStore.isLoading"
+        />
+        <ErrorMessage name="shopId" as="small" class="p-error">{{ errors.shopId }}</ErrorMessage>
+      </div>
+
+      <div>
+        <label for="url" class="block text-900 font-medium mt-3 mb-2">Посилання</label>
+        <PInputText
+          id="url"
+          v-model="url"
+          name="url"
+          type="url"
+          class="w-full"
+          :class="{ 'p-invalid': errors.url }"
+        />
+        <ErrorMessage name="url" as="small" class="p-error">{{ errors.url }}</ErrorMessage>
+      </div>
+
+      <div>
+        <label for="price" class="block text-900 font-medium mt-3 mb-2">Ціна</label>
+        <PInputNumber
+          v-model="price"
+          input-id="price"
+          name="price"
+          prefix="₴"
+          placeholder="Введіть ціну..."
+          :min-fraction-digits="2"
+          :max-fraction-digits="2"
+          :min="0"
+          :allow-empty="false"
+          class="w-full"
+          :class="{ 'p-invalid': errors.price }"
+          @keydown.enter="submit"
+        />
+        <ErrorMessage name="price" as="small" class="p-error">{{ errors.price }}</ErrorMessage>
+      </div>
+
+      <div class="mt-3">
+        <PCheckbox v-model="isDiscount" input-id="isDiscount" name="isDiscount" binary />
+        <label for="isDiscount" class="ml-2">Знижка</label>
+
+        <div v-if="isDiscount">
+          <div>
+            <label for="discount.value" class="block text-900 font-medium mt-3 mb-2"
+              >Значення знижки</label
+            >
+            <PInputNumber
+              v-model="discountValue"
+              input-id="discount.value"
+              name="discount.value"
+              suffix="%"
+              :min="0"
+              :max="100"
+              :allow-empty="false"
+              class="w-full"
+              :class="{ 'p-invalid': errors['discount.value'] }"
+              :use-grouping="false"
+            />
+            <ErrorMessage name="discount.value" as="small" class="p-error">{{
+              errors['discount.value']
+            }}</ErrorMessage>
+          </div>
+
+          <div>
+            <label for="discount.oldPrice" class="block text-900 font-medium mt-3 mb-2"
+              >Стара ціна</label
+            >
+            <PInputNumber
+              v-model="oldPrice"
+              input-id="discount.oldPrice"
+              name="discount.oldPrice"
+              prefix="₴"
+              placeholder="Введіть ціну..."
+              :min-fraction-digits="2"
+              :max-fraction-digits="2"
+              :min="0"
+              :allow-empty="false"
+              class="w-full"
+              :class="{ 'p-invalid': errors['discount.oldPrice'] }"
+              @keydown.enter="submit"
+            />
+            <ErrorMessage name="discount.oldPrice" as="small" class="p-error">{{
+              errors['discount.oldPrice']
+            }}</ErrorMessage>
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <div class="flex gap-3">
+            <div class="flex align-items-center">
+              <PRadioButton v-model="isSolid" input-id="solid" name="isSolid" :value="true" />
+              <label for="solid" class="ml-2">Твердий продукт</label>
+            </div>
+            <div class="flex align-items-center">
+              <PRadioButton v-model="isSolid" input-id="water" name="isSolid" :value="false" />
+              <label for="water" class="ml-2">Рідина</label>
+            </div>
+          </div>
+
+          <div v-if="isSolid">
+            <label for="weight" class="block text-900 font-medium mt-3 mb-2">Вага</label>
+            <PInputNumber
+              v-model="weight"
+              input-id="weight"
+              name="weight"
+              suffix=" гр"
+              :min="0"
+              :allow-empty="false"
+              class="w-full"
+              :class="{ 'p-invalid': errors.weight }"
+              :use-grouping="false"
+            />
+            <ErrorMessage name="weight" as="small" class="p-error">{{
+              errors.weight
+            }}</ErrorMessage>
+          </div>
+
+          <div v-else>
+            <label for="volume" class="block text-900 font-medium mt-3 mb-2">Обʼем</label>
+            <PInputNumber
+              v-model="volume"
+              input-id="volume"
+              name="volume"
+              suffix=" мл"
+              :min="0"
+              :allow-empty="false"
+              class="w-full"
+              :class="{ 'p-invalid': errors.volume }"
+              :use-grouping="false"
+            />
+            <ErrorMessage name="volume" as="small" class="p-error">{{
+              errors.volume
+            }}</ErrorMessage>
+          </div>
+
+          <div>
+            <label for="volume" class="block text-900 font-medium mt-3 mb-2">Зображення</label>
+            <PFileUpload
+              name="file"
+              mode="basic"
+              choose-label="Обрати"
+              :url="uploadImageUrl"
+              accept="image/*"
+              :max-file-size="5000000"
+              with-credentials
+              auto
+              @upload="handleImageUpload"
+            />
+            <small v-if="errors.imageId" class="p-error">{{ errors.imageId }}</small>
+          </div>
+        </div>
       </div>
 
       <PButton
-        label="Увійти"
-        class="w-full"
+        label="Створити"
+        class="w-full mt-3"
         :disabled="!isValid || isLoading"
         :loading="isLoading"
         @click="submit"
-      ></PButton>
+      />
     </form>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, ref, onMounted, watch } from 'vue';
 import { useField, useForm, ErrorMessage } from 'vee-validate';
 import { useToast } from 'primevue/usetoast';
-import { RouterLink } from 'vue-router';
 import { toTypedSchema } from '@vee-validate/zod';
-import { signInSchema } from '@/schemas/auth/signIn.schema';
-import { useUserStore } from '@/stores/userStore';
-import { ref } from 'vue';
+import { createProductSchema } from '@/schemas/product/createProduct.schema';
+import { useShopsStore } from '@/stores/shopsStore';
+import { productsService } from '@/api/products';
+import type { Discount } from '@/api/types/product';
+import { useRouter } from 'vue-router';
 
-const { handleSubmit, errors } = useForm({
-  validationSchema: toTypedSchema(signInSchema),
-  initialValues: {
-    email: '',
-    password: ''
+const uploadImageUrl = `${import.meta.env.VITE_API_BASE_URL}/api/product/image/upload`;
+
+const { handleSubmit, errors } = useForm({ validationSchema: toTypedSchema(createProductSchema) });
+
+const { value: title } = useField('title');
+const { value: description } = useField('description');
+const { value: shopId } = useField('shopId');
+const { value: url } = useField('url');
+const { value: price } = useField('price');
+const isDiscount = ref(false);
+const { value: discountValue } = useField('discount.value');
+const { value: oldPrice } = useField('discount.oldPrice');
+const isSolid = ref(true);
+const { value: volume } = useField('volume');
+const { value: weight } = useField('weight');
+const { value: imageId } = useField('imageId');
+
+watch(isSolid, (value) => {
+  if (value) {
+    volume.value = null;
+    weight.value = 0;
+  } else {
+    weight.value = null;
+    volume.value = 0;
   }
 });
-const { value: email } = useField('email');
-const { value: password } = useField('password');
+
+watch(isDiscount, (value) => {
+  if (value) {
+    discountValue.value = 0;
+    oldPrice.value = 0;
+  } else {
+    discountValue.value = null;
+    oldPrice.value = null;
+  }
+});
 
 const isValid = computed(() => {
   const isNoErrors = Object.keys(errors.value).length === 0;
-  const isNotEmpty = email.value && password.value;
+  const isNotEmpty = title.value;
 
   return isNoErrors && isNotEmpty;
 });
 
+const shopsStore = useShopsStore();
 const toast = useToast();
-const userStore = useUserStore();
+const router = useRouter();
 
 const isLoading = ref(false);
+
+onMounted(() => {
+  if (!shopsStore.shops.length) shopsStore.fetchShops();
+});
+
+const handleImageUpload = ({ xhr }: { xhr: XMLHttpRequest; files: any }) => {
+  const data = JSON.parse(xhr.response);
+  imageId.value = data.id;
+  toast.add({
+    severity: 'success',
+    summary: 'Успіх',
+    detail: 'Зображення успішно завантажено',
+    life: 3000
+  });
+};
 
 const submit = handleSubmit(async (values) => {
   try {
     isLoading.value = true;
-    await userStore.signIn(values.email, values.password);
+    await productsService.createRequest({
+      ...values,
+      discount: isDiscount.value ? (values.discount as Discount) : null,
+      weight: isSolid.value ? values.weight : null,
+      volume: !isSolid.value ? values.volume : null
+    });
 
+    router.push({ name: 'profile' });
     toast.add({
       severity: 'success',
       summary: 'Успіх',
-      detail: 'Ви успішно увійшли до системи',
+      detail: 'Запит успішно створено',
       life: 3000
     });
   } catch (error) {
     toast.add({
       severity: 'error',
       summary: 'Помилка',
-      detail: 'Неправильні дані для входу',
+      detail: 'При створенні запиту сталася помилка. Спробуйте спізніше.',
       life: 3000
     });
   } finally {

@@ -8,7 +8,8 @@
             :src="
               isExternalProduct(product) ? product.imageUrl : getInternalImageUrl(product.image.url)
             "
-            class="w-full"
+            class="w-full h-14rem"
+            :style="{ objectFit: 'cover' }"
           />
           <PTag v-if="!product.isExternal" class="absolute" :style="{ right: '5px', top: '5px' }">
             Користувацький
