@@ -8,3 +8,8 @@ export interface UserDTO {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface EditProfileDTO {
+  name: string;
+  password?: string;
+}

@@ -1,6 +1,6 @@
 <template>
   <main class="container">
-    <div class="grid">
+    <div class="grid row-gap-4">
       <div class="col-12 lg:col-4">
         <ProductsSearchForm />
       </div>
@@ -29,7 +29,7 @@
             <span class="text-center">Продукт не знайдено!</span>
             <span class="text-center">Бажаєте створити запит на додавання продукту у систему?</span>
             <RouterLink :to="{ name: 'createProductRequest' }">
-              <PButton class="mt-4" label="Створити запит" />
+              <PButton class="mt-4" label="Запит" icon="pi pi-plus" severity="success" />
             </RouterLink>
           </p>
         </div>
