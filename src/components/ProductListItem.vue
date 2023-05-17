@@ -1,7 +1,7 @@
 <template>
   <div class="col-12 sm:col-6 xl:col-4">
     <a :href="product.url" class="no-underline" target="_blank">
-      <PCard class="h-full relative">
+      <PCard class="h-full relative overflow-hidden">
         <template #header>
           <img
             :alt="product.title"
@@ -10,9 +10,9 @@
             "
             class="w-full"
           />
-          <PTag v-if="!product.isExternal" class="absolute" :style="{ right: '5px', top: '5px' }"
-            >Користувацький</PTag
-          >
+          <PTag v-if="!product.isExternal" class="absolute" :style="{ right: '5px', top: '5px' }">
+            Користувацький
+          </PTag>
         </template>
         <template #title>
           <h2 class="text-lg">{{ product.title }}</h2>
