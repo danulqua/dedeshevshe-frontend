@@ -34,22 +34,25 @@ export const useUserStore = defineStore('user', () => {
     router.push({ name: 'home' });
   };
 
-  const signOut = async () => {
-    await authService.signOut();
-
+  const clearUser = () => {
     user.value = {
       id: null,
       email: null,
       role: null,
       isAuthenticated: false
     };
+  };
 
+  const signOut = async () => {
+    await authService.signOut();
+    clearUser();
     router.push({ name: 'signIn' });
   };
 
   return {
     user,
     signIn,
-    signOut
+    signOut,
+    clearUser
   };
 });

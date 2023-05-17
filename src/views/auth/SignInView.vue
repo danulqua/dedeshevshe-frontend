@@ -17,6 +17,7 @@
         type="email"
         class="w-full"
         :class="{ 'p-invalid': errors.email }"
+        @keydown.enter="submit"
       />
       <ErrorMessage name="email" as="small" class="p-error">{{ errors.email }}</ErrorMessage>
 
@@ -28,6 +29,7 @@
         type="password"
         class="w-full"
         :class="{ 'p-invalid': errors.password }"
+        @keydown.enter="submit"
       />
       <ErrorMessage name="password" as="small" class="p-error">{{ errors.password }}</ErrorMessage>
 
@@ -87,6 +89,13 @@ const submit = handleSubmit(async (values) => {
   try {
     isLoading.value = true;
     await userStore.signIn(values.email, values.password);
+
+    toast.add({
+      severity: 'success',
+      summary: 'Успіх',
+      detail: 'Ви успішно увійшли до системи',
+      life: 3000
+    });
   } catch (error) {
     toast.add({
       severity: 'error',

@@ -65,13 +65,13 @@
       label="Прийняти фільтри"
       icon="pi pi-filter"
       class="align-self-start"
-      @click="searchProducts"
+      @click="handleApplyFilters"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { shopService } from '@/api/shop';
 import type { ShopDTO } from '@/api/types/shop';
 import { useToast } from 'primevue/usetoast';
@@ -123,12 +123,15 @@ onMounted(async () => {
 const searchProducts = async () => {
   if (!isValid.value || productsStore.isLoading) return;
 
+  if (isFiltersChanged.value) {
+    productsStore.page = 1;
+  }
+
   try {
     productsStore.title = productTitle.value;
     productsStore.shopId = selectedShopId.value;
     productsStore.maxPrice = maxPrice.value;
     productsStore.discountsOnly = discountsOnly.value;
-    productsStore.page = 1;
 
     await productsStore.searchProducts({
       title: productTitle.value,
@@ -136,7 +139,7 @@ const searchProducts = async () => {
       shopId: selectedShopId.value || undefined,
       discountsOnly: discountsOnly.value || undefined,
       limit: 10,
-      page: 1
+      page: productsStore.page
     });
   } catch (error) {
     toast.add({
@@ -147,6 +150,42 @@ const searchProducts = async () => {
     });
   }
 };
+
+const handleApplyFilters = () => {
+  if (!isValid.value || productsStore.isLoading) return;
+
+  productsStore.page = 1;
+  searchProducts();
+};
+
+const paginate = async () => {
+  try {
+    await productsStore.searchProducts({
+      title: productsStore.title,
+      maxPrice: productsStore.maxPrice || undefined,
+      shopId: productsStore.shopId || undefined,
+      discountsOnly: productsStore.discountsOnly || undefined,
+      limit: 10,
+      page: productsStore.page
+    });
+  } catch (error) {
+    toast.add({
+      severity: 'error',
+      summary: 'Помилка',
+      detail: 'Під час пошуку сталась помилка. Спробуйте пізніше.',
+      life: 3000
+    });
+  }
+};
+
+watch(
+  () => productsStore.page,
+  (oldPage: number, newPage: number) => {
+    if (oldPage !== newPage) {
+      paginate();
+    }
+  }
+);
 
 const isFiltersChanged = computed(() => {
   return (
