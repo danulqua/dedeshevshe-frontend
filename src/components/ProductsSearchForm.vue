@@ -23,14 +23,14 @@
       <span>Супермаркет</span>
       <PDropdown
         v-model="selectedShopId"
-        :options="shops"
+        :options="shopsStore.shops"
         option-label="title"
         option-value="id"
         show-clear
         placeholder="Обрати..."
         class="w-full"
-        :disabled="initialLoading"
-        :loading="initialLoading"
+        :disabled="shopsStore.isLoading"
+        :loading="shopsStore.isLoading"
       />
     </div>
 
@@ -74,19 +74,17 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from 'vue';
-import { shopService } from '@/api/shop';
-import type { ShopDTO } from '@/api/types/shop';
 import { useToast } from 'primevue/usetoast';
 import { useField } from 'vee-validate';
 import { z } from 'zod';
 import { toTypedSchema } from '@vee-validate/zod';
 import { productTitleSchema } from '@/schemas/searchProducts.schema';
 import { useProductsStore } from '@/stores/productsStore';
+import { useShopsStore } from '@/stores/shopsStore';
 
 const toast = useToast();
-const initialLoading = ref(true);
-const shops = ref<ShopDTO[]>([]);
 const productsStore = useProductsStore();
+const shopsStore = useShopsStore();
 
 const { value: productTitle, errorMessage: errorProductTitle } = useField(
   'productTitle',
@@ -105,21 +103,8 @@ const isValid = computed(() => {
   return productTitle.value && !errorProductTitle.value && !errorMaxPrice.value;
 });
 
-onMounted(async () => {
-  try {
-    const shopList = await shopService.getAllShops();
-    shops.value = shopList.items;
-    selectedShopId.value = productsStore.shopId;
-  } catch (error) {
-    toast.add({
-      severity: 'error',
-      summary: 'Помилка завантаження',
-      detail: 'Не вдалося завантажити список супермаркетів',
-      life: 3000
-    });
-  } finally {
-    initialLoading.value = false;
-  }
+onMounted(() => {
+  selectedShopId.value = productsStore.shopId;
 });
 
 const searchProducts = async () => {

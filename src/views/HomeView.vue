@@ -45,11 +45,16 @@
 import ProductList from '@/components/ProductList.vue';
 import ProductsSearchForm from '@/components/ProductsSearchForm.vue';
 import { useProductsStore } from '@/stores/productsStore';
+import { useShopsStore } from '@/stores/shopsStore';
 import type { PaginatorData } from '@/types/paginator';
+import { onMounted } from 'vue';
 
 const productsStore = useProductsStore();
 
 const handlePageChange = ({ page }: PaginatorData) => {
   productsStore.setPage(page + 1);
 };
+
+const shopsStore = useShopsStore();
+onMounted(() => shopsStore.fetchShops());
 </script>
