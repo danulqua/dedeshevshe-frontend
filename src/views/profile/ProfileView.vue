@@ -20,13 +20,20 @@
               {{ userStore.user.role }}
             </PTag>
           </div>
+
+          <div class="flex gap-2">
+            <span class="font-bold">Дата реєстрації:</span>
+            <span>{{ formattedDate }}</span>
+          </div>
         </div>
         <RouterLink :to="{ name: 'editProfile' }">
           <PButton class="mt-3" label="Редагувати" icon="pi pi-pencil" size="small" outlined />
         </RouterLink>
       </div>
       <div class="col-12 lg:col-8">
-        <h2 class="mb-4">Запити на додавання</h2>
+        <h2 class="mb-4">
+          Запити на додавання {{ products.length ? `(${products.length})` : '' }}
+        </h2>
 
         <div v-if="isProductsLoading" class="flex justify-content-center">
           <PProgressSpinner />
@@ -45,12 +52,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { productsService } from '@/api/products';
 import type { ProductInternal } from '@/api/types/product';
 import ProductList from '@/components/ProductList.vue';
 import { useUserStore } from '@/stores/userStore';
 import { useToast } from 'primevue/usetoast';
+import { formatDate } from '@/utilities/formatDate';
 
 const userStore = useUserStore();
 const toast = useToast();
@@ -58,6 +66,8 @@ const toast = useToast();
 const products = ref<ProductInternal[]>([]);
 const isProductsLoading = ref(false);
 const isError = ref(false);
+
+const formattedDate = computed(() => formatDate(userStore.user.createdAt!));
 
 onMounted(async () => {
   isProductsLoading.value = true;

@@ -9,6 +9,7 @@ interface UserStore {
   name: string | null;
   email: string | null;
   role: UserRole | null;
+  createdAt: Date | null;
   isAuthenticated: boolean;
 }
 
@@ -18,19 +19,21 @@ export const useUserStore = defineStore('user', () => {
     name: null,
     email: null,
     role: null,
+    createdAt: null,
     isAuthenticated: false
   });
 
   const router = useRouter();
 
   const signIn = async (userEmail: string, userPassword: string) => {
-    const { id, name, email, role } = await authService.signIn(userEmail, userPassword);
+    const { id, name, email, role, createdAt } = await authService.signIn(userEmail, userPassword);
 
     user.value = {
       id,
       name,
       email,
       role,
+      createdAt,
       isAuthenticated: true
     };
 
@@ -43,16 +46,18 @@ export const useUserStore = defineStore('user', () => {
       name: null,
       email: null,
       role: null,
+      createdAt: null,
       isAuthenticated: false
     };
   };
 
-  const setUser = ({ id, name, email, role }: Omit<UserStore, 'isAuthenticated'>) => {
+  const setUser = ({ id, name, email, role, createdAt }: Omit<UserStore, 'isAuthenticated'>) => {
     user.value = {
       id,
       name,
       email,
       role,
+      createdAt,
       isAuthenticated: true
     };
   };
