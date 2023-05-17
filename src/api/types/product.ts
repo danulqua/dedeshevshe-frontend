@@ -41,7 +41,7 @@ export interface ProductInternal {
     title: string;
   } | null;
   user: { id: number; name: string } | null;
-  image: { id: number; url: string } | null;
+  image: { id: number; url: string };
 }
 
 export interface ProductListDTO {

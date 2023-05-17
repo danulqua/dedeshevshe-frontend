@@ -7,6 +7,7 @@
           name="productTitle"
           placeholder="Назва продукту..."
           :class="{ 'p-invalid': errorProductTitle }"
+          @keydown.enter="searchProducts"
         />
         <PButton
           icon="pi pi-search"
@@ -58,6 +59,14 @@
       />
       <label for="discountsOnly">Тільки зі знижками</label>
     </div>
+
+    <PButton
+      v-if="productTitle && isFiltersChanged"
+      label="Прийняти фільтри"
+      icon="pi pi-filter"
+      class="align-self-start"
+      @click="searchProducts"
+    />
   </div>
 </template>
 
@@ -112,6 +121,8 @@ onMounted(async () => {
 });
 
 const searchProducts = async () => {
+  if (!isValid.value || productsStore.isLoading) return;
+
   try {
     productsStore.title = productTitle.value;
     productsStore.shopId = selectedShopId.value;
@@ -136,6 +147,14 @@ const searchProducts = async () => {
     });
   }
 };
+
+const isFiltersChanged = computed(() => {
+  return (
+    productsStore.shopId !== selectedShopId.value ||
+    productsStore.maxPrice !== maxPrice.value ||
+    productsStore.discountsOnly !== discountsOnly.value
+  );
+});
 </script>
 
 <style scoped></style>
