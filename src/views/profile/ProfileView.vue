@@ -32,6 +32,13 @@
           <PProgressSpinner />
         </div>
         <ProductList v-else-if="products.length" :products="products" :show-statuses="true" />
+        <p v-else-if="!isError" class="flex flex-column gap-1 align-items-center text-lg">
+          <span class="text-center">У вас немає запитів на додавання.</span>
+          <span class="text-center">Бажаєте створити запит на додавання продукту у систему?</span>
+          <RouterLink :to="{ name: 'createProductRequest' }">
+            <PButton class="mt-4" label="Запит" icon="pi pi-plus" severity="success" />
+          </RouterLink>
+        </p>
       </div>
     </div>
   </div>
@@ -50,6 +57,7 @@ const toast = useToast();
 
 const products = ref<ProductInternal[]>([]);
 const isProductsLoading = ref(false);
+const isError = ref(false);
 
 onMounted(async () => {
   isProductsLoading.value = true;
@@ -57,6 +65,8 @@ onMounted(async () => {
   try {
     products.value = (await productsService.getMyRequests()).items;
   } catch {
+    isError.value = true;
+
     toast.add({
       severity: 'error',
       summary: 'Помилка',
