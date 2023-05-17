@@ -21,8 +21,6 @@ export const useProductsStore = defineStore('products', () => {
       isLoading.value = true;
       const fetchedProducts = await productsService.getProducts(searchParams);
 
-      console.log(fetchedProducts);
-
       products.value = fetchedProducts.items;
       totalPages.value = fetchedProducts.totalPages;
       totalCount.value = fetchedProducts.totalCount;

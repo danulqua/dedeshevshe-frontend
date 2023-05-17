@@ -96,7 +96,6 @@ const submit = handleSubmit(async (values) => {
     });
   } catch (error) {
     if (error instanceof AxiosError) {
-      console.log(error);
       const detail =
         error.response?.status === 400
           ? 'Користувач з таким email вже існує'

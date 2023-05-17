@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import { isAuthenticated } from '@/router/guards/isAuthenticated.guard';
+import { notForAuthenticated } from '@/router/guards/notForAuthenticated';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,17 +14,26 @@ const router = createRouter({
     {
       path: '/auth/signIn',
       name: 'signIn',
-      component: () => import('@/views/auth/SignInView.vue')
+      component: () => import('@/views/auth/SignInView.vue'),
+      beforeEnter: notForAuthenticated
     },
     {
       path: '/auth/signUp',
       name: 'signUp',
-      component: () => import('@/views/auth/SignUpView.vue')
+      component: () => import('@/views/auth/SignUpView.vue'),
+      beforeEnter: notForAuthenticated
     },
     {
       path: '/auth/forgotPassword',
       name: 'forgotPassword',
-      component: () => import('@/views/auth/ForgotPasswordView.vue')
+      component: () => import('@/views/auth/ForgotPasswordView.vue'),
+      beforeEnter: notForAuthenticated
+    },
+    {
+      path: '/auth/resetPassword',
+      name: 'resetPassword',
+      component: () => import('@/views/auth/ResetPasswordView.vue'),
+      beforeEnter: notForAuthenticated
     },
     {
       path: '/profile',
