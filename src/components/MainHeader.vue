@@ -5,7 +5,7 @@
         <RouterLink to="/" class="no-underline text-color">Grocify</RouterLink>
       </h1>
       <RouterLink v-if="!userStore.user.isAuthenticated" :to="{ name: 'signIn' }">
-        <PButton label="Увійти" size="small"></PButton>
+        <PButton label="Увійти" icon="pi pi-sign-in" size="small"></PButton>
       </RouterLink>
       <div v-else class="flex gap-2">
         <RouterLink :to="{ name: 'createProductRequest' }">

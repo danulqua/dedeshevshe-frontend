@@ -11,7 +11,7 @@
         <ProductList
           v-else-if="productsStore.products.length"
           :products="productsStore.products"
-          :show-statuses="true"
+          :show-statuses="false"
         />
 
         <PPaginator
@@ -30,10 +30,21 @@
         >
           <p class="flex flex-column gap-1 align-items-center text-lg">
             <span class="text-center">Продукт не знайдено!</span>
-            <span class="text-center">Бажаєте створити запит на додавання продукту у систему?</span>
-            <RouterLink :to="{ name: 'createProductRequest' }">
-              <PButton class="mt-4" label="Запит" icon="pi pi-plus" severity="success" />
-            </RouterLink>
+            
+            <div v-if="!userStore.user.isAuthenticated" class="flex flex-column gap-1 align-items-center">
+              <span class="text-center">
+                Ви можете створити запит на додавання продукту у систему. Для цього треба увійти в обліковий запис.
+              </span>
+              <RouterLink :to="{ name: 'signIn' }">
+                <PButton class="mt-4" label="Увійти" icon="pi pi-sign-in" severity="info" />
+              </RouterLink>
+            </div>
+            <div v-else class="flex flex-column gap-1 align-items-center">
+              <span class="text-center">Бажаєте створити запит на додавання продукту у систему?</span>
+              <RouterLink :to="{ name: 'createProductRequest' }">
+                <PButton class="mt-4" label="Запит" icon="pi pi-plus" severity="success" />
+              </RouterLink>
+            </div>
           </p>
         </div>
       </div>
@@ -46,9 +57,11 @@ import ProductList from '@/components/ProductList.vue';
 import ProductsSearchForm from '@/components/ProductsSearchForm.vue';
 import { useProductsStore } from '@/stores/productsStore';
 import { useShopsStore } from '@/stores/shopsStore';
+import { useUserStore } from '@/stores/userStore';
 import type { PaginatorData } from '@/types/paginator';
 import { onMounted } from 'vue';
 
+const userStore = useUserStore();
 const productsStore = useProductsStore();
 
 const handlePageChange = ({ page }: PaginatorData) => {

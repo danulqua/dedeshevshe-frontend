@@ -5,6 +5,7 @@ import router from './router';
 
 import PrimeVue from 'primevue/config';
 import ToastService from 'primevue/toastservice';
+import Toast from 'primevue/toast';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
@@ -58,5 +59,6 @@ app.component('PProgressSpinner', ProgressSpinner);
 app.component('PAvatar', Avatar);
 app.component('PMenu', Menu);
 app.component('PFileUpload', FileUpload);
+app.component('PToast', Toast);
 
 app.mount('#app');
