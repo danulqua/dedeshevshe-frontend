@@ -2,7 +2,9 @@
   <main class="container">
     <div class="grid row-gap-4">
       <div class="col-12 lg:col-4">
-        <ProductsSearchForm />
+        <ProductsSearchForm
+          @search="offset = 0"
+        />
       </div>
       <div class="col-12 lg:col-8">
         <div v-if="productsStore.isLoading" class="flex justify-content-center">
@@ -17,7 +19,8 @@
         <PPaginator
           v-if="productsStore.products.length"
           v-model="productsStore.page"
-          :rows="10"
+          v-model:first="offset"
+          :rows="9"
           :total-records="productsStore.totalCount"
           @page="handlePageChange"
         />
@@ -59,13 +62,16 @@ import { useProductsStore } from '@/stores/productsStore';
 import { useShopsStore } from '@/stores/shopsStore';
 import { useUserStore } from '@/stores/userStore';
 import type { PaginatorData } from '@/types/paginator';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
+
+const offset = ref(0);
 
 const userStore = useUserStore();
 const productsStore = useProductsStore();
 
 const handlePageChange = ({ page }: PaginatorData) => {
   productsStore.setPage(page + 1);
+  offset.value = page * 9;
 };
 
 const shopsStore = useShopsStore();

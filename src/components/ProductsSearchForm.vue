@@ -82,9 +82,13 @@ import { productTitleSchema } from '@/schemas/searchProducts.schema';
 import { useProductsStore } from '@/stores/productsStore';
 import { useShopsStore } from '@/stores/shopsStore';
 
+const emit = defineEmits(['search']);
+
 const toast = useToast();
 const productsStore = useProductsStore();
 const shopsStore = useShopsStore();
+
+const itemsPerPage = 9;
 
 const { value: productTitle, errorMessage: errorProductTitle } = useField(
   'productTitle',
@@ -112,6 +116,7 @@ const searchProducts = async () => {
 
   if (isFiltersChanged.value) {
     productsStore.page = 1;
+    emit('search');
   }
 
   try {
@@ -125,7 +130,7 @@ const searchProducts = async () => {
       maxPrice: maxPrice.value || undefined,
       shopId: selectedShopId.value || undefined,
       discountsOnly: discountsOnly.value || undefined,
-      limit: 10,
+      limit: 9,
       page: productsStore.page
     });
   } catch (error) {
@@ -152,7 +157,7 @@ const paginate = async () => {
       maxPrice: productsStore.maxPrice || undefined,
       shopId: productsStore.shopId || undefined,
       discountsOnly: productsStore.discountsOnly || undefined,
-      limit: 10,
+      limit: 9,
       page: productsStore.page
     });
   } catch (error) {
