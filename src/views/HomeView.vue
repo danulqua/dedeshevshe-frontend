@@ -18,10 +18,16 @@
 
         <PPaginator
           v-if="productsStore.products.length"
+
           v-model="productsStore.page"
           v-model:first="offset"
           :rows="9"
           :total-records="productsStore.totalCount"
+          :template="{
+            '380px': 'PrevPageLink CurrentPageReport NextPageLink JumpToPageDropdown',
+            '450px': 'FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink',
+            default: 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink'
+          }"
           @page="handlePageChange"
         />
 
