@@ -11,6 +11,10 @@ export const notForAuthenticated = async (
   const userStore = useUserStore();
   const toast = useToast();
 
+  if (['signIn', 'signUp', 'forgotPassword', 'resetPassword'].includes(to.name as string)) {
+    return next();
+  }
+
   try {
     const user = await userService.getMyProfile();
     userStore.setUser(user);
