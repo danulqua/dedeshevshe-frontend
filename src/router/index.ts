@@ -83,7 +83,12 @@ const router = createRouter({
         {
           path: 'shops/create',
           name: 'adminShopCreate',
-          component: () => import('@/views/admin/shops/AdminShopsCreateView.vue')
+          component: () => import('@/views/admin/shops/AdminShopCreateView.vue')
+        },
+        {
+          path: 'shops/:id/edit',
+          name: 'adminShopEdit',
+          component: () => import('@/views/admin/shops/AdminShopEditView.vue')
         },
         {
           path: 'products',

@@ -44,7 +44,7 @@
             text
             rounded
             :disabled="data.isExternal"
-            @click="handleEdit(data.id)"
+            @click="handleEdit(data)"
           />
           <PButton
             size="small"
@@ -77,6 +77,7 @@ import { useConfirm } from 'primevue/useconfirm';
 import { formatDate } from '@/utilities/formatDate';
 import CPaginator from '@/components/common/CPaginator.vue';
 import AdminShopSearchForm from '@/components/Admin/Shop/AdminShopSearchForm.vue';
+import { useRouter } from 'vue-router';
 
 const isLoading = ref(false);
 
@@ -99,6 +100,7 @@ const order = computed(() => {
   return 'desc';
 });
 
+const router = useRouter();
 const toast = useToast();
 const confirm = useConfirm();
 
@@ -113,7 +115,7 @@ const handleSearch = (event: { title?: string; source?: 'internal' | 'external' 
 
 const handleDelete = (shop: ShopDTO) => {
   confirm.require({
-    message: `Ви дійсно бажаєте видалити супермаркет "${shop.title}" ?`,
+    message: `Ви дійсно бажаєте видалити супермаркет #${shop.id}?`,
     header: 'Підтвердження видалення',
     icon: 'pi pi-info-circle',
     acceptClass: 'p-button-danger',
@@ -146,8 +148,8 @@ const deleteShop = async (shopId: number) => {
   }
 };
 
-const handleEdit = (id: number) => {
-  console.log('editing');
+const handleEdit = (shop: ShopDTO) => {
+  router.push({ name: 'adminShopEdit', params: { id: shop.id.toString() } });
 };
 
 const fetchShops = async (searchParams: ShopSearchParams = {}) => {

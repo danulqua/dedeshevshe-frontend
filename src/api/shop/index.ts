@@ -1,5 +1,5 @@
 import { apiClient } from '@/api/apiClient';
-import type { ShopListDTO, ShopSearchParams } from '@/api/types/shop';
+import type { ShopDTO, ShopListDTO, ShopSearchParams } from '@/api/types/shop';
 
 class ShopService {
   async getAllShops(searchParams: ShopSearchParams = {}) {
@@ -10,18 +10,23 @@ class ShopService {
     return response.data;
   }
 
-  async createShop(data: { title: string }) {
-    const response = await apiClient.post('/api/shop', data);
+  async getShop(shopId: string) {
+    const response = await apiClient.get<ShopDTO>(`/api/shop/${shopId}`);
     return response.data;
   }
 
-  async updateShop(shopId: number, data: { title: string }) {
-    const response = await apiClient.patch(`/api/shop/${shopId}`, data);
+  async createShop(data: { title: string }) {
+    const response = await apiClient.post<ShopDTO>('/api/shop', data);
+    return response.data;
+  }
+
+  async updateShop(shopId: string, data: { title: string }) {
+    const response = await apiClient.patch<ShopDTO>(`/api/shop/${shopId}`, data);
     return response.data;
   }
 
   async deleteShop(shopId: number) {
-    const response = await apiClient.delete(`/api/shop/${shopId}`);
+    const response = await apiClient.delete<ShopDTO>(`/api/shop/${shopId}`);
     return response.data;
   }
 }
