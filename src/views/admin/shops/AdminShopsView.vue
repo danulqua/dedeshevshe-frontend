@@ -83,15 +83,15 @@ const isLoading = ref(false);
 const shops = ref<ShopDTO[]>([]);
 const searchParams = ref<ShopSearchParams>({
   page: 1,
+  sortBy: 'createdAt',
+  order: 'desc',
   limit: 10
 });
 const totalPages = ref(0);
 const totalCount = ref(0);
 const rowsPerPage = ref(10);
 
-const sortOrder = ref(0);
-// const sortBy = ref(null);
-// const page = ref(1);
+const sortOrder = ref(-1);
 
 const order = computed(() => {
   if (sortOrder.value === 0) return null;
@@ -133,7 +133,7 @@ const deleteShop = async (shopId: number) => {
       detail: 'Супермаркет успішно видалено',
       life: 3000
     });
-    fetchShops();
+    fetchShops(searchParams.value);
   } catch (error) {
     toast.add({
       severity: 'error',
@@ -184,7 +184,7 @@ watch(
   }
 );
 
-onMounted(fetchShops);
+onMounted(() => fetchShops(searchParams.value));
 </script>
 
 <style scoped lang="scss"></style>

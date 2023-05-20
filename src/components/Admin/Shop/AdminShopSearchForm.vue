@@ -14,7 +14,7 @@
       show-clear
       placeholder="Джерело постачання..."
     />
-    <PButton icon="pi pi-search" :disabled="disabled" @click="searchShops" />
+    <PButton icon="pi pi-search" @click="searchShops" />
   </div>
 </template>
 

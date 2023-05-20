@@ -73,12 +73,12 @@ const router = createRouter({
         {
           path: 'users',
           name: 'adminUsers',
-          component: () => import('@/views/admin/AdminUsersView.vue')
+          component: () => import('@/views/admin/users/AdminUsersView.vue')
         },
         {
           path: 'shops',
           name: 'adminShops',
-          component: () => import('@/views/admin/AdminShopsView.vue')
+          component: () => import('@/views/admin/shops/AdminShopsView.vue')
         },
         {
           path: 'shops/create',
@@ -88,12 +88,12 @@ const router = createRouter({
         {
           path: 'products',
           name: 'adminProducts',
-          component: () => import('@/views/admin/AdminProductsView.vue')
+          component: () => import('@/views/admin/products/AdminProductsView.vue')
         },
         {
           path: 'productRequests',
           name: 'adminProductRequests',
-          component: () => import('@/views/admin/AdminProductRequestsView.vue')
+          component: () => import('@/views/admin/products/AdminProductRequestsView.vue')
         }
       ]
     }
