@@ -1,5 +1,5 @@
 <template>
-  <div>This is admin home page!</div>
+  <h2>Користувачі</h2>
 </template>
 
 <script setup lang="ts"></script>

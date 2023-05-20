@@ -1,6 +1,6 @@
 <template>
-  <header class="py-4 surface-50 shadow-1">
-    <div class="container flex justify-content-between">
+  <header class="header flex align-items-center surface-50 shadow-1 relative z-5">
+    <div class="container flex flex-1 align-items-center justify-content-between">
       <h1>
         <RouterLink to="/" class="no-underline text-color">Grocify</RouterLink>
       </h1>

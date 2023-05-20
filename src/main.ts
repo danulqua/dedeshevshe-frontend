@@ -25,6 +25,9 @@ import Menu from 'primevue/menu';
 import Textarea from 'primevue/textarea';
 import InputSwitch from 'primevue/inputswitch';
 import FileUpload from 'primevue/fileupload';
+import Sidebar from 'primevue/sidebar';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
 
 import 'primevue/resources/themes/lara-light-blue/theme.css';
 import 'primevue/resources/primevue.min.css';
@@ -60,5 +63,8 @@ app.component('PAvatar', Avatar);
 app.component('PMenu', Menu);
 app.component('PFileUpload', FileUpload);
 app.component('PToast', Toast);
+app.component('PSidebar', Sidebar);
+app.component('PDataTable', DataTable);
+app.component('PColumn', Column);
 
 app.mount('#app');
