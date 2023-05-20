@@ -1,5 +1,7 @@
 <template>
-  <h2 class="mb-4">Супермаркети {{ sortOrder }}, {{ searchParams.sortBy }}, {{ totalCount }}</h2>
+  <h2 class="mb-4">Супермаркети {{ totalCount ? `(${totalCount})` : '' }}</h2>
+
+  <AdminShopSearchForm class="mb-4" @search="handleSearch" />
 
   <PDataTable
     v-model:sort-order="sortOrder"
@@ -71,6 +73,7 @@ import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
 import { formatDate } from '@/utilities/formatDate';
 import CPaginator from '@/components/common/CPaginator.vue';
+import AdminShopSearchForm from '@/components/Admin/Shop/AdminShopSearchForm.vue';
 
 const isLoading = ref(false);
 
@@ -79,7 +82,6 @@ const searchParams = ref<ShopSearchParams>({
   page: 1,
   limit: 10
 });
-const oldSearchParams = ref<ShopSearchParams>({});
 const totalPages = ref(0);
 const totalCount = ref(0);
 const rowsPerPage = ref(10);
@@ -97,8 +99,13 @@ const order = computed(() => {
 const toast = useToast();
 const confirm = useConfirm();
 
-const handleClickDelete = (id: number) => {
-  console.log(id);
+const handleSearch = (event: { title?: string; source?: 'internal' | 'external' }) => {
+  searchParams.value = {
+    ...searchParams.value,
+    ...event,
+    page: 1
+  };
+  fetchShops(searchParams.value);
 };
 
 const handleDelete = (shop: ShopDTO) => {
@@ -166,7 +173,7 @@ watch(
   [() => searchParams.value.page, () => searchParams.value.sortBy, order],
   ([newPage, newSortBy, newOrder]) => {
     fetchShops({
-      ...oldSearchParams.value,
+      ...searchParams.value,
       page: newPage,
       sortBy: newSortBy || undefined,
       order: newOrder || undefined
