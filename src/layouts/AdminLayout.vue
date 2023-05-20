@@ -1,9 +1,9 @@
 <template>
   <AdminHeader />
 
-  <div class="flex">
+  <div class="admin-screen flex">
     <AdminMenu />
-    <div class="flex-1 py-6 px-5">
+    <div class="flex-1 h-full py-6 px-5 overflow-y-auto">
       <RouterView />
     </div>
   </div>
@@ -14,4 +14,8 @@ import AdminHeader from '@/components/Admin/AdminHeader.vue';
 import AdminMenu from '@/components/Admin/AdminMenu.vue';
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.admin-screen {
+  height: calc(100vh - var(--header-height));
+}
+</style>

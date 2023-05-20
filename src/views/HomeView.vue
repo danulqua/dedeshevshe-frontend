@@ -14,18 +14,12 @@
         :show-statuses="false"
       />
 
-      <PPaginator
+      <CPaginator
         v-if="productsStore.products.length"
-        v-model="productsStore.page"
-        v-model:first="offset"
-        :rows="9"
+        :page="productsStore.page"
         :total-records="productsStore.totalCount"
-        :template="{
-          '380px': 'PrevPageLink CurrentPageReport NextPageLink JumpToPageDropdown',
-          '450px': 'FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink',
-          default: 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink'
-        }"
-        @page="handlePageChange"
+        :rows="9"
+        @page-change="(event) => productsStore.setPage(event)"
       />
 
       <ProductSearchResultMessage />
@@ -37,6 +31,7 @@
 import ProductList from '@/components/Product/List/ProductList.vue';
 import ProductSearchResultMessage from '@/components/Product/Search/ProductSearchResultMessage.vue';
 import ProductsSearchForm from '@/components/Product/Search/ProductsSearchForm.vue';
+import CPaginator from '@/components/common/CPaginator.vue';
 import { useProductsStore } from '@/stores/productsStore';
 import { useShopsStore } from '@/stores/shopsStore';
 import type { PaginatorData } from '@/types/paginator';

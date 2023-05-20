@@ -11,7 +11,7 @@
         />
         <PButton
           icon="pi pi-search"
-          :disabled="!isValid || productsStore.isLoading"
+          :disabled="!isValid || !isFiltersChanged || productsStore.isLoading"
           :loading="productsStore.isLoading"
           @click="searchProducts"
         />
@@ -112,7 +112,7 @@ onMounted(() => {
 });
 
 const searchProducts = async () => {
-  if (!isValid.value || productsStore.isLoading) return;
+  if (!isValid.value || !isFiltersChanged.value || productsStore.isLoading) return;
 
   if (isFiltersChanged.value) {
     productsStore.page = 1;
@@ -130,7 +130,7 @@ const searchProducts = async () => {
       maxPrice: maxPrice.value || undefined,
       shopId: selectedShopId.value || undefined,
       discountsOnly: discountsOnly.value || undefined,
-      limit: 9,
+      limit: itemsPerPage,
       page: productsStore.page
     });
   } catch (error) {
@@ -181,6 +181,7 @@ watch(
 
 const isFiltersChanged = computed(() => {
   return (
+    productsStore.title !== productTitle.value ||
     productsStore.shopId !== selectedShopId.value ||
     productsStore.maxPrice !== maxPrice.value ||
     productsStore.discountsOnly !== discountsOnly.value

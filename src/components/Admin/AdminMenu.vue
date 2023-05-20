@@ -1,6 +1,6 @@
 <template>
   <aside class="menu surface-100 p-3">
-    <div class="flex flex-column gap-1 h-full">
+    <nav class="flex flex-column gap-1 h-full">
       <RouterLink v-for="item in menu" :key="item.label" :to="item.to">
         <PButton
           :label="item.label"
@@ -20,12 +20,18 @@
           @click="adminStore.setIsMenuVisible(false)"
         />
       </RouterLink>
-    </div>
+    </nav>
   </aside>
 
-  <PSidebar v-model:visible="adminStore.isMenuVisible" block-scroll>
+  <PSidebar
+    v-model:visible="adminStore.isMenuVisible"
+    block-scroll
+    :pt="{ headerContent: { style: { flex: '1' } } }"
+  >
+    <template #header>
+      <h2 class="mr-auto">Меню</h2>
+    </template>
     <div class="flex flex-column gap-1 h-full">
-      <h2 class="mb-2">Меню</h2>
       <RouterLink v-for="item in menu" :key="item.label" :to="item.to">
         <PButton
           :label="item.label"
@@ -83,7 +89,7 @@ const menu = [
 <style scoped lang="scss">
 .menu {
   width: 320px;
-  height: calc(100vh - var(--header-height));
+  overflow-y: auto;
 
   @media (max-width: 1200px) {
     display: none;
