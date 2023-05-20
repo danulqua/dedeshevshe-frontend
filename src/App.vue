@@ -1,5 +1,6 @@
 <template>
   <PToast position="bottom-right" />
+  <PConfirmDialog />
 
   <RouterView />
 </template>

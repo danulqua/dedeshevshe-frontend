@@ -1,9 +1,9 @@
 <template>
-  <h2 class="mb-4">Супермаркети {{ sortOrder }}, {{ sortBy }}, {{ totalCount }}</h2>
+  <h2 class="mb-4">Супермаркети {{ sortOrder }}, {{ searchParams.sortBy }}, {{ totalCount }}</h2>
 
   <PDataTable
     v-model:sort-order="sortOrder"
-    v-model:sort-field="sortBy"
+    v-model:sort-field="searchParams.sortBy"
     :value="shops"
     :loading="isLoading"
     :rows="rowsPerPage"
@@ -48,7 +48,7 @@
             text
             rounded
             :disabled="data.isExternal"
-            @click="handleClickDelete(data.id)"
+            @click="handleDelete(data)"
           />
         </div>
       </template>
@@ -56,45 +56,84 @@
   </PDataTable>
 
   <CPaginator
-    :page="page"
+    :page="searchParams.page!"
     :rows="10"
     :total-records="totalCount"
-    @page-change="(event) => (page = event)"
+    @page-change="searchParams.page = $event"
   />
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed, watch } from 'vue';
 import type { ShopDTO, ShopSearchParams } from '@/api/types/shop';
 import { shopService } from '@/api/shop';
 import { useToast } from 'primevue/usetoast';
+import { useConfirm } from 'primevue/useconfirm';
 import { formatDate } from '@/utilities/formatDate';
 import CPaginator from '@/components/common/CPaginator.vue';
-import { watch } from 'vue';
 
 const isLoading = ref(false);
 
 const shops = ref<ShopDTO[]>([]);
-const searchParams = ref<ShopSearchParams>({});
+const searchParams = ref<ShopSearchParams>({
+  page: 1,
+  limit: 10
+});
 const oldSearchParams = ref<ShopSearchParams>({});
 const totalPages = ref(0);
 const totalCount = ref(0);
+const rowsPerPage = ref(10);
 
 const sortOrder = ref(0);
-const sortBy = ref(null);
-const rowsPerPage = ref(10);
-const page = ref(1);
+// const sortBy = ref(null);
+// const page = ref(1);
 
-const order = computed(() => (sortOrder.value === 1 ? 'asc' : 'desc'));
+const order = computed(() => {
+  if (sortOrder.value === 0) return null;
+  if (sortOrder.value === 1) return 'asc';
+  return 'desc';
+});
 
 const toast = useToast();
+const confirm = useConfirm();
 
 const handleClickDelete = (id: number) => {
   console.log(id);
 };
 
-const handleDelete = (id: number) => {
-  console.log('deleting', id);
+const handleDelete = (shop: ShopDTO) => {
+  confirm.require({
+    message: `Ви дійсно бажаєте видалити супермаркет "${shop.title}" ?`,
+    header: 'Підтвердження видалення',
+    icon: 'pi pi-info-circle',
+    acceptClass: 'p-button-danger',
+    acceptIcon: 'pi pi-trash',
+    accept: () => deleteShop(shop.id)
+  });
+};
+
+const deleteShop = async (shopId: number) => {
+  try {
+    isLoading.value = true;
+
+    await shopService.deleteShop(shopId);
+    toast.add({
+      severity: 'success',
+      summary: 'Успіх',
+      detail: 'Супермаркет успішно видалено',
+      life: 3000
+    });
+    fetchShops();
+  } catch (error) {
+    toast.add({
+      severity: 'error',
+      summary: 'Помилка',
+      detail: 'Не вдалося видалити супермаркет',
+      life: 3000
+    });
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 const handleEdit = (id: number) => {
@@ -123,14 +162,17 @@ const fetchShops = async (searchParams: ShopSearchParams = {}) => {
   }
 };
 
-watch([page, sortBy, order], ([newPage, newSortBy, newOrder]) => {
-  fetchShops({
-    ...oldSearchParams.value,
-    page: newPage,
-    sortBy: newSortBy || undefined,
-    order: newOrder || undefined
-  });
-});
+watch(
+  [() => searchParams.value.page, () => searchParams.value.sortBy, order],
+  ([newPage, newSortBy, newOrder]) => {
+    fetchShops({
+      ...oldSearchParams.value,
+      page: newPage,
+      sortBy: newSortBy || undefined,
+      order: newOrder || undefined
+    });
+  }
+);
 
 onMounted(fetchShops);
 </script>

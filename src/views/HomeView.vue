@@ -19,7 +19,7 @@
         :page="productsStore.page"
         :total-records="productsStore.totalCount"
         :rows="9"
-        @page-change="(event) => productsStore.setPage(event)"
+        @page-change="productsStore.setPage($event)"
       />
 
       <ProductSearchResultMessage />

@@ -9,6 +9,11 @@ class ShopService {
 
     return response.data;
   }
+
+  async deleteShop(shopId: number) {
+    const response = await apiClient.delete(`/api/shop/${shopId}`);
+    return response.data;
+  }
 }
 
 export const shopService = new ShopService();

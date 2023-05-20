@@ -1,6 +1,6 @@
 <template>
   <PPaginator
-    v-model:first="offset"
+    :first="offset"
     :value="page"
     :rows="rows"
     :total-records="totalRecords"
