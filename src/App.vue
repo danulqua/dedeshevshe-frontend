@@ -1,10 +1,7 @@
 <template>
   <PToast position="bottom-right" />
-  <MainHeader />
 
-  <div class="my-6">
-    <RouterView />
-  </div>
+  <RouterView />
 </template>
 
 <script setup lang="ts">

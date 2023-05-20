@@ -1,64 +1,62 @@
 <template>
-  <main class="container">
-    <div class="grid row-gap-4">
-      <div class="col-12 lg:col-4">
-        <ProductsSearchForm
-          @search="offset = 0"
-        />
+  <div class="grid row-gap-4">
+    <div class="col-12 lg:col-4">
+      <ProductsSearchForm
+        @search="offset = 0"
+      />
+    </div>
+    <div class="col-12 lg:col-8">
+      <div v-if="productsStore.isLoading" class="flex justify-content-center">
+        <PProgressSpinner />
       </div>
-      <div class="col-12 lg:col-8">
-        <div v-if="productsStore.isLoading" class="flex justify-content-center">
-          <PProgressSpinner />
-        </div>
-        <ProductList
-          v-else-if="productsStore.products.length"
-          :products="productsStore.products"
-          :show-statuses="false"
-        />
+      <ProductList
+        v-else-if="productsStore.products.length"
+        :products="productsStore.products"
+        :show-statuses="false"
+      />
 
-        <PPaginator
-          v-if="productsStore.products.length"
+      <PPaginator
+        v-if="productsStore.products.length"
 
-          v-model="productsStore.page"
-          v-model:first="offset"
-          :rows="9"
-          :total-records="productsStore.totalCount"
-          :template="{
-            '380px': 'PrevPageLink CurrentPageReport NextPageLink JumpToPageDropdown',
-            '450px': 'FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink',
-            default: 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink'
-          }"
-          @page="handlePageChange"
-        />
+        v-model="productsStore.page"
+        v-model:first="offset"
+        :rows="9"
+        :total-records="productsStore.totalCount"
+        :template="{
+          '380px': 'PrevPageLink CurrentPageReport NextPageLink JumpToPageDropdown',
+          '450px': 'FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink',
+          default: 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink'
+        }"
+        @page="handlePageChange"
+      />
 
-        <div
-          v-if="
-            !productsStore.isFirstLoad && !productsStore.isLoading && !productsStore.products.length
-          "
-          class="w-9 mx-auto"
-        >
-          <p class="flex flex-column gap-1 align-items-center text-lg">
-            <span class="text-center">Продукт не знайдено!</span>
-            
-            <div v-if="!userStore.user.isAuthenticated" class="flex flex-column gap-1 align-items-center">
-              <span class="text-center">
-                Ви можете створити запит на додавання продукту у систему. Для цього треба увійти в обліковий запис.
-              </span>
-              <RouterLink :to="{ name: 'signIn' }">
-                <PButton class="mt-4" label="Увійти" icon="pi pi-sign-in" severity="info" />
-              </RouterLink>
-            </div>
-            <div v-else class="flex flex-column gap-1 align-items-center">
-              <span class="text-center">Бажаєте створити запит на додавання продукту у систему?</span>
-              <RouterLink :to="{ name: 'createProductRequest' }">
-                <PButton class="mt-4" label="Запит" icon="pi pi-plus" severity="success" />
-              </RouterLink>
-            </div>
-          </p>
-        </div>
+      <div
+        v-if="
+          !productsStore.isFirstLoad && !productsStore.isLoading && !productsStore.products.length
+        "
+        class="w-9 mx-auto"
+      >
+        <p class="flex flex-column gap-1 align-items-center text-lg">
+          <span class="text-center">Продукт не знайдено!</span>
+          
+          <div v-if="!userStore.user.isAuthenticated" class="flex flex-column gap-1 align-items-center">
+            <span class="text-center">
+              Ви можете створити запит на додавання продукту у систему. Для цього треба увійти в обліковий запис.
+            </span>
+            <RouterLink :to="{ name: 'signIn' }">
+              <PButton class="mt-4" label="Увійти" icon="pi pi-sign-in" severity="info" />
+            </RouterLink>
+          </div>
+          <div v-else class="flex flex-column gap-1 align-items-center">
+            <span class="text-center">Бажаєте створити запит на додавання продукту у систему?</span>
+            <RouterLink :to="{ name: 'createProductRequest' }">
+              <PButton class="mt-4" label="Запит" icon="pi pi-plus" severity="success" />
+            </RouterLink>
+          </div>
+        </p>
       </div>
     </div>
-  </main>
+  </div>
 </template>
 
 <script setup lang="ts">
