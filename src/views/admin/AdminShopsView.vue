@@ -1,5 +1,8 @@
 <template>
   <h2 class="mb-4">Супермаркети {{ totalCount ? `(${totalCount})` : '' }}</h2>
+  <RouterLink :to="{ name: 'adminShopCreate' }">
+    <PButton class="mb-4" icon="pi pi-plus" label="Додати супермаркет" />
+  </RouterLink>
 
   <AdminShopSearchForm class="mb-4" @search="handleSearch" />
 

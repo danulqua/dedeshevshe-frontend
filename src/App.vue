@@ -1,6 +1,6 @@
 <template>
   <PToast position="bottom-right" />
-  <PConfirmDialog />
+  <PConfirmDialog :draggable="false" />
 
   <RouterView />
 </template>
