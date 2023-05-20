@@ -39,7 +39,6 @@ import { ref, computed } from 'vue';
 import { useField } from 'vee-validate';
 import { useToast } from 'primevue/usetoast';
 import { toTypedSchema } from '@vee-validate/zod';
-import { useUserStore } from '@/stores/userStore';
 import { emailSchema } from '@/schemas/email.schema';
 import { authService } from '@/api/auth';
 
@@ -53,7 +52,6 @@ const isValid = computed(() => {
 });
 
 const toast = useToast();
-const userStore = useUserStore();
 
 const isLoading = ref(false);
 

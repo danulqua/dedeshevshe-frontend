@@ -10,11 +10,11 @@
 </template>
 
 <script lang="ts" setup>
-import type { ProductExternal, ProductInternal } from '@/api/types/product';
-import { isExternalProduct } from '@/api/types/product';
-
-import ProductListItem from '@/components/ProductListItem.vue';
 import type { PropType } from 'vue';
+import { isExternalProduct } from '@/api/types/product';
+import type { ProductExternal, ProductInternal } from '@/api/types/product';
+
+import ProductListItem from '@/components/Product/List/ProductListItem.vue';
 
 defineProps({
   products: {
