@@ -1,4 +1,7 @@
-export type UserRole = 'USER' | 'ADMIN';
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  USER = 'USER'
+}
 
 export interface UserDTO {
   id: number;
