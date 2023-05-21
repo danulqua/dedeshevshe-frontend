@@ -1,6 +1,6 @@
 <template>
   <h2 class="mb-4">Користувачі {{ totalCount ? `(${totalCount})` : '' }}</h2>
-  <RouterLink :to="{ name: 'adminShopCreate' }">
+  <RouterLink :to="{ name: 'adminUserCreate' }">
     <PButton class="mb-4" icon="pi pi-plus" label="Створити користувача" />
   </RouterLink>
 

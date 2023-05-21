@@ -1,5 +1,6 @@
 import { apiClient } from '@/api/apiClient';
 import type {
+  CreateUserDTO,
   EditProfileDTO,
   EditUserDTO,
   UserDTO,
@@ -23,6 +24,11 @@ class UserService {
       params: searchParams
     });
 
+    return response.data;
+  }
+
+  async createUser(dto: CreateUserDTO) {
+    const response = await apiClient.post<UserDTO>('/api/user', dto);
     return response.data;
   }
 

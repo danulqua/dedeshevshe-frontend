@@ -23,8 +23,17 @@ export interface EditProfileDTO {
   password?: string;
 }
 
-export interface EditUserDTO extends EditProfileDTO {
+export interface CreateUserDTO {
+  name: string;
+  email: string;
+  password: string;
+  role: UserRole;
+}
+
+export interface EditUserDTO {
+  name?: string;
   email?: string;
+  password?: string;
   role?: UserRole;
 }
 
