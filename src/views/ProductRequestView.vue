@@ -153,7 +153,7 @@
               v-model="weight"
               input-id="weight"
               name="weight"
-              suffix=" гр"
+              suffix=" г"
               :min="0"
               :allow-empty="false"
               class="w-full"

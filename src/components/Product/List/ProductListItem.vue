@@ -21,7 +21,7 @@
         <template #content>
           <div :style="{ height: '70px' }">
             <p class="font-bold">{{ product.weight ? 'Вага' : 'Обʼєм' }}</p>
-            <span>{{ product.weight ? product.weight + ' гр' : product.volume + ' мл' }}</span>
+            <span>{{ product.weight ? product.weight + ' г' : product.volume + ' мл' }}</span>
           </div>
         </template>
         <template #subtitle>

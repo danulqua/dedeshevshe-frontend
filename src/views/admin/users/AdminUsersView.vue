@@ -23,7 +23,10 @@
     </PColumn>
     <PColumn field="name" header="Імʼя" sortable>
       <template #body="{ data }: { data: UserDTO }">
-        <span :class="{ 'font-bold': isMe(data) }">{{ data.name }} (ви)</span>
+        <span :class="{ 'font-bold': isMe(data) }">{{ data.name }}</span>
+        <span class="text-500 font-bold inline-block" :style="{ translate: '0 -10px' }">{{
+          isMe(data) ? '(ви)' : ''
+        }}</span>
       </template>
     </PColumn>
     <PColumn field="email" header="Email" sortable />

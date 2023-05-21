@@ -1,5 +1,5 @@
-import { productsService, type ProductsSearchParams } from '@/api/products';
-import type { ProductExternal, ProductInternal } from '@/api/types/product';
+import { productsService } from '@/api/products';
+import type { ProductExternal, ProductInternal, ProductsSearchParams } from '@/api/types/product';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
@@ -19,7 +19,7 @@ export const useProductsStore = defineStore('products', () => {
   const searchProducts = async (searchParams: ProductsSearchParams) => {
     try {
       isLoading.value = true;
-      const fetchedProducts = await productsService.getProducts(searchParams);
+      const fetchedProducts = await productsService.getProducts(true, searchParams);
 
       products.value = fetchedProducts.items;
       totalPages.value = fetchedProducts.totalPages;

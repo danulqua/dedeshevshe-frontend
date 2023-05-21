@@ -1,5 +1,5 @@
 <template>
-  <aside class="menu surface-100 p-3">
+  <aside class="menu surface-100 p-3 shadow-2">
     <nav class="flex flex-column gap-1 h-full">
       <RouterLink v-for="item in menu" :key="item.label" :to="item.to">
         <PButton

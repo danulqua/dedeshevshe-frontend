@@ -1,6 +1,6 @@
 <template>
   <header
-    class="header px-4 flex align-items-center justify-content-between surface-50 shadow-1 relative z-5"
+    class="header px-4 flex align-items-center justify-content-between surface-50 shadow-2 relative z-5"
   >
     <div class="flex justify-content-between align-items-center">
       <h1 class="relative mr-6">

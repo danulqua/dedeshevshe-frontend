@@ -36,12 +36,21 @@ export interface ProductInternal {
   userId: number | null;
   shopId: number;
   imageId: number | null;
-  shop: {
-    id: number;
-    title: string;
-  } | null;
+  shop: { id: number; title: string } | null;
   user: { id: number; name: string } | null;
   image: { id: number; url: string };
+}
+
+export interface ProductsSearchParams {
+  title?: string;
+  shopId?: number;
+  maxPrice?: number;
+  discountsOnly?: boolean;
+  status?: ProductStatus;
+  limit?: number;
+  page?: number;
+  sortBy?: string;
+  order?: 'asc' | 'desc';
 }
 
 export interface ProductListDTO<T = ProductInternal | ProductExternal> {
