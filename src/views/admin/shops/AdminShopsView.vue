@@ -120,6 +120,8 @@ const handleDelete = (shop: ShopDTO) => {
     icon: 'pi pi-info-circle',
     acceptClass: 'p-button-danger',
     acceptIcon: 'pi pi-trash',
+    acceptLabel: 'Так',
+    rejectLabel: 'Ні',
     accept: () => deleteShop(shop.id)
   });
 };

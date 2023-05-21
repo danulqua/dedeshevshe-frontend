@@ -1,6 +1,6 @@
 <template>
   <h2 class="mb-4">Додані продукти {{ totalCount ? `(${totalCount})` : '' }}</h2>
-  <RouterLink :to="{ name: 'adminUserCreate' }">
+  <RouterLink :to="{ name: 'adminProductCreate' }">
     <PButton class="mb-4" icon="pi pi-plus" label="Додати продукт" />
   </RouterLink>
 
@@ -174,6 +174,8 @@ const handleDelete = (product: ProductInternal) => {
     icon: 'pi pi-info-circle',
     acceptClass: 'p-button-danger',
     acceptIcon: 'pi pi-trash',
+    acceptLabel: 'Так',
+    rejectLabel: 'Ні',
     accept: () => deleteProduct(product.id)
   });
 };
@@ -203,7 +205,7 @@ const deleteProduct = async (productId: number) => {
 };
 
 const handleEdit = (product: ProductInternal) => {
-  router.push({ name: 'adminUserEdit', params: { id: product.id.toString() } });
+  router.push({ name: 'adminProductEdit', params: { id: product.id.toString() } });
 };
 
 const fetchProducts = async (searchParams: ProductsSearchParams = {}) => {

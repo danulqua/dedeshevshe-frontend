@@ -30,6 +30,11 @@ class ProductsService {
     return response.data;
   }
 
+  async getProduct(productId: string) {
+    const response = await apiClient<ProductInternal>(`/api/product/${productId}`);
+    return response.data;
+  }
+
   async getMyRequests() {
     const response = await apiClient<ProductListDTO<ProductInternal>>('/api/product/request/my');
     return response.data;
@@ -45,9 +50,15 @@ class ProductsService {
     return response.data;
   }
 
-  // async createProduct(product: CreateProductDTO) {
-  //   const response = await apiClient.post<ProductInternal>('/api/product/request')
-  // }
+  async createProduct(product: CreateProductDTO) {
+    const response = await apiClient.post<ProductInternal>('/api/product', product);
+    return response.data;
+  }
+
+  async updateProduct(productId: string, product: CreateProductDTO) {
+    const response = await apiClient.patch<ProductInternal>(`/api/product/${productId}`, product);
+    return response.data;
+  }
 }
 
 export const productsService = new ProductsService();
