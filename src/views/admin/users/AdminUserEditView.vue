@@ -4,11 +4,23 @@
   <PProgressSpinner v-if="isFetching" />
   <div v-else class="mt-4 flex flex-column gap-4 user-create-form">
     <div class="flex flex-column">
-      <PInputText v-model="name" type="text" name="name" placeholder="Імʼя..." />
+      <PInputText
+        v-model="name"
+        type="text"
+        name="name"
+        placeholder="Імʼя..."
+        :class="{ 'p-invalid': errors.name }"
+      />
       <ErrorMessage name="name" as="small" class="p-error">{{ errors.name }}</ErrorMessage>
     </div>
     <div class="flex flex-column">
-      <PInputText v-model="email" type="email" name="email" placeholder="Email..." />
+      <PInputText
+        v-model="email"
+        type="email"
+        name="email"
+        placeholder="Email..."
+        :class="{ 'p-invalid': errors.email }"
+      />
       <ErrorMessage name="email" as="small" class="p-error">{{ errors.email }}</ErrorMessage>
     </div>
     <div class="flex flex-column">
@@ -17,6 +29,7 @@
         type="password"
         name="password"
         placeholder="Новий пароль..."
+        :class="{ 'p-invalid': errors.password }"
       />
       <ErrorMessage name="password" as="small" class="p-error">{{ errors.password }}</ErrorMessage>
     </div>
@@ -26,6 +39,7 @@
         type="password"
         name="confirmPassword"
         placeholder="Підтвердження паролю..."
+        :class="{ 'p-invalid': errors.confirmPassword }"
       />
       <ErrorMessage name="confirmPassword" as="small" class="p-error">{{
         errors.confirmPassword

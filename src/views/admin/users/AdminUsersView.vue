@@ -16,8 +16,16 @@
     paginator-template
     scrollable
   >
-    <PColumn field="id" header="ID" sortable />
-    <PColumn field="name" header="Імʼя" sortable />
+    <PColumn field="id" header="ID" sortable>
+      <template #body="{ data }: { data: UserDTO }">
+        <span :class="{ 'font-bold': isMe(data) }">{{ data.id }}</span>
+      </template>
+    </PColumn>
+    <PColumn field="name" header="Імʼя" sortable>
+      <template #body="{ data }: { data: UserDTO }">
+        <span :class="{ 'font-bold': isMe(data) }">{{ data.name }} (ви)</span>
+      </template>
+    </PColumn>
     <PColumn field="email" header="Email" sortable />
     <PColumn field="role" header="Роль" sortable>
       <template #body="{ data }: { data: UserDTO }">
@@ -49,10 +57,10 @@
           <PButton
             size="small"
             icon="pi pi-trash"
-            :severity="data.id ? 'secondary' : 'danger'"
+            :severity="isMe(data) ? 'secondary' : 'danger'"
             text
             rounded
-            :disabled="data.id"
+            :disabled="isMe(data)"
             @click="handleDelete(data)"
           />
         </div>
@@ -78,7 +86,10 @@ import CPaginator from '@/components/common/CPaginator.vue';
 import { useRouter } from 'vue-router';
 import { userService } from '@/api/user';
 import AdminUserSearchForm from '@/components/Admin/User/AdminUserSearchForm.vue';
+import { useUserStore } from '@/stores/userStore';
 
+const userStore = useUserStore();
+const isMe = computed(() => (user: UserDTO) => userStore.user.id === user.id);
 const isLoading = ref(false);
 
 const users = ref<UserDTO[]>([]);

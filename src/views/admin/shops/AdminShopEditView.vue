@@ -9,6 +9,7 @@
         name="title"
         type="text"
         placeholder="Назва супермаркету..."
+        :class="{ 'p-invalid': errorMessage }"
         @keydown.enter="submit"
       />
       <small v-if="errorMessage" class="p-error">{{ errorMessage }}</small>
@@ -28,14 +29,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useToast } from 'primevue/usetoast';
 import { shopService } from '@/api/shop';
 import { useField } from 'vee-validate';
 import { z } from 'zod';
 import { toTypedSchema } from '@vee-validate/zod';
-import { onMounted } from 'vue';
 
 const { value: title, errorMessage } = useField(
   'title',

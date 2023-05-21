@@ -8,6 +8,7 @@
         name="title"
         type="text"
         placeholder="Назва супермаркету..."
+        :class="{ 'p-invalid': errorMessage }"
         @keydown.enter="submit"
       />
       <small v-if="errorMessage" class="p-error">{{ errorMessage }}</small>

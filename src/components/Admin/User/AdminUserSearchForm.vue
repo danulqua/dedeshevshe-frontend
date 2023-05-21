@@ -13,6 +13,7 @@
         type="email"
         name="email"
         placeholder="Email..."
+        :class="{ 'p-invalid': emailError }"
         @keydown.enter="searchUsers"
       />
       <small v-if="emailError" class="p-error">{{ emailError }}</small>

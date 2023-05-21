@@ -43,6 +43,7 @@
           name="maxPrice"
           prefix="₴"
           placeholder="Введіть ціну..."
+          min="0"
           :min-fraction-digits="2"
           :max-fraction-digits="2"
           :class="{ 'p-invalid': errorMaxPrice }"
