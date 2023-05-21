@@ -27,6 +27,11 @@ class UserService {
     return response.data;
   }
 
+  async getUser(userId: string) {
+    const response = await apiClient.get<UserDTO>(`/api/user/${userId}`);
+    return response.data;
+  }
+
   async createUser(dto: CreateUserDTO) {
     const response = await apiClient.post<UserDTO>('/api/user', dto);
     return response.data;

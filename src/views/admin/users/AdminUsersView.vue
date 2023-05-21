@@ -71,7 +71,6 @@
 <script setup lang="ts">
 import { onMounted, ref, computed, watch } from 'vue';
 import type { UserDTO, UserRole, UserSearchParams } from '@/api/types/user';
-import { shopService } from '@/api/shop';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
 import { formatDate } from '@/utilities/formatDate';
@@ -121,15 +120,15 @@ const handleDelete = (user: UserDTO) => {
     icon: 'pi pi-info-circle',
     acceptClass: 'p-button-danger',
     acceptIcon: 'pi pi-trash',
-    accept: () => deleteShop(user.id)
+    accept: () => deleteUser(user.id)
   });
 };
 
-const deleteShop = async (userId: number) => {
+const deleteUser = async (userId: number) => {
   try {
     isLoading.value = true;
 
-    await shopService.deleteShop(userId.toString());
+    await userService.deleteUser(userId.toString());
     toast.add({
       severity: 'success',
       summary: 'Успіх',
@@ -141,7 +140,7 @@ const deleteShop = async (userId: number) => {
     toast.add({
       severity: 'error',
       summary: 'Помилка',
-      detail: 'Не вдалося видалити Користувача',
+      detail: 'Не вдалося видалити користувача',
       life: 3000
     });
   } finally {
@@ -150,7 +149,7 @@ const deleteShop = async (userId: number) => {
 };
 
 const handleEdit = (user: UserDTO) => {
-  router.push({ name: 'adminShopEdit', params: { id: user.id.toString() } });
+  router.push({ name: 'adminUserEdit', params: { id: user.id.toString() } });
 };
 
 const fetchUsers = async (searchParams: UserSearchParams = {}) => {

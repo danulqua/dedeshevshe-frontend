@@ -29,7 +29,7 @@ import { productsService } from '@/api/products';
 import type { ProductInternal } from '@/api/types/product';
 import ProductList from '@/components/Product/List/ProductList.vue';
 import { useToast } from 'primevue/usetoast';
-import UserProfile from '@/components/user/UserProfile.vue';
+import UserProfile from '@/components/User/UserProfile.vue';
 
 const toast = useToast();
 
