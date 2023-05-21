@@ -4,7 +4,8 @@ import type {
   ProductExternal,
   ProductInternal,
   ProductListDTO,
-  ProductsSearchParams
+  ProductsSearchParams,
+  UpdateProductDTO
 } from '@/api/types/product';
 
 class ProductsService {
@@ -55,7 +56,7 @@ class ProductsService {
     return response.data;
   }
 
-  async updateProduct(productId: string, product: CreateProductDTO) {
+  async updateProduct(productId: string, product: UpdateProductDTO) {
     const response = await apiClient.patch<ProductInternal>(`/api/product/${productId}`, product);
     return response.data;
   }

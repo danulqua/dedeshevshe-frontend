@@ -41,6 +41,7 @@
       <label for="discountsOnly">Тільки зі знижками</label>
     </div>
     <PDropdown
+      v-if="props.withStatus"
       v-model="status"
       :options="statuses"
       option-label="status"
@@ -61,6 +62,12 @@ import { useProductsStore } from '@/stores/productsStore';
 import { useShopsStore } from '@/stores/shopsStore';
 import type { ProductStatus } from '@/api/types/product';
 
+const props = defineProps({
+  withStatus: {
+    type: Boolean,
+    default: true
+  }
+});
 const emit = defineEmits(['search']);
 
 const productsStore = useProductsStore();

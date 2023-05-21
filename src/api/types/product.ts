@@ -72,6 +72,8 @@ export interface CreateProductDTO {
   imageId: number | null;
 }
 
+export interface UpdateProductDTO extends Partial<CreateProductDTO> {}
+
 export const isInternalProduct = (
   product: ProductInternal | ProductExternal
 ): product is ProductInternal => {
