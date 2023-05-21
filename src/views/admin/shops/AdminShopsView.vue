@@ -128,7 +128,7 @@ const deleteShop = async (shopId: number) => {
   try {
     isLoading.value = true;
 
-    await shopService.deleteShop(shopId);
+    await shopService.deleteShop(shopId.toString());
     toast.add({
       severity: 'success',
       summary: 'Успіх',

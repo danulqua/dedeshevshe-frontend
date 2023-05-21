@@ -1,5 +1,11 @@
 import { apiClient } from '@/api/apiClient';
-import type { EditProfileDTO, UserDTO } from '@/api/types/user';
+import type {
+  EditProfileDTO,
+  EditUserDTO,
+  UserDTO,
+  UserListDTO,
+  UserSearchParams
+} from '@/api/types/user';
 
 class UserService {
   async getMyProfile() {
@@ -9,6 +15,24 @@ class UserService {
 
   async editProfile(dto: EditProfileDTO) {
     const response = await apiClient.patch<UserDTO>('/api/user/editProfile', dto);
+    return response.data;
+  }
+
+  async getAllUsers(searchParams: UserSearchParams) {
+    const response = await apiClient.get<UserListDTO>('/api/user/all', {
+      params: searchParams
+    });
+
+    return response.data;
+  }
+
+  async updateUser(userId: string, dto: EditUserDTO) {
+    const response = await apiClient.patch<UserDTO>(`/api/user/${userId}`, dto);
+    return response.data;
+  }
+
+  async deleteUser(userId: string) {
+    const response = await apiClient.delete<UserDTO>(`/api/user/${userId}`);
     return response.data;
   }
 }

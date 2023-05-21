@@ -25,7 +25,7 @@ class ShopService {
     return response.data;
   }
 
-  async deleteShop(shopId: number) {
+  async deleteShop(shopId: string) {
     const response = await apiClient.delete<ShopDTO>(`/api/shop/${shopId}`);
     return response.data;
   }
