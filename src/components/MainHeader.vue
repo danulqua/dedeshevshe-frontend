@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import UserMenu from '@/components/user/UserMenu.vue';
+import UserMenu from '@/components/User/UserMenu.vue';
 import { useUserStore } from '@/stores/userStore';
 import { RouterLink } from 'vue-router';
 

@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import UserMenu from '@/components/user/UserMenu.vue';
+import UserMenu from '@/components/User/UserMenu.vue';
 import { useAdminStore } from '@/stores/adminStore';
 
 const adminStore = useAdminStore();
