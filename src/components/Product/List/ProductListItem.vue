@@ -5,9 +5,7 @@
         <template #header>
           <img
             :alt="product.title"
-            :src="
-              isExternalProduct(product) ? product.imageUrl : getInternalImageUrl(product.image.url)
-            "
+            :src="isExternalProduct(product) ? product.imageUrl : product.image.url"
             class="w-full h-14rem"
             :style="{ objectFit: 'cover' }"
           />
@@ -63,7 +61,6 @@ import {
   type ProductExternal,
   type ProductInternal
 } from '@/api/types/product';
-import { getInternalImageUrl } from '@/utilities/getInternalImageUrl';
 import { formatPrice } from '@/utilities/formatPrice';
 import { getProductStatusTagData } from '@/utilities/formatProductStatus';
 

@@ -16,7 +16,7 @@ export const useShopsStore = defineStore('shops', () => {
     isLoading.value = true;
 
     try {
-      const shopList = await shopService.getAllShops();
+      const shopList = await shopService.getAllShops({ sortBy: 'id' });
       shops.value = shopList.items;
       isError.value = false;
     } catch (error) {

@@ -179,19 +179,30 @@
       </div>
 
       <div>
-        <label for="volume" class="block text-900 font-medium mt-3 mb-2">Зображення</label>
-        <PFileUpload
-          name="file"
-          mode="basic"
-          choose-label="Обрати"
-          :url="uploadImageUrl"
-          accept="image/*"
-          :max-file-size="5000000"
-          with-credentials
-          auto
-          @upload="handleImageUpload"
+        <div>
+          <label for="file" class="block text-900 font-medium mt-3 mb-2">Зображення</label>
+          <PFileUpload
+            name="file"
+            mode="basic"
+            choose-label="Обрати"
+            :url="uploadImageUrl"
+            accept="image/*"
+            :max-file-size="2000000"
+            with-credentials
+            auto
+            :disabled="isImageLoading"
+            @select="handleImageSelect"
+            @upload="handleImageUpload"
+          />
+          <small v-if="errors.imageId" class="p-error">{{ errors.imageId }}</small>
+        </div>
+        <img
+          v-if="imageUrl"
+          :src="imageUrl"
+          alt="Зображення продукту"
+          class="mt-3 w-12rem h-12rem shadow-2 border-round"
+          :style="{ objectFit: 'cover' }"
         />
-        <small v-if="errors.imageId" class="p-error">{{ errors.imageId }}</small>
       </div>
     </div>
 
@@ -251,6 +262,7 @@ const isSolid = ref(true);
 const { value: volume } = useField('volume');
 const { value: weight } = useField('weight');
 const { value: imageId } = useField('imageId');
+const imageUrl = ref<string | null>(null);
 const status = ref<ProductStatus>();
 
 const statuses = [
@@ -274,6 +286,7 @@ const productId = ref(route.params.id as string);
 
 const isFetching = ref(false);
 const isLoading = ref(false);
+const isImageLoading = ref(false);
 
 watch([isSolid, isFetching], ([value, newIsFetching], [, oldIsFetching]) => {
   if (oldIsFetching && !newIsFetching) return;
@@ -316,6 +329,7 @@ const getProductData = async () => {
     volume.value = product.volume || null;
     weight.value = product.weight || null;
     imageId.value = product.imageId || null;
+    imageUrl.value = product.image?.url || null;
     status.value = product.status;
   } catch (error) {
     toast.add({
@@ -335,9 +349,16 @@ onMounted(() => {
   getProductData();
 });
 
+const handleImageSelect = () => {
+  isImageLoading.value = true;
+  imageUrl.value = null;
+};
+
 const handleImageUpload = ({ xhr }: { xhr: XMLHttpRequest; files: any }) => {
   const data = JSON.parse(xhr.response);
   imageId.value = data.id;
+  imageUrl.value = data.url;
+  isImageLoading.value = false;
   toast.add({
     severity: 'success',
     summary: 'Успіх',

@@ -19,7 +19,7 @@
       <template #body="{ data }: { data: ProductInternal }">
         <img
           v-if="data.imageId"
-          :src="getInternalImageUrl(data.image.url)"
+          :src="data.image.url"
           :alt="data.title"
           class="w-6rem h-6rem shadow-2 border-round"
         />
@@ -113,7 +113,6 @@ import { formatDate } from '@/utilities/formatDate';
 import CPaginator from '@/components/common/CPaginator.vue';
 import AdminProductSearchForm from '@/components/Admin/Product/AdminProductSearchForm.vue';
 import { productsService } from '@/api/products';
-import { getInternalImageUrl } from '@/utilities/getInternalImageUrl';
 
 const isLoading = ref(false);
 
