@@ -11,7 +11,7 @@
         />
         <PButton
           icon="pi pi-search"
-          :disabled="!isValid || !isFiltersChanged || productsStore.isLoading"
+          :disabled="!isValid || productsStore.isLoading"
           :loading="productsStore.isLoading"
           @click="searchProducts"
         />
@@ -113,7 +113,7 @@ onMounted(() => {
 });
 
 const searchProducts = async () => {
-  if (!isValid.value || !isFiltersChanged.value || productsStore.isLoading) return;
+  if (!isValid.value || productsStore.isLoading) return;
 
   if (isFiltersChanged.value) {
     productsStore.page = 1;
@@ -182,7 +182,6 @@ watch(
 
 const isFiltersChanged = computed(() => {
   return (
-    productsStore.title !== productTitle.value ||
     productsStore.shopId !== selectedShopId.value ||
     productsStore.maxPrice !== maxPrice.value ||
     productsStore.discountsOnly !== discountsOnly.value
