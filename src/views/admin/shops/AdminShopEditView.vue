@@ -10,6 +10,7 @@
         type="text"
         placeholder="Назва супермаркету..."
         :class="{ 'p-invalid': errorMessage }"
+        :disabled="isExternal"
         @keydown.enter="submit"
       />
       <small v-if="errorMessage" class="p-error">{{ errorMessage }}</small>
@@ -30,6 +31,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import type { Image } from '@/api/types/image';
 import { useRoute, useRouter } from 'vue-router';
 import { useToast } from 'primevue/usetoast';
 import { shopService } from '@/api/shop';
@@ -46,6 +48,8 @@ const { value: title, errorMessage } = useField(
       .regex(/^\S.*\S$/, 'Назва супермаркету не може починатися або закінчуватися пробілами')
   )
 );
+const isExternal = ref(false);
+const image = ref<Image | null>(null);
 
 const isLoading = ref(false);
 const isFetching = ref(false);
@@ -60,7 +64,15 @@ const getShopData = async () => {
   try {
     isFetching.value = true;
     const shop = await shopService.getShop(shopId.value);
+
     title.value = shop.title;
+    isExternal.value = shop.isExternal;
+    image.value = shop.image
+      ? {
+          id: shop.image.id,
+          url: shop.image.url
+        }
+      : null;
   } catch (error) {
     toast.add({
       severity: 'error',

@@ -40,10 +40,9 @@
           <PButton
             size="small"
             icon="pi pi-pencil"
-            :severity="data.isExternal ? 'secondary' : 'info'"
+            severity="info"
             text
             rounded
-            :disabled="data.isExternal"
             @click="handleEdit(data)"
           />
           <PButton

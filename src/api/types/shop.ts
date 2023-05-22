@@ -1,3 +1,5 @@
+import type { Image } from '@/api/types/image';
+
 export type ShopSource = 'internal' | 'external';
 
 export interface ShopDTO {
@@ -5,6 +7,8 @@ export interface ShopDTO {
   title: string;
   isExternal: boolean;
   externalId: string | null;
+  imageId: number | null;
+  image: Image;
   createdAt: Date;
   updatedAt: Date;
 }
