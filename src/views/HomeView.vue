@@ -34,17 +34,11 @@ import ProductsSearchForm from '@/components/Product/Search/ProductsSearchForm.v
 import CPaginator from '@/components/common/CPaginator.vue';
 import { useProductsStore } from '@/stores/productsStore';
 import { useShopsStore } from '@/stores/shopsStore';
-import type { PaginatorData } from '@/types/paginator';
 import { onMounted, ref } from 'vue';
 
 const offset = ref(0);
 
 const productsStore = useProductsStore();
-
-const handlePageChange = ({ page }: PaginatorData) => {
-  productsStore.setPage(page + 1);
-  offset.value = page * 9;
-};
 
 const shopsStore = useShopsStore();
 onMounted(() => shopsStore.fetchShops());

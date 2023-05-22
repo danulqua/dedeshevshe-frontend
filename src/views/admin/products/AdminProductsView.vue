@@ -125,7 +125,6 @@ import CPaginator from '@/components/common/CPaginator.vue';
 import { useRouter } from 'vue-router';
 import AdminProductSearchForm from '@/components/Admin/Product/AdminProductSearchForm.vue';
 import { productsService } from '@/api/products';
-import { getInternalImageUrl } from '@/utilities/getInternalImageUrl';
 
 const isLoading = ref(false);
 

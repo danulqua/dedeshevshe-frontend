@@ -23,7 +23,16 @@
           </div>
         </template>
         <template #subtitle>
-          {{ isExternalProduct(product) ? product.shop : product.shop?.title }}
+          <div class="flex flex-column">
+            <img
+              v-if="product.shop.image"
+              :src="product.shop.image.url"
+              :alt="product.shop.title"
+              class="w-6rem max-h-3rem"
+              :style="{ objectFit: 'contain' }"
+            />
+            <span v-else>{{ product.shop.title }}</span>
+          </div>
         </template>
         <template #footer>
           <div class="absolute card-footer">

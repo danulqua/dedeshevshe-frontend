@@ -3,10 +3,19 @@ export interface Discount {
   oldPrice: number;
 }
 
+interface ShopIncluded {
+  id: number;
+  title: string;
+  image?: {
+    id: number;
+    url: string;
+  };
+}
+
 export interface ProductExternal {
   ean: string;
   title: string;
-  shop: string;
+  shop: ShopIncluded;
   url: string;
   imageUrl: string;
   description: string;
@@ -36,7 +45,7 @@ export interface ProductInternal {
   userId: number | null;
   shopId: number;
   imageId: number | null;
-  shop: { id: number; title: string } | null;
+  shop: ShopIncluded;
   user: { id: number; name: string } | null;
   image: { id: number; url: string };
 }
