@@ -30,6 +30,7 @@ import FileUpload from 'primevue/fileupload';
 import Sidebar from 'primevue/sidebar';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import Chart from 'primevue/chart';
 
 import 'primevue/resources/themes/lara-light-blue/theme.css';
 import 'primevue/resources/primevue.min.css';
@@ -70,5 +71,6 @@ app.component('PConfirmDialog', ConfirmDialog);
 app.component('PSidebar', Sidebar);
 app.component('PDataTable', DataTable);
 app.component('PColumn', Column);
+app.component('PChart', Chart);
 
 app.mount('#app');

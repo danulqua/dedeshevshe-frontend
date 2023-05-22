@@ -60,6 +60,11 @@ class ProductsService {
     const response = await apiClient.patch<ProductInternal>(`/api/product/${productId}`, product);
     return response.data;
   }
+
+  async getPriceHistoryReport(productId: string) {
+    const response = await apiClient.get(`/api/product/${productId}/priceHistory`);
+    return response.data;
+  }
 }
 
 export const productsService = new ProductsService();
