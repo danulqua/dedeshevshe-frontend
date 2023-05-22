@@ -16,11 +16,47 @@
       <small v-if="errorMessage" class="p-error">{{ errorMessage }}</small>
     </div>
 
+    <div>
+      <div>
+        <label for="file" class="block text-900 font-medium mb-2">Логотип</label>
+        <div class="flex gap-1 align-items-center">
+          <PFileUpload
+            name="file"
+            mode="basic"
+            :choose-label="!imageId ? 'Обрати' : 'Змінити'"
+            :url="uploadImageUrl"
+            accept="image/*"
+            :max-file-size="2000000"
+            with-credentials
+            auto
+            :disabled="isImageLoading"
+            @select="handleImageSelect"
+            @upload="handleImageUpload"
+            @error="handleImageUploadError"
+          />
+          <PButton
+            v-if="imageId"
+            icon="pi pi-times"
+            severity="danger"
+            outlined
+            @click="handleImageDelete"
+          />
+        </div>
+      </div>
+      <img
+        v-if="imageUrl"
+        :src="imageUrl"
+        alt="Зображення продукту"
+        class="mt-3 max-w-12rem max-h-12rem"
+        :style="{ objectFit: 'cover' }"
+      />
+    </div>
+
     <div class="flex gap-2">
       <PButton
         label="Зберегти"
         icon="pi pi-save"
-        :disabled="!title || errorMessage"
+        :disabled="!title || errorMessage || isImageLoading"
         :loading="isLoading"
         @click="submit"
       />
@@ -31,13 +67,14 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import type { Image } from '@/api/types/image';
 import { useRoute, useRouter } from 'vue-router';
 import { useToast } from 'primevue/usetoast';
 import { shopService } from '@/api/shop';
 import { useField } from 'vee-validate';
 import { z } from 'zod';
 import { toTypedSchema } from '@vee-validate/zod';
+
+const uploadImageUrl = `${import.meta.env.VITE_API_BASE_URL}/api/product/image/upload`;
 
 const { value: title, errorMessage } = useField(
   'title',
@@ -49,10 +86,12 @@ const { value: title, errorMessage } = useField(
   )
 );
 const isExternal = ref(false);
-const image = ref<Image | null>(null);
+const imageId = ref<number | null>(null);
+const imageUrl = ref<string | null>(null);
 
-const isLoading = ref(false);
 const isFetching = ref(false);
+const isLoading = ref(false);
+const isImageLoading = ref(false);
 
 const router = useRouter();
 const route = useRoute();
@@ -67,12 +106,8 @@ const getShopData = async () => {
 
     title.value = shop.title;
     isExternal.value = shop.isExternal;
-    image.value = shop.image
-      ? {
-          id: shop.image.id,
-          url: shop.image.url
-        }
-      : null;
+    imageId.value = shop.imageId;
+    imageUrl.value = shop.image?.url || null;
   } catch (error) {
     toast.add({
       severity: 'error',
@@ -86,10 +121,47 @@ const getShopData = async () => {
   }
 };
 
+const handleImageSelect = () => {
+  isImageLoading.value = true;
+  imageUrl.value = null;
+};
+
+const handleImageDelete = () => {
+  imageId.value = null;
+  imageUrl.value = null;
+};
+
+const handleImageUpload = ({ xhr }: { xhr: XMLHttpRequest; files: any }) => {
+  const data = JSON.parse(xhr.response);
+  imageId.value = data.id;
+  imageUrl.value = data.url;
+  isImageLoading.value = false;
+  toast.add({
+    severity: 'success',
+    summary: 'Успіх',
+    detail: 'Зображення успішно завантажено',
+    life: 3000
+  });
+};
+
+const handleImageUploadError = () => {
+  toast.add({
+    severity: 'error',
+    summary: 'Помилка',
+    detail:
+      'Не вдалося завантажити зображення. Тип зображення повинен бути .jpg, .png. Розмір зображення до 2 МБ.',
+    life: 5000
+  });
+  isImageLoading.value = false;
+};
+
 const updateShop = async () => {
   try {
     isLoading.value = true;
-    await shopService.updateShop(shopId.value, { title: title.value });
+    await shopService.updateShop(shopId.value, {
+      title: title.value,
+      imageId: imageId.value
+    });
   } catch (error) {
     toast.add({
       severity: 'error',

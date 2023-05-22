@@ -189,7 +189,7 @@
               <PFileUpload
                 name="file"
                 mode="basic"
-                choose-label="Обрати"
+                :choose-label="!imageId ? 'Обрати' : 'Змінити'"
                 :url="uploadImageUrl"
                 accept="image/*"
                 :max-file-size="2000000"
@@ -205,7 +205,8 @@
               v-if="imageUrl"
               :src="imageUrl"
               alt="Зображення продукту"
-              class="mt-3 w-12rem h-12rem shadow-2 border-round"
+              class="mt-3 max-w-12rem max-h-12rem shadow-2 border-round"
+              :style="{ objectFit: 'cover' }"
             />
           </div>
         </div>
@@ -214,7 +215,7 @@
       <PButton
         label="Створити"
         class="w-full mt-3"
-        :disabled="!isValid || isLoading"
+        :disabled="!isValid || isLoading || isImageLoading"
         :loading="isLoading"
         @click="submit"
       />

@@ -13,6 +13,13 @@ export interface ShopDTO {
   updatedAt: Date;
 }
 
+export interface CreateShopDTO {
+  title: string;
+  imageId?: number | null;
+}
+
+export interface UpdateShopDTO extends Partial<CreateShopDTO> {}
+
 export interface ShopListDTO {
   totalCount: number;
   totalPages: number;

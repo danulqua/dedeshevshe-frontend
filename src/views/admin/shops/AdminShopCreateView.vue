@@ -14,11 +14,47 @@
       <small v-if="errorMessage" class="p-error">{{ errorMessage }}</small>
     </div>
 
+    <div>
+      <div>
+        <label for="file" class="block text-900 font-medium mb-2">Логотип</label>
+        <div class="flex gap-1 align-items-center">
+          <PFileUpload
+            name="file"
+            mode="basic"
+            :choose-label="!imageId ? 'Обрати' : 'Змінити'"
+            :url="uploadLogoUrl"
+            accept="image/*"
+            :max-file-size="2000000"
+            with-credentials
+            auto
+            :disabled="isImageLoading"
+            @select="handleImageSelect"
+            @upload="handleImageUpload"
+            @error="handleImageUploadError"
+          />
+          <PButton
+            v-if="imageId"
+            icon="pi pi-times"
+            severity="danger"
+            outlined
+            @click="handleImageDelete"
+          />
+        </div>
+      </div>
+      <img
+        v-if="imageUrl"
+        :src="imageUrl"
+        alt="Зображення продукту"
+        class="mt-3 max-w-12rem max-h-12rem"
+        :style="{ objectFit: 'cover' }"
+      />
+    </div>
+
     <div class="flex gap-2">
       <PButton
         label="Додати"
         icon="pi pi-plus"
-        :disabled="!title || errorMessage"
+        :disabled="!title || errorMessage || isImageLoading"
         :loading="isLoading"
         @click="submit"
       />
@@ -36,6 +72,8 @@ import { useField } from 'vee-validate';
 import { z } from 'zod';
 import { toTypedSchema } from '@vee-validate/zod';
 
+const uploadLogoUrl = `${import.meta.env.VITE_API_BASE_URL}/api/shop/logo/upload`;
+
 const { value: title, errorMessage } = useField(
   'title',
   toTypedSchema(
@@ -45,8 +83,11 @@ const { value: title, errorMessage } = useField(
       .regex(/^\S.*\S$/, 'Назва супермаркету не може починатися або закінчуватися пробілами')
   )
 );
+const imageId = ref<number | null>(null);
+const imageUrl = ref<string | null>(null);
 
 const isLoading = ref(false);
+const isImageLoading = ref(false);
 
 const router = useRouter();
 const toast = useToast();
@@ -54,7 +95,10 @@ const toast = useToast();
 const createShop = async () => {
   try {
     isLoading.value = true;
-    await shopService.createShop({ title: title.value });
+    await shopService.createShop({
+      title: title.value,
+      imageId: imageId.value
+    });
   } catch (error) {
     toast.add({
       severity: 'error',
@@ -65,6 +109,40 @@ const createShop = async () => {
   } finally {
     isLoading.value = false;
   }
+};
+
+const handleImageSelect = () => {
+  isImageLoading.value = true;
+  imageUrl.value = null;
+};
+
+const handleImageDelete = () => {
+  imageId.value = null;
+  imageUrl.value = null;
+};
+
+const handleImageUpload = ({ xhr }: { xhr: XMLHttpRequest; files: any }) => {
+  const data = JSON.parse(xhr.response);
+  imageId.value = data.id;
+  imageUrl.value = data.url;
+  isImageLoading.value = false;
+  toast.add({
+    severity: 'success',
+    summary: 'Успіх',
+    detail: 'Зображення успішно завантажено',
+    life: 3000
+  });
+};
+
+const handleImageUploadError = () => {
+  toast.add({
+    severity: 'error',
+    summary: 'Помилка',
+    detail:
+      'Не вдалося завантажити зображення. Тип зображення повинен бути .jpg, .png. Розмір зображення до 2 МБ.',
+    life: 5000
+  });
+  isImageLoading.value = false;
 };
 
 const submit = async () => {

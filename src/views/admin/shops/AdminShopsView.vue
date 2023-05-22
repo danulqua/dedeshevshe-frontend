@@ -18,6 +18,17 @@
   >
     <PColumn field="id" header="ID" sortable />
     <PColumn field="title" header="Назва" sortable />
+    <PColumn field="imageId" header="Логотип">
+      <template #body="{ data }: { data: ShopDTO }">
+        <img
+          v-if="data.imageId"
+          :src="data.image.url"
+          :alt="data.title"
+          class="max-w-6rem max-h-6rem"
+        />
+        <span v-else>-</span>
+      </template>
+    </PColumn>
     <PColumn field="isExternal" header="Джерело постачання" sortable>
       <template #body="slotProps: { data: ShopDTO }">
         <PTag v-if="slotProps.data.isExternal" severity="warning">Зовнішній</PTag>

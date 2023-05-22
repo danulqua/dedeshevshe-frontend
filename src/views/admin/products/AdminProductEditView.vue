@@ -184,7 +184,7 @@
           <PFileUpload
             name="file"
             mode="basic"
-            choose-label="Обрати"
+            :choose-label="!imageId ? 'Обрати' : 'Змінити'"
             :url="uploadImageUrl"
             accept="image/*"
             :max-file-size="2000000"
@@ -224,7 +224,7 @@
       <PButton
         label="Зберегти"
         icon="pi pi-save"
-        :disabled="!isValid || isLoading"
+        :disabled="!isValid || isLoading || isImageLoading"
         :loading="isLoading"
         @click="submit"
       />
