@@ -132,7 +132,7 @@ const isLoading = ref(false);
 const products = ref<ProductInternal[]>([]);
 const searchParams = ref<ProductsSearchParams>({
   page: 1,
-  sortBy: 'createdAt',
+  sortBy: 'updatedAt',
   order: 'desc',
   limit: 10
 });

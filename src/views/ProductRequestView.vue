@@ -191,7 +191,7 @@
               choose-label="Обрати"
               :url="uploadImageUrl"
               accept="image/*"
-              :max-file-size="5000000"
+              :max-file-size="2000000"
               with-credentials
               auto
               @upload="handleImageUpload"

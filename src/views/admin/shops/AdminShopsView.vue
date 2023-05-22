@@ -84,7 +84,7 @@ const isLoading = ref(false);
 const shops = ref<ShopDTO[]>([]);
 const searchParams = ref<ShopSearchParams>({
   page: 1,
-  sortBy: 'createdAt',
+  sortBy: 'updatedAt',
   order: 'desc',
   limit: 10
 });

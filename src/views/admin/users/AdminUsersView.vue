@@ -98,7 +98,7 @@ const isLoading = ref(false);
 const users = ref<UserDTO[]>([]);
 const searchParams = ref<UserSearchParams>({
   page: 1,
-  sortBy: 'createdAt',
+  sortBy: 'updatedAt',
   order: 'desc',
   limit: 10
 });
