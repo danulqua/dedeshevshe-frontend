@@ -52,6 +52,7 @@ const { value: email, errorMessage: emailError } = useField(
 
 const roles = [
   { role: 'User', value: 'USER' },
+  { role: 'Supermarket', value: 'SUPERMARKET' },
   { role: 'Admin', value: 'ADMIN' }
 ];
 
