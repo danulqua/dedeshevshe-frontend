@@ -94,3 +94,22 @@ export const isExternalProduct = (
 ): product is ProductExternal => {
   return product.isExternal;
 };
+
+export type ReportOption = 'week' | 'month' | 'year';
+
+export interface PriceHistoryItem {
+  price: number;
+  createdAt: Date;
+}
+
+export interface PriceHistory {
+  product: {
+    id: number;
+    title: string;
+  };
+  shop: {
+    id: number;
+    title: string;
+  };
+  priceHistory: PriceHistoryItem[];
+}

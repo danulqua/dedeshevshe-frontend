@@ -1,10 +1,12 @@
 import { apiClient } from '@/api/apiClient';
 import type {
   CreateProductDTO,
+  PriceHistory,
   ProductExternal,
   ProductInternal,
   ProductListDTO,
   ProductsSearchParams,
+  ReportOption,
   UpdateProductDTO
 } from '@/api/types/product';
 
@@ -61,8 +63,13 @@ class ProductsService {
     return response.data;
   }
 
-  async getPriceHistoryReport(productId: string) {
-    const response = await apiClient.get(`/api/product/${productId}/priceHistory`);
+  async getPriceHistoryReport(productId: string, reportOption: ReportOption) {
+    const response = await apiClient.get<PriceHistory>(`/api/product/${productId}/priceHistory`, {
+      params: {
+        option: reportOption || undefined
+      }
+    });
+
     return response.data;
   }
 }

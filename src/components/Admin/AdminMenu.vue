@@ -82,11 +82,6 @@ const menu = [
     label: 'Запити на додавання',
     icon: 'pi pi-question-circle',
     to: { name: 'adminProductRequests' }
-  },
-  {
-    label: 'Звіти по цінам',
-    icon: 'pi pi-chart-bar',
-    to: { name: 'adminProductReport' }
   }
 ];
 </script>

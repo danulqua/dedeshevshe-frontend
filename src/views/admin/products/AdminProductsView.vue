@@ -86,6 +86,14 @@
         <div class="flex align-items-center gap-1">
           <PButton
             size="small"
+            icon="pi pi-chart-bar"
+            severity="success"
+            text
+            rounded
+            @click="handleViewReport(data)"
+          />
+          <PButton
+            size="small"
             icon="pi pi-pencil"
             severity="info"
             text
@@ -201,6 +209,10 @@ const deleteProduct = async (productId: number) => {
   } finally {
     isLoading.value = false;
   }
+};
+
+const handleViewReport = (product: ProductInternal) => {
+  router.push({ name: 'adminProductReport', params: { id: product.id.toString() } });
 };
 
 const handleEdit = (product: ProductInternal) => {

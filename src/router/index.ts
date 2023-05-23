@@ -116,7 +116,7 @@ const router = createRouter({
           component: () => import('@/views/admin/products/AdminProductEditView.vue')
         },
         {
-          path: 'products/report',
+          path: 'products/:id/report',
           name: 'adminProductReport',
           component: () => import('@/views/admin/products/AdminProductReportView.vue')
         },

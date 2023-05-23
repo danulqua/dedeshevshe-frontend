@@ -1,30 +1,47 @@
 <template>
-  <h2>Генерація звіту про динаміку змін цін</h2>
-  <PButton label="Згенерувати" class="mt-3" @click="handleGenerateReport" />
+  <h2>Динаміка змін цін на продукт #{{ productId }}</h2>
+  <PDropdown
+    v-model="selectedReportOption"
+    :options="reportOptions"
+    option-label="label"
+    option-value="value"
+    class="mt-3 w-12rem"
+    @change="handleReportOptionChange"
+  />
 
-  <PChart
-    v-if="chartData"
-    type="line"
-    :data="chartData"
-    :options="chartOptions"
-    class="h-30rem w-full"
-  />
-  <PButton
-    v-if="reportData"
-    label="Зберегти у PDF"
-    icon="pi pi-download"
-    class="mt-3"
-    @click="saveToPDF"
-  />
+  <PProgressSpinner v-if="isLoading" />
+  <div v-els class="flex flex-column align-items-start gap-3">
+    <PChart type="line" :data="chartData" :options="chartOptions" class="h-30rem w-full" />
+    <PButton label="Зберегти у PDF" icon="pi pi-download" @click="saveToPDF" />
+  </div>
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import type { ReportOption, PriceHistoryItem } from '@/api/types/product';
 import { productsService } from '@/api/products';
 import { formatDate } from '@/utilities/formatDate';
 import { jsPDF } from 'jspdf';
-import { ref } from 'vue';
+import { useToast } from 'primevue/usetoast';
+import { useRoute, useRouter } from 'vue-router';
 
-const reportData = ref();
+const toast = useToast();
+const route = useRoute();
+const router = useRouter();
+const isLoading = ref(false);
+
+const reportOptions = ref([
+  { label: 'За тиждень', value: 'week' },
+  { label: 'За місяць', value: 'month' },
+  { label: 'За рік', value: 'year' }
+]);
+const selectedReportOption = ref<ReportOption>('week');
+
+const productId = route.params.id;
+const product = ref<{ id: number; title: string } | null>(null);
+const shop = ref<{ id: number; title: string } | null>(null);
+
+const reportData = ref<PriceHistoryItem[]>([]);
 const chartData = ref();
 const chartOptions = ref();
 
@@ -35,7 +52,7 @@ const setChartData = () => {
     labels: reportData.value.map((item: any) => formatDate(item.createdAt)),
     datasets: [
       {
-        label: 'Ціна на "Coca Cola" в "Novus"',
+        label: `Ціна на "${product.value!.title}" в "${shop.value!.title}"`,
         fill: false,
         borderColor: documentStyle.getPropertyValue('--blue-500'),
         yAxisID: 'y',
@@ -52,7 +69,6 @@ const setChartOptions = () => {
   return {
     responsive: true,
     maintainAspectRatio: false,
-    animation: false,
     scales: {
       y: {
         type: 'linear',
@@ -66,12 +82,34 @@ const setChartOptions = () => {
   };
 };
 
-const handleGenerateReport = async () => {
-  const result = await productsService.getPriceHistoryReport((5).toString());
-  reportData.value = result.filter((_: any, idx: any) => idx % 2 === 0);
-  chartData.value = setChartData();
-  chartOptions.value = setChartOptions();
+const getPriceHistory = async () => {
+  try {
+    isLoading.value = true;
+
+    const result = await productsService.getPriceHistoryReport(
+      productId.toString(),
+      selectedReportOption.value
+    );
+
+    product.value = result.product;
+    shop.value = result.shop;
+    reportData.value = result.priceHistory;
+    chartData.value = setChartData();
+    chartOptions.value = setChartOptions();
+  } catch (error) {
+    toast.add({
+      severity: 'error',
+      summary: 'Помилка',
+      detail: `Не вдалося отримати історію змін цін для продукту #{productId}`,
+      life: 3000
+    });
+    router.push({ name: 'adminProducts' });
+  } finally {
+    isLoading.value = false;
+  }
 };
+
+const handleReportOptionChange = () => getPriceHistory();
 
 const saveToPDF = () => {
   const canvas = document.querySelector('.p-chart canvas') as HTMLCanvasElement;
@@ -97,6 +135,8 @@ const saveToPDF = () => {
   pdf.addImage(ctx.canvas.toDataURL('image/png'), 'PNG', chartML, chartMT, width, height);
   pdf.save('price-history-report.pdf');
 };
+
+onMounted(getPriceHistory);
 </script>
 
 <style scoped lang="scss">
