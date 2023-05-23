@@ -28,7 +28,13 @@
     </PColumn>
     <PColumn field="shopId" header="Супермаркет" sortable>
       <template #body="{ data }: { data: ProductInternal }">
-        {{ data.shop ? `#${data.id} (${data.shop.title})` : '-' }}
+        <img
+          v-if="data.shop.image"
+          :src="data.shop.image.url"
+          :alt="data.shop.title"
+          class="max-w-6rem max-h-6rem"
+        />
+        <span v-else>#{{ data.shopId }} {{ data.shop.title }}</span>
       </template>
     </PColumn>
     <PColumn field="url" header="Посилання">
