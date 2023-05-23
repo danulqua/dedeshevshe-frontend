@@ -16,40 +16,38 @@
       <small v-if="errorMessage" class="p-error">{{ errorMessage }}</small>
     </div>
 
-    <div>
-      <div>
-        <label for="file" class="block text-900 font-medium mb-2">Логотип</label>
-        <div class="flex gap-1 align-items-center">
-          <PFileUpload
-            name="file"
-            mode="basic"
-            :choose-label="!imageId ? 'Обрати' : 'Змінити'"
-            :url="uploadImageUrl"
-            accept="image/*"
-            :max-file-size="2000000"
-            with-credentials
-            auto
-            :disabled="isImageLoading"
-            @select="handleImageSelect"
-            @upload="handleImageUpload"
-            @error="handleImageUploadError"
-          />
-          <PButton
-            v-if="imageId"
-            icon="pi pi-times"
-            severity="danger"
-            outlined
-            @click="handleImageDelete"
-          />
-        </div>
-      </div>
+    <div class="flex flex-column gap-2">
+      <label for="file" class="block text-900 font-medium">Логотип</label>
       <img
         v-if="imageUrl"
         :src="imageUrl"
         alt="Зображення продукту"
-        class="mt-3 max-w-12rem max-h-12rem"
+        class="max-w-12rem max-h-12rem"
         :style="{ objectFit: 'cover' }"
       />
+      <div class="flex gap-1 align-items-center">
+        <PFileUpload
+          name="file"
+          mode="basic"
+          :choose-label="!imageId ? 'Обрати' : 'Змінити'"
+          :url="uploadImageUrl"
+          accept="image/*"
+          :max-file-size="2000000"
+          with-credentials
+          auto
+          :disabled="isImageLoading"
+          @select="handleImageSelect"
+          @upload="handleImageUpload"
+          @error="handleImageUploadError"
+        />
+        <PButton
+          v-if="imageId"
+          icon="pi pi-times"
+          severity="danger"
+          outlined
+          @click="handleImageDelete"
+        />
+      </div>
     </div>
 
     <div class="flex gap-2">

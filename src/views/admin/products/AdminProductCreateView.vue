@@ -177,31 +177,29 @@
         <ErrorMessage name="volume" as="small" class="p-error">{{ errors.volume }}</ErrorMessage>
       </div>
 
-      <div>
-        <div>
-          <label for="file" class="block text-900 font-medium mt-3 mb-2">Зображення</label>
-          <PFileUpload
-            name="file"
-            mode="basic"
-            :choose-label="!imageId ? 'Обрати' : 'Змінити'"
-            :url="uploadImageUrl"
-            accept="image/*"
-            :max-file-size="2000000"
-            with-credentials
-            auto
-            :disabled="isImageLoading"
-            @select="handleImageSelect"
-            @upload="handleImageUpload"
-          />
-          <small v-if="errors.imageId" class="p-error">{{ errors.imageId }}</small>
-        </div>
+      <div class="flex flex-column gap-2">
+        <label for="file" class="block text-900 font-medium mt-3">Зображення</label>
         <img
           v-if="imageUrl"
           :src="imageUrl"
           alt="Зображення продукту"
-          class="mt-3 max-w-12rem max-h-12rem shadow-2 border-round"
+          class="max-w-12rem max-h-12rem shadow-2 border-round"
           :style="{ objectFit: 'cover' }"
         />
+        <PFileUpload
+          name="file"
+          mode="basic"
+          :choose-label="!imageId ? 'Обрати' : 'Змінити'"
+          :url="uploadImageUrl"
+          accept="image/*"
+          :max-file-size="2000000"
+          with-credentials
+          auto
+          :disabled="isImageLoading"
+          @select="handleImageSelect"
+          @upload="handleImageUpload"
+        />
+        <small v-if="errors.imageId" class="p-error">{{ errors.imageId }}</small>
       </div>
     </div>
 
