@@ -12,7 +12,7 @@
   <PProgressSpinner v-if="isLoading" />
   <div v-els class="flex flex-column align-items-start gap-3">
     <PChart type="line" :data="chartData" :options="chartOptions" class="h-30rem w-full" />
-    <PButton label="Зберегти у PDF" icon="pi pi-download" @click="saveToPDF" />
+    <PButton label="Зберегти у PDF" icon="pi pi-file-export" @click="saveToPDF" />
   </div>
 </template>
 

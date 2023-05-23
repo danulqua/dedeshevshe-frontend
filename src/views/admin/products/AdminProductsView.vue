@@ -92,7 +92,7 @@
         <div class="flex align-items-center gap-1">
           <PButton
             size="small"
-            icon="pi pi-chart-bar"
+            icon="pi pi-chart-line"
             severity="success"
             text
             rounded
