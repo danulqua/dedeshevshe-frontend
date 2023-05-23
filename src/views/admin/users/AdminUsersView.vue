@@ -32,8 +32,9 @@
     <PColumn field="email" header="Email" sortable />
     <PColumn field="role" header="Роль" sortable>
       <template #body="{ data }: { data: UserDTO }">
-        <PTag v-if="data.role === 'USER'" severity="info" class="uppercase">User</PTag>
-        <PTag v-else-if="data.role === 'ADMIN'" severity="danger" class="uppercase">Admin</PTag>
+        <PTag :severity="roleTags[data.role].severity" class="uppercase">{{
+          roleTags[data.role].label
+        }}</PTag>
       </template>
     </PColumn>
     <PColumn field="createdAt" header="Дата створення" sortable>
@@ -94,6 +95,12 @@ import { useUserStore } from '@/stores/userStore';
 const userStore = useUserStore();
 const isMe = computed(() => (user: UserDTO) => userStore.user.id === user.id);
 const isLoading = ref(false);
+
+const roleTags = ref({
+  USER: { severity: 'info', label: 'User' },
+  ADMIN: { severity: 'danger', label: 'Admin' },
+  SUPERMARKET: { severity: 'success', label: 'Supermarket' }
+});
 
 const users = ref<UserDTO[]>([]);
 const searchParams = ref<UserSearchParams>({

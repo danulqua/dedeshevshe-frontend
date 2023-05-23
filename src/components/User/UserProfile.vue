@@ -13,9 +13,9 @@
 
     <div class="flex align-items-center gap-2">
       <span class="font-bold">Роль:</span>
-      <PTag :severity="userStore.user.role === 'ADMIN' ? 'danger' : 'info'">
-        {{ userStore.user.role }}
-      </PTag>
+      <PTag :severity="roleTags[userStore.user.role!].severity" class="uppercase">{{
+        roleTags[userStore.user.role!].label
+      }}</PTag>
     </div>
 
     <div class="flex gap-2">
@@ -31,9 +31,15 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/userStore';
 import { formatDate } from '@/utilities/formatDate';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 const userStore = useUserStore();
+
+const roleTags = ref({
+  USER: { severity: 'info', label: 'User' },
+  ADMIN: { severity: 'danger', label: 'Admin' },
+  SUPERMARKET: { severity: 'success', label: 'Supermarket' }
+});
 
 const formattedDate = computed(() => formatDate(userStore.user.createdAt!));
 </script>

@@ -95,6 +95,7 @@ const isValid = computed(() => {
 
 const roles = [
   { label: 'Роль "User"', value: 'USER' },
+  { label: 'Роль "Supermarket"', value: 'SUPERMARKET' },
   { label: 'Роль "Admin"', value: 'ADMIN' }
 ];
 
