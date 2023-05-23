@@ -74,6 +74,7 @@ const setChartOptions = () => {
         type: 'linear',
         display: true,
         position: 'left',
+        beginAtZero: true,
         ticks: {
           color: documentStyle.getPropertyValue('--blue-500')
         }
