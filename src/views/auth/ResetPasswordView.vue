@@ -61,7 +61,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { onMounted } from 'vue';
 
 const { handleSubmit, errors } = useForm({
-  validationSchema: toTypedSchema(passwordsSchema)
+  validationSchema: toTypedSchema(passwordsSchema),
 });
 const { value: password } = useField('password');
 const { value: confirmPassword } = useField('confirmPassword');
@@ -88,7 +88,7 @@ onMounted(async () => {
       severity: 'error',
       summary: 'Помилка',
       detail: 'Некоретне посилання для відновлення паролю',
-      life: 3000
+      life: 3000,
     });
 
     return;
@@ -103,7 +103,7 @@ onMounted(async () => {
       severity: 'error',
       summary: 'Помилка',
       detail: 'Некоретне посилання для відновлення паролю',
-      life: 3000
+      life: 3000,
     });
   } finally {
     isLoading.value = false;
@@ -121,14 +121,14 @@ const submit = handleSubmit(async (values) => {
       severity: 'success',
       summary: 'Успіх',
       detail: 'Пароль успішно змінено. Використовуйте новий пароль для входу',
-      life: 5000
+      life: 5000,
     });
   } catch (error) {
     toast.add({
       severity: 'error',
       summary: 'Помилка',
       detail: 'Неправильні дані для входу',
-      life: 3000
+      life: 3000,
     });
   } finally {
     isLoading.value = false;

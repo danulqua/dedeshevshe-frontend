@@ -67,8 +67,8 @@ const { handleSubmit, errors } = useForm({
   validationSchema: toTypedSchema(signInSchema),
   initialValues: {
     email: '',
-    password: ''
-  }
+    password: '',
+  },
 });
 const { value: email } = useField('email');
 const { value: password } = useField('password');
@@ -94,14 +94,14 @@ const submit = handleSubmit(async (values) => {
       severity: 'success',
       summary: 'Успіх',
       detail: 'Ви успішно увійшли до системи',
-      life: 3000
+      life: 3000,
     });
   } catch (error) {
     toast.add({
       severity: 'error',
       summary: 'Помилка',
       detail: 'Неправильні дані для входу',
-      life: 3000
+      life: 3000,
     });
   } finally {
     isLoading.value = false;

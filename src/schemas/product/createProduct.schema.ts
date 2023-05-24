@@ -22,9 +22,9 @@ export const createProductSchema = z.object({
       .max(100, 'Знижка не може бути більше 100')
       .nullable()
       .default(null),
-    oldPrice: z.number().min(0.01, 'Стара ціна повинна бути більше 0').nullable().default(null)
+    oldPrice: z.number().min(0.01, 'Стара ціна повинна бути більше 0').nullable().default(null),
   }),
   weight: z.number().min(0.01, 'Вага повинна бути більше 0').nullable().default(0),
   volume: z.number().min(0.01, 'Обʼєм повинен бути більше 0').nullable().default(null),
-  imageId: z.number().min(1, 'Зображення не вибране').default(0)
+  imageId: z.number().min(1, 'Зображення не вибране').default(0),
 });

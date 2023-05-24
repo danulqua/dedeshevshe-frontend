@@ -80,8 +80,8 @@ const { value: title, errorMessage } = useField(
     z
       .string()
       .nonempty('Назва супермаркету не може бути порожньою')
-      .regex(/^\S.*\S$/, 'Назва супермаркету не може починатися або закінчуватися пробілами')
-  )
+      .regex(/^\S.*\S$/, 'Назва супермаркету не може починатися або закінчуватися пробілами'),
+  ),
 );
 const isExternal = ref(false);
 const imageId = ref<number | null>(null);
@@ -111,7 +111,7 @@ const getShopData = async () => {
       severity: 'error',
       summary: 'Помилка',
       detail: 'Не вдалося отримати дані про супермаркет',
-      life: 3000
+      life: 3000,
     });
     router.push({ name: 'adminShops' });
   } finally {
@@ -138,7 +138,7 @@ const handleImageUpload = ({ xhr }: { xhr: XMLHttpRequest; files: any }) => {
     severity: 'success',
     summary: 'Успіх',
     detail: 'Зображення успішно завантажено',
-    life: 3000
+    life: 3000,
   });
 };
 
@@ -148,7 +148,7 @@ const handleImageUploadError = () => {
     summary: 'Помилка',
     detail:
       'Не вдалося завантажити зображення. Тип зображення повинен бути .jpg, .png. Розмір зображення до 2 МБ.',
-    life: 5000
+    life: 5000,
   });
   isImageLoading.value = false;
 };
@@ -158,14 +158,14 @@ const updateShop = async () => {
     isLoading.value = true;
     await shopService.updateShop(shopId.value, {
       title: title.value,
-      imageId: imageId.value
+      imageId: imageId.value,
     });
   } catch (error) {
     toast.add({
       severity: 'error',
       summary: 'Помилка',
       detail: 'Не вдалося оновити дані супермаркету',
-      life: 3000
+      life: 3000,
     });
   } finally {
     isLoading.value = false;
@@ -181,7 +181,7 @@ const submit = async () => {
     severity: 'success',
     summary: 'Успіх',
     detail: 'Супермаркет успішно оновлено',
-    life: 3000
+    life: 3000,
   });
   router.push({ name: 'adminShops' });
 };

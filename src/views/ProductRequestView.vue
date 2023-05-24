@@ -302,7 +302,7 @@ const handleImageUpload = ({ xhr }: { xhr: XMLHttpRequest; files: any }) => {
     severity: 'success',
     summary: 'Успіх',
     detail: 'Зображення успішно завантажено',
-    life: 3000
+    life: 3000,
   });
 };
 
@@ -313,7 +313,7 @@ const submit = handleSubmit(async (values) => {
       ...values,
       discount: isDiscount.value ? (values.discount as Discount) : null,
       weight: isSolid.value ? values.weight : null,
-      volume: !isSolid.value ? values.volume : null
+      volume: !isSolid.value ? values.volume : null,
     });
 
     router.push({ name: 'profile' });
@@ -321,14 +321,14 @@ const submit = handleSubmit(async (values) => {
       severity: 'success',
       summary: 'Успіх',
       detail: 'Запит успішно створено',
-      life: 3000
+      life: 3000,
     });
   } catch (error) {
     toast.add({
       severity: 'error',
       summary: 'Помилка',
       detail: 'При створенні запиту сталася помилка. Спробуйте спізніше.',
-      life: 3000
+      life: 3000,
     });
   } finally {
     isLoading.value = false;

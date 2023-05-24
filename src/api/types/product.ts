@@ -84,13 +84,13 @@ export interface CreateProductDTO {
 export interface UpdateProductDTO extends Partial<CreateProductDTO> {}
 
 export const isInternalProduct = (
-  product: ProductInternal | ProductExternal
+  product: ProductInternal | ProductExternal,
 ): product is ProductInternal => {
   return !product.isExternal;
 };
 
 export const isExternalProduct = (
-  product: ProductInternal | ProductExternal
+  product: ProductInternal | ProductExternal,
 ): product is ProductExternal => {
   return product.isExternal;
 };

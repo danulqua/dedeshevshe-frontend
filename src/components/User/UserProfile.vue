@@ -38,7 +38,7 @@ const userStore = useUserStore();
 const roleTags = ref({
   USER: { severity: 'info', label: 'User' },
   ADMIN: { severity: 'danger', label: 'Admin' },
-  SUPERMARKET: { severity: 'success', label: 'Supermarket' }
+  SUPERMARKET: { severity: 'success', label: 'Supermarket' },
 });
 
 const formattedDate = computed(() => formatDate(userStore.user.createdAt!));

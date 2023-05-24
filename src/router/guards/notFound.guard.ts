@@ -6,7 +6,7 @@ export const notFound = async () => {
     severity: 'error',
     summary: 'Помилка',
     detail: 'Такої сторінки не існує.',
-    life: 3000
+    life: 3000,
   });
   return { name: 'home' };
 };

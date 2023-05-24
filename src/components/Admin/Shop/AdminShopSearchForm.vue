@@ -31,7 +31,7 @@ const source = ref<ShopSource>();
 
 const sources = [
   { title: 'Внутрішній', value: 'internal' },
-  { title: 'Зовнішній', value: 'external' }
+  { title: 'Зовнішній', value: 'external' },
 ];
 
 const searchShops = () => {

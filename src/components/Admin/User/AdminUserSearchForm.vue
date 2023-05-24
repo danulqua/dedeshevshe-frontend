@@ -47,20 +47,20 @@ const role = ref<UserRole>();
 const { value: email, errorMessage: emailError } = useField(
   'email',
   toTypedSchema(z.union([emailSchema, z.literal('')])),
-  { initialValue: '' }
+  { initialValue: '' },
 );
 
 const roles = [
   { role: 'User', value: 'USER' },
   { role: 'Supermarket', value: 'SUPERMARKET' },
-  { role: 'Admin', value: 'ADMIN' }
+  { role: 'Admin', value: 'ADMIN' },
 ];
 
 const searchUsers = async () => {
   emit('search', {
     name: name.value || undefined,
     email: email.value || undefined,
-    role: role.value || undefined
+    role: role.value || undefined,
   });
 };
 </script>

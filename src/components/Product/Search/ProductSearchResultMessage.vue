@@ -31,7 +31,7 @@ const productsStore = useProductsStore();
 const userStore = useUserStore();
 
 const isVisible = computed(
-  () => !productsStore.isFirstLoad && !productsStore.isLoading && !productsStore.products.length
+  () => !productsStore.isFirstLoad && !productsStore.isLoading && !productsStore.products.length,
 );
 </script>
 

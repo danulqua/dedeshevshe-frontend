@@ -64,7 +64,7 @@ import { authService } from '@/api/auth';
 import { AxiosError } from 'axios';
 
 const { handleSubmit, errors } = useForm({
-  validationSchema: toTypedSchema(signUpSchema)
+  validationSchema: toTypedSchema(signUpSchema),
 });
 const { value: email } = useField('email');
 const { value: password } = useField('password');
@@ -92,7 +92,7 @@ const submit = handleSubmit(async (values) => {
       severity: 'success',
       summary: 'Успіх',
       detail: 'Ви успішно зареєструвалися',
-      life: 3000
+      life: 3000,
     });
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -105,7 +105,7 @@ const submit = handleSubmit(async (values) => {
         severity: 'error',
         summary: 'Помилка',
         detail,
-        life: 3000
+        life: 3000,
       });
     }
   } finally {

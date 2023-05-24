@@ -99,7 +99,7 @@ const isLoading = ref(false);
 const roleTags = ref({
   USER: { severity: 'info', label: 'User' },
   ADMIN: { severity: 'danger', label: 'Admin' },
-  SUPERMARKET: { severity: 'success', label: 'Supermarket' }
+  SUPERMARKET: { severity: 'success', label: 'Supermarket' },
 });
 
 const users = ref<UserDTO[]>([]);
@@ -107,7 +107,7 @@ const searchParams = ref<UserSearchParams>({
   page: 1,
   sortBy: 'updatedAt',
   order: 'desc',
-  limit: 10
+  limit: 10,
 });
 const totalPages = ref(0);
 const totalCount = ref(0);
@@ -129,7 +129,7 @@ const handleSearch = (event: { name?: string; email?: string; role?: UserRole })
   searchParams.value = {
     ...searchParams.value,
     ...event,
-    page: 1
+    page: 1,
   };
   fetchUsers(searchParams.value);
 };
@@ -143,7 +143,7 @@ const handleDelete = (user: UserDTO) => {
     acceptIcon: 'pi pi-trash',
     acceptLabel: 'Так',
     rejectLabel: 'Ні',
-    accept: () => deleteUser(user.id)
+    accept: () => deleteUser(user.id),
   });
 };
 
@@ -156,7 +156,7 @@ const deleteUser = async (userId: number) => {
       severity: 'success',
       summary: 'Успіх',
       detail: 'Користувача успішно видалено',
-      life: 3000
+      life: 3000,
     });
     fetchUsers(searchParams.value);
   } catch (error) {
@@ -164,7 +164,7 @@ const deleteUser = async (userId: number) => {
       severity: 'error',
       summary: 'Помилка',
       detail: 'Не вдалося видалити користувача',
-      life: 3000
+      life: 3000,
     });
   } finally {
     isLoading.value = false;
@@ -190,7 +190,7 @@ const fetchUsers = async (searchParams: UserSearchParams = {}) => {
       severity: 'error',
       summary: 'Помилка',
       detail: 'Не вдалося завантажити список користувачів',
-      life: 3000
+      life: 3000,
     });
   } finally {
     isLoading.value = false;
@@ -204,9 +204,9 @@ watch(
       ...searchParams.value,
       page: newPage,
       sortBy: newSortBy || undefined,
-      order: newOrder || undefined
+      order: newOrder || undefined,
     });
-  }
+  },
 );
 
 onMounted(() => fetchUsers(searchParams.value));

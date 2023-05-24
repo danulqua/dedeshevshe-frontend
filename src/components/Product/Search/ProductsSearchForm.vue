@@ -94,12 +94,12 @@ const itemsPerPage = 9;
 const { value: productTitle, errorMessage: errorProductTitle } = useField(
   'productTitle',
   toTypedSchema(productTitleSchema),
-  { initialValue: productsStore.title }
+  { initialValue: productsStore.title },
 );
 const { value: maxPrice, errorMessage: errorMaxPrice } = useField(
   'maxPrice',
   toTypedSchema(z.number().min(0.01, 'Ціна не може бути 0').nullable()),
-  { initialValue: productsStore.maxPrice }
+  { initialValue: productsStore.maxPrice },
 );
 const selectedShopId = ref<number | null>(null);
 const discountsOnly = ref(productsStore.discountsOnly);
@@ -132,14 +132,14 @@ const searchProducts = async () => {
       shopId: selectedShopId.value || undefined,
       discountsOnly: discountsOnly.value || undefined,
       limit: itemsPerPage,
-      page: productsStore.page
+      page: productsStore.page,
     });
   } catch (error) {
     toast.add({
       severity: 'error',
       summary: 'Помилка',
       detail: 'Під час пошуку сталась помилка. Спробуйте пізніше.',
-      life: 3000
+      life: 3000,
     });
   }
 };
@@ -159,14 +159,14 @@ const paginate = async () => {
       shopId: productsStore.shopId || undefined,
       discountsOnly: productsStore.discountsOnly || undefined,
       limit: 9,
-      page: productsStore.page
+      page: productsStore.page,
     });
   } catch (error) {
     toast.add({
       severity: 'error',
       summary: 'Помилка',
       detail: 'Під час пошуку сталась помилка. Спробуйте пізніше.',
-      life: 3000
+      life: 3000,
     });
   }
 };
@@ -177,7 +177,7 @@ watch(
     if (oldPage !== newPage) {
       paginate();
     }
-  }
+  },
 );
 
 const isFiltersChanged = computed(() => {

@@ -7,13 +7,13 @@ import type {
   ProductListDTO,
   ProductsSearchParams,
   ReportOption,
-  UpdateProductDTO
+  UpdateProductDTO,
 } from '@/api/types/product';
 
 class ProductsService {
   async getProducts<T = ProductInternal | ProductExternal>(
     globally: boolean,
-    searchParams: ProductsSearchParams
+    searchParams: ProductsSearchParams,
   ) {
     const endpoint = globally ? '/api/product/global' : '/api/product/all';
     const response = await apiClient<ProductListDTO<T>>(endpoint, {
@@ -26,8 +26,8 @@ class ProductsService {
         limit: searchParams.limit,
         page: searchParams.page,
         sortBy: searchParams.sortBy || undefined,
-        order: searchParams.order || undefined
-      }
+        order: searchParams.order || undefined,
+      },
     });
 
     return response.data;
@@ -66,8 +66,8 @@ class ProductsService {
   async getPriceHistoryReport(productId: string, reportOption: ReportOption) {
     const response = await apiClient.get<PriceHistory>(`/api/product/${productId}/priceHistory`, {
       params: {
-        option: reportOption || undefined
-      }
+        option: reportOption || undefined,
+      },
     });
 
     return response.data;

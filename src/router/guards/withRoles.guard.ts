@@ -19,7 +19,7 @@ export const withRoles =
           severity: 'error',
           summary: 'Помилка',
           detail: 'Помилка авторизації',
-          life: 3000
+          life: 3000,
         });
 
         next({ name: 'signIn' });
@@ -28,7 +28,7 @@ export const withRoles =
           severity: 'error',
           summary: 'Помилка',
           detail: 'У вас немає доступу до цієї сторінки',
-          life: 3000
+          life: 3000,
         });
 
         next({ name: 'home' });
@@ -40,7 +40,7 @@ export const withRoles =
         severity: 'error',
         summary: 'Помилка',
         detail: 'Помилка авторизації',
-        life: 3000
+        life: 3000,
       });
 
       userStore.clearUser();

@@ -19,11 +19,11 @@ import ProductListItem from '@/components/Product/List/ProductListItem.vue';
 defineProps({
   products: {
     type: Array as PropType<(ProductExternal | ProductInternal)[]>,
-    required: true
+    required: true,
   },
   showStatuses: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 </script>

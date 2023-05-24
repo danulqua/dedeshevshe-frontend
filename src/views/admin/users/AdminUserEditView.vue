@@ -97,7 +97,7 @@ const isValid = computed(() => {
 const roles = [
   { label: 'Роль "User"', value: 'USER' },
   { label: 'Роль "Supermarket"', value: 'SUPERMARKET' },
-  { label: 'Роль "Admin"', value: 'ADMIN' }
+  { label: 'Роль "Admin"', value: 'ADMIN' },
 ];
 
 const isFetching = ref(false);
@@ -121,7 +121,7 @@ const getUserData = async () => {
       severity: 'error',
       summary: 'Помилка',
       detail: 'Не вдалося отримати дані про користувача',
-      life: 3000
+      life: 3000,
     });
     router.push({ name: 'adminUsers' });
   } finally {
@@ -134,7 +134,7 @@ const updateUser = async (id: string, user: EditUserDTO) => {
     name: user.name,
     email: user.email,
     password: user.password,
-    role: user.role
+    role: user.role,
   });
 };
 
@@ -146,14 +146,14 @@ const submit = handleSubmit(async (values) => {
       name: values.name,
       email: values.email,
       password: values.password || undefined,
-      role: role.value
+      role: role.value,
     });
 
     toast.add({
       severity: 'success',
       summary: 'Успіх',
       detail: 'Користувача успішно оновлено',
-      life: 3000
+      life: 3000,
     });
     router.push({ name: 'adminUsers' });
   } catch (error: any) {
@@ -162,14 +162,14 @@ const submit = handleSubmit(async (values) => {
         severity: 'error',
         summary: 'Помилка',
         detail: 'Користувач з таким email вже існує',
-        life: 3000
+        life: 3000,
       });
     } else {
       toast.add({
         severity: 'error',
         summary: 'Помилка',
         detail: 'Не вдалося оновити користувача',
-        life: 3000
+        life: 3000,
       });
     }
   } finally {

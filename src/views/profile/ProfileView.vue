@@ -49,7 +49,7 @@ onMounted(async () => {
       severity: 'error',
       summary: 'Помилка',
       detail: 'Не вдалося завантажити запити на додавання продуктів',
-      life: 3000
+      life: 3000,
     });
   } finally {
     isProductsLoading.value = false;

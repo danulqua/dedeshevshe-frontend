@@ -8,12 +8,12 @@ export const signUpSchema = z
       .min(8, 'Пароль повинен містити мінімум 8 символів')
       .regex(
         /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{1,}$/,
-        'Пароль повинен містити мінімум 1 цифру, 1 спеціальний символ і 1 літеру'
+        'Пароль повинен містити мінімум 1 цифру, 1 спеціальний символ і 1 літеру',
       )
       .default(''),
-    confirmPassword: z.string().default('')
+    confirmPassword: z.string().default(''),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Паролі не співпадають',
-    path: ['confirmPassword']
+    path: ['confirmPassword'],
   });

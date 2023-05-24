@@ -6,7 +6,7 @@ import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 export const notForAuthenticated = async (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
-  next: NavigationGuardNext
+  next: NavigationGuardNext,
 ) => {
   const userStore = useUserStore();
   const toast = useToast();
@@ -24,7 +24,7 @@ export const notForAuthenticated = async (
         severity: 'warn',
         summary: 'Увага',
         detail: 'Ви вже авторизовані',
-        life: 3000
+        life: 3000,
       });
 
       next({ name: 'home' });
@@ -36,7 +36,7 @@ export const notForAuthenticated = async (
       severity: 'error',
       summary: 'Помилка',
       detail: 'Помилка авторизації',
-      life: 3000
+      life: 3000,
     });
 
     userStore.clearUser();

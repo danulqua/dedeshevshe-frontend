@@ -96,7 +96,7 @@ const searchParams = ref<ShopSearchParams>({
   page: 1,
   sortBy: 'updatedAt',
   order: 'desc',
-  limit: 10
+  limit: 10,
 });
 const totalPages = ref(0);
 const totalCount = ref(0);
@@ -118,7 +118,7 @@ const handleSearch = (event: { title?: string; source?: 'internal' | 'external' 
   searchParams.value = {
     ...searchParams.value,
     ...event,
-    page: 1
+    page: 1,
   };
   fetchShops(searchParams.value);
 };
@@ -132,7 +132,7 @@ const handleDelete = (shop: ShopDTO) => {
     acceptIcon: 'pi pi-trash',
     acceptLabel: 'Так',
     rejectLabel: 'Ні',
-    accept: () => deleteShop(shop.id)
+    accept: () => deleteShop(shop.id),
   });
 };
 
@@ -145,7 +145,7 @@ const deleteShop = async (shopId: number) => {
       severity: 'success',
       summary: 'Успіх',
       detail: 'Супермаркет успішно видалено',
-      life: 3000
+      life: 3000,
     });
     fetchShops(searchParams.value);
   } catch (error) {
@@ -153,7 +153,7 @@ const deleteShop = async (shopId: number) => {
       severity: 'error',
       summary: 'Помилка',
       detail: 'Не вдалося видалити супермаркет',
-      life: 3000
+      life: 3000,
     });
   } finally {
     isLoading.value = false;
@@ -179,7 +179,7 @@ const fetchShops = async (searchParams: ShopSearchParams = {}) => {
       severity: 'error',
       summary: 'Помилка',
       detail: 'Не вдалося завантажити список супермаркетів',
-      life: 3000
+      life: 3000,
     });
   } finally {
     isLoading.value = false;
@@ -193,9 +193,9 @@ watch(
       ...searchParams.value,
       page: newPage,
       sortBy: newSortBy || undefined,
-      order: newOrder || undefined
+      order: newOrder || undefined,
     });
-  }
+  },
 );
 
 onMounted(() => fetchShops(searchParams.value));

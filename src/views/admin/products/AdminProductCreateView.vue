@@ -299,7 +299,7 @@ const handleImageUpload = ({ xhr }: { xhr: XMLHttpRequest; files: any }) => {
     severity: 'success',
     summary: 'Успіх',
     detail: 'Зображення успішно завантажено',
-    life: 3000
+    life: 3000,
   });
 };
 
@@ -311,7 +311,7 @@ const submit = handleSubmit(async (values) => {
       discount: isDiscount.value ? (values.discount as Discount) : null,
       weight: isSolid.value ? values.weight : null,
       volume: !isSolid.value ? values.volume : null,
-      status: 'ACTIVE'
+      status: 'ACTIVE',
     });
 
     router.push({ name: 'adminProducts' });
@@ -319,14 +319,14 @@ const submit = handleSubmit(async (values) => {
       severity: 'success',
       summary: 'Успіх',
       detail: 'Продукт успішно додано',
-      life: 3000
+      life: 3000,
     });
   } catch (error) {
     toast.add({
       severity: 'error',
       summary: 'Помилка',
       detail: 'Не вдалося додати продукт',
-      life: 3000
+      life: 3000,
     });
   } finally {
     isLoading.value = false;

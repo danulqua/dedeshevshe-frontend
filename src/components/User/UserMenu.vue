@@ -25,15 +25,15 @@ const userMenuItems = ref([
       {
         label: 'Мій профіль',
         icon: 'pi pi-user',
-        to: '/profile'
+        to: '/profile',
       },
       {
         label: 'Вийти',
         icon: 'pi pi-sign-out',
-        command: () => userStore.signOut()
-      }
-    ]
-  }
+        command: () => userStore.signOut(),
+      },
+    ],
+  },
 ]);
 
 const toggleUserMenu = (event: any) => {

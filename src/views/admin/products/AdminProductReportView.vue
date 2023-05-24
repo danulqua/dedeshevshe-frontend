@@ -33,7 +33,7 @@ const isLoading = ref(false);
 const reportOptions = ref([
   { label: 'За тиждень', value: 'week' },
   { label: 'За місяць', value: 'month' },
-  { label: 'За рік', value: 'year' }
+  { label: 'За рік', value: 'year' },
 ]);
 const selectedReportOption = ref<ReportOption>('week');
 
@@ -57,9 +57,9 @@ const setChartData = () => {
         borderColor: documentStyle.getPropertyValue('--blue-500'),
         yAxisID: 'y',
         tension: 0.1,
-        data: reportData.value.map((item: any) => item.price)
-      }
-    ]
+        data: reportData.value.map((item: any) => item.price),
+      },
+    ],
   };
 };
 
@@ -76,10 +76,10 @@ const setChartOptions = () => {
         position: 'left',
         beginAtZero: true,
         ticks: {
-          color: documentStyle.getPropertyValue('--blue-500')
-        }
-      }
-    }
+          color: documentStyle.getPropertyValue('--blue-500'),
+        },
+      },
+    },
   };
 };
 
@@ -89,7 +89,7 @@ const getPriceHistory = async () => {
 
     const result = await productsService.getPriceHistoryReport(
       productId.toString(),
-      selectedReportOption.value
+      selectedReportOption.value,
     );
 
     product.value = result.product;
@@ -102,7 +102,7 @@ const getPriceHistory = async () => {
       severity: 'error',
       summary: 'Помилка',
       detail: `Не вдалося отримати історію змін цін для продукту #{productId}`,
-      life: 3000
+      life: 3000,
     });
     router.push({ name: 'adminProducts' });
   } finally {
@@ -127,7 +127,7 @@ const saveToPDF = () => {
   const pdf = new jsPDF({
     orientation: width < height ? 'portrait' : 'landscape',
     unit: 'px',
-    format: width >= height ? [width + textML + chartML, height + textMT + chartMT] : undefined
+    format: width >= height ? [width + textML + chartML, height + textMT + chartMT] : undefined,
   });
 
   pdf.setFontSize(fontSize);

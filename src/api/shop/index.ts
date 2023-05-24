@@ -4,13 +4,13 @@ import type {
   ShopDTO,
   ShopListDTO,
   ShopSearchParams,
-  UpdateShopDTO
+  UpdateShopDTO,
 } from '@/api/types/shop';
 
 class ShopService {
   async getAllShops(searchParams: ShopSearchParams = {}) {
     const response = await apiClient.get<ShopListDTO>('/api/shop/all', {
-      params: searchParams
+      params: searchParams,
     });
 
     return response.data;

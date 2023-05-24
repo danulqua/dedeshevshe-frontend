@@ -265,7 +265,7 @@ const status = ref<ProductStatus>();
 
 const statuses = [
   { status: 'Активний', value: 'ACTIVE' },
-  { status: 'Деактивований', value: 'INACTIVE' }
+  { status: 'Деактивований', value: 'INACTIVE' },
 ];
 
 const isValid = computed(() => {
@@ -334,7 +334,7 @@ const getProductData = async () => {
       severity: 'error',
       summary: 'Помилка',
       detail: 'Не вдалося отримати дані про продукт',
-      life: 3000
+      life: 3000,
     });
     router.push({ name: 'adminProducts' });
   } finally {
@@ -361,7 +361,7 @@ const handleImageUpload = ({ xhr }: { xhr: XMLHttpRequest; files: any }) => {
     severity: 'success',
     summary: 'Успіх',
     detail: 'Зображення успішно завантажено',
-    life: 3000
+    life: 3000,
   });
 };
 
@@ -374,7 +374,7 @@ const submit = handleSubmit(async (values) => {
       discount: isDiscount.value ? (values.discount as Discount) : null,
       weight: isSolid.value ? values.weight : null,
       volume: !isSolid.value ? values.volume : null,
-      status: status.value
+      status: status.value,
     });
 
     router.push({ name: 'adminProducts' });
@@ -382,14 +382,14 @@ const submit = handleSubmit(async (values) => {
       severity: 'success',
       summary: 'Успіх',
       detail: 'Продукт успішно оновлено',
-      life: 3000
+      life: 3000,
     });
   } catch (error) {
     toast.add({
       severity: 'error',
       summary: 'Помилка',
       detail: 'Не вдалося оновити продукт',
-      life: 3000
+      life: 3000,
     });
   } finally {
     isLoading.value = false;

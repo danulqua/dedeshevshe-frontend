@@ -147,7 +147,7 @@ const searchParams = ref<ProductsSearchParams>({
   page: 1,
   sortBy: 'updatedAt',
   order: 'desc',
-  limit: 10
+  limit: 10,
 });
 const totalPages = ref(0);
 const totalCount = ref(0);
@@ -175,7 +175,7 @@ const handleSearch = (event: {
   searchParams.value = {
     ...searchParams.value,
     ...event,
-    page: 1
+    page: 1,
   };
   fetchProducts(searchParams.value);
 };
@@ -189,7 +189,7 @@ const handleDelete = (product: ProductInternal) => {
     acceptIcon: 'pi pi-trash',
     acceptLabel: 'Так',
     rejectLabel: 'Ні',
-    accept: () => deleteProduct(product.id)
+    accept: () => deleteProduct(product.id),
   });
 };
 
@@ -202,7 +202,7 @@ const deleteProduct = async (productId: number) => {
       severity: 'success',
       summary: 'Успіх',
       detail: 'Продукт успішно видалено',
-      life: 3000
+      life: 3000,
     });
     fetchProducts(searchParams.value);
   } catch (error) {
@@ -210,7 +210,7 @@ const deleteProduct = async (productId: number) => {
       severity: 'error',
       summary: 'Помилка',
       detail: 'Не вдалося видалити продукт',
-      life: 3000
+      life: 3000,
     });
   } finally {
     isLoading.value = false;
@@ -233,7 +233,7 @@ const fetchProducts = async (searchParams: ProductsSearchParams = {}) => {
 
     const data = await productsService.getProducts<ProductInternal>(false, {
       ...searchParams,
-      limit: rowsPerPage.value
+      limit: rowsPerPage.value,
     });
     products.value = data.items;
     totalPages.value = data.totalPages;
@@ -243,7 +243,7 @@ const fetchProducts = async (searchParams: ProductsSearchParams = {}) => {
       severity: 'error',
       summary: 'Помилка',
       detail: 'Не вдалося завантажити список продуктів',
-      life: 3000
+      life: 3000,
     });
   } finally {
     isLoading.value = false;
@@ -257,9 +257,9 @@ watch(
       ...searchParams.value,
       page: newPage,
       sortBy: newSortBy || undefined,
-      order: newOrder || undefined
+      order: newOrder || undefined,
     });
-  }
+  },
 );
 
 onMounted(() => fetchProducts(searchParams.value));

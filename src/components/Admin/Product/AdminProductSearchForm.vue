@@ -65,8 +65,8 @@ import type { ProductStatus } from '@/api/types/product';
 const props = defineProps({
   withStatus: {
     type: Boolean,
-    default: true
-  }
+    default: true,
+  },
 });
 const emit = defineEmits(['search']);
 
@@ -77,7 +77,7 @@ const productTitle = ref('');
 const { value: maxPrice, errorMessage: errorMaxPrice } = useField(
   'maxPrice',
   toTypedSchema(z.number().min(0.01, 'Ціна не може бути 0').nullable()),
-  { initialValue: productsStore.maxPrice }
+  { initialValue: productsStore.maxPrice },
 );
 const selectedShopId = ref<number | null>(null);
 const discountsOnly = ref(productsStore.discountsOnly);
@@ -87,7 +87,7 @@ const isValid = computed(() => !errorMaxPrice.value);
 
 const statuses = [
   { status: 'Активні', value: 'ACTIVE' },
-  { status: 'Деактивовані', value: 'INACTIVE' }
+  { status: 'Деактивовані', value: 'INACTIVE' },
 ];
 
 const searchProducts = async () => {
@@ -97,7 +97,7 @@ const searchProducts = async () => {
       maxPrice: maxPrice.value || undefined,
       shopId: selectedShopId.value || undefined,
       discountsOnly: discountsOnly.value || undefined,
-      status: status.value || undefined
+      status: status.value || undefined,
     });
   }
 };

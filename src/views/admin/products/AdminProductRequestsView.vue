@@ -127,7 +127,7 @@ const searchParams = ref<ProductsSearchParams>({
   page: 1,
   sortBy: 'updatedAt',
   order: 'desc',
-  limit: 10
+  limit: 10,
 });
 const totalPages = ref(0);
 const totalCount = ref(0);
@@ -154,7 +154,7 @@ const handleSearch = (event: {
   searchParams.value = {
     ...searchParams.value,
     ...event,
-    page: 1
+    page: 1,
   };
   fetchProducts(searchParams.value);
 };
@@ -168,7 +168,7 @@ const handleAccept = async (product: ProductInternal) => {
     acceptIcon: 'pi pi-check',
     acceptLabel: 'Так',
     rejectLabel: 'Ні',
-    accept: () => acceptRequest(product.id)
+    accept: () => acceptRequest(product.id),
   });
 };
 
@@ -181,7 +181,7 @@ const handleReject = (product: ProductInternal) => {
     acceptIcon: 'pi pi-times',
     acceptLabel: 'Так',
     rejectLabel: 'Ні',
-    accept: () => rejectRequest(product.id)
+    accept: () => rejectRequest(product.id),
   });
 };
 
@@ -190,13 +190,13 @@ const acceptRequest = async (productId: number) => {
     isLoading.value = true;
 
     await productsService.updateProduct(productId.toString(), {
-      status: 'ACTIVE'
+      status: 'ACTIVE',
     });
     toast.add({
       severity: 'success',
       summary: 'Успіх',
       detail: 'Запит на додавання продукту прийнято',
-      life: 3000
+      life: 3000,
     });
     fetchProducts(searchParams.value);
   } catch (error) {
@@ -204,7 +204,7 @@ const acceptRequest = async (productId: number) => {
       severity: 'error',
       summary: 'Помилка',
       detail: 'Не вдалося прийняти запит на додавання продукту',
-      life: 3000
+      life: 3000,
     });
   } finally {
     isLoading.value = false;
@@ -216,13 +216,13 @@ const rejectRequest = async (productId: number) => {
     isLoading.value = true;
 
     await productsService.updateProduct(productId.toString(), {
-      status: 'INACTIVE'
+      status: 'INACTIVE',
     });
     toast.add({
       severity: 'success',
       summary: 'Успіх',
       detail: 'Запит на додавання продукту відхилено',
-      life: 3000
+      life: 3000,
     });
     fetchProducts(searchParams.value);
   } catch (error) {
@@ -230,7 +230,7 @@ const rejectRequest = async (productId: number) => {
       severity: 'error',
       summary: 'Помилка',
       detail: 'Не вдалося відхилити запит на додавання продукту',
-      life: 3000
+      life: 3000,
     });
   } finally {
     isLoading.value = false;
@@ -246,7 +246,7 @@ const fetchProducts = async (searchParams: ProductsSearchParams = {}) => {
     const data = await productsService.getProducts<ProductInternal>(false, {
       ...searchParams,
       status: 'IN_REVIEW',
-      limit: rowsPerPage.value
+      limit: rowsPerPage.value,
     });
     products.value = data.items;
     totalPages.value = data.totalPages;
@@ -256,7 +256,7 @@ const fetchProducts = async (searchParams: ProductsSearchParams = {}) => {
       severity: 'error',
       summary: 'Помилка',
       detail: 'Не вдалося завантажити список продуктів',
-      life: 3000
+      life: 3000,
     });
   } finally {
     isLoading.value = false;
@@ -270,9 +270,9 @@ watch(
       ...searchParams.value,
       page: newPage,
       sortBy: newSortBy || undefined,
-      order: newOrder || undefined
+      order: newOrder || undefined,
     });
-  }
+  },
 );
 
 onMounted(() => fetchProducts(searchParams.value));

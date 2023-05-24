@@ -65,14 +65,14 @@ const submit = async () => {
       severity: 'success',
       summary: 'Успіх',
       detail: 'Лист з подальшими інструкціями відправлено на Ваш email',
-      life: 5000
+      life: 5000,
     });
   } catch (error) {
     toast.add({
       severity: 'error',
       summary: 'Помилка',
       detail: 'Неправильні дані для входу',
-      life: 3000
+      life: 3000,
     });
   } finally {
     isLoading.value = false;

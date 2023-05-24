@@ -5,7 +5,7 @@ import type {
   EditUserDTO,
   UserDTO,
   UserListDTO,
-  UserSearchParams
+  UserSearchParams,
 } from '@/api/types/user';
 
 class UserService {
@@ -21,7 +21,7 @@ class UserService {
 
   async getAllUsers(searchParams: UserSearchParams) {
     const response = await apiClient.get<UserListDTO>('/api/user/all', {
-      params: searchParams
+      params: searchParams,
     });
 
     return response.data;

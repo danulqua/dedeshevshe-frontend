@@ -76,8 +76,8 @@ const userStore = useUserStore();
 const { handleSubmit, errors } = useForm({
   validationSchema: toTypedSchema(editProfileSchema),
   initialValues: {
-    name: userStore.user.name || ''
-  }
+    name: userStore.user.name || '',
+  },
 });
 const { value: name } = useField('name');
 const { value: password } = useField('password');
@@ -108,14 +108,14 @@ const submit = handleSubmit(async (values) => {
       severity: 'success',
       summary: 'Успіх',
       detail: 'Дані успішно збережено',
-      life: 3000
+      life: 3000,
     });
   } catch (error) {
     toast.add({
       severity: 'error',
       summary: 'Помилка',
       detail: 'Щось пішло не так, спробуйте пізніше',
-      life: 3000
+      life: 3000,
     });
   } finally {
     isLoading.value = false;

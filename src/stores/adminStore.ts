@@ -10,6 +10,6 @@ export const useAdminStore = defineStore('admin', () => {
   return {
     isMenuVisible,
     setIsMenuVisible,
-    toggleMenu
+    toggleMenu,
   };
 });

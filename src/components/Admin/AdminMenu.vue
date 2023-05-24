@@ -66,23 +66,23 @@ const menu = [
   {
     label: 'Користувачі',
     icon: 'pi pi-users',
-    to: { name: 'adminUsers' }
+    to: { name: 'adminUsers' },
   },
   {
     label: 'Супермаркети',
     icon: 'pi pi-building',
-    to: { name: 'adminShops' }
+    to: { name: 'adminShops' },
   },
   {
     label: 'Додані продукти',
     icon: 'pi pi-shopping-cart',
-    to: { name: 'adminProducts' }
+    to: { name: 'adminProducts' },
   },
   {
     label: 'Запити на додавання',
     icon: 'pi pi-question-circle',
-    to: { name: 'adminProductRequests' }
-  }
+    to: { name: 'adminProductRequests' },
+  },
 ];
 </script>
 

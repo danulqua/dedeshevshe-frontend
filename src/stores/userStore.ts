@@ -20,7 +20,7 @@ export const useUserStore = defineStore('user', () => {
     email: null,
     role: null,
     createdAt: null,
-    isAuthenticated: false
+    isAuthenticated: false,
   });
 
   const router = useRouter();
@@ -34,7 +34,7 @@ export const useUserStore = defineStore('user', () => {
       email,
       role,
       createdAt,
-      isAuthenticated: true
+      isAuthenticated: true,
     };
 
     router.push({ name: 'home' });
@@ -47,7 +47,7 @@ export const useUserStore = defineStore('user', () => {
       email: null,
       role: null,
       createdAt: null,
-      isAuthenticated: false
+      isAuthenticated: false,
     };
   };
 
@@ -58,7 +58,7 @@ export const useUserStore = defineStore('user', () => {
       email,
       role,
       createdAt,
-      isAuthenticated: true
+      isAuthenticated: true,
     };
   };
 
@@ -73,6 +73,6 @@ export const useUserStore = defineStore('user', () => {
     signIn,
     signOut,
     clearUser,
-    setUser
+    setUser,
   };
 });

@@ -26,7 +26,7 @@ export const useShopsStore = defineStore('shops', () => {
         severity: 'error',
         summary: 'Помилка завантаження',
         detail: 'Не вдалося завантажити список супермаркетів',
-        life: 3000
+        life: 3000,
       });
     } finally {
       isLoading.value = false;
@@ -37,6 +37,6 @@ export const useShopsStore = defineStore('shops', () => {
     shops,
     isLoading,
     isError,
-    fetchShops
+    fetchShops,
   };
 });

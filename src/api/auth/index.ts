@@ -5,7 +5,7 @@ class AuthService {
   async signIn(email: string, password: string) {
     const response = await apiClient.post<UserDTO>('/api/auth/signIn', {
       email,
-      password
+      password,
     });
 
     return response.data;
@@ -14,7 +14,7 @@ class AuthService {
   async signUp(email: string, password: string) {
     const response = await apiClient.post('/api/auth/signUp', {
       email,
-      password
+      password,
     });
 
     return response.data;

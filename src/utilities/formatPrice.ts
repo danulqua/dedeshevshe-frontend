@@ -3,6 +3,6 @@ export const formatPrice = (price: number) => {
     style: 'currency',
     currency: 'UAH',
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2
+    maximumFractionDigits: 2,
   }).format(price);
 };

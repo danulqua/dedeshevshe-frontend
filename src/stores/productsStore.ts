@@ -46,6 +46,6 @@ export const useProductsStore = defineStore('products', () => {
     isLoading,
     isFirstLoad,
     searchProducts,
-    setPage
+    setPage,
   };
 });

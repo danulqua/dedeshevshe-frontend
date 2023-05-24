@@ -7,7 +7,7 @@
     :template="{
       '380px': 'PrevPageLink CurrentPageReport NextPageLink JumpToPageDropdown',
       '450px': 'FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink',
-      default: 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink'
+      default: 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink',
     }"
     @page="handlePageChange"
   />
@@ -20,16 +20,16 @@ import { computed } from 'vue';
 const props = defineProps({
   page: {
     type: Number,
-    required: true
+    required: true,
   },
   rows: {
     type: Number,
-    required: true
+    required: true,
   },
   totalRecords: {
     type: Number,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const emit = defineEmits<{

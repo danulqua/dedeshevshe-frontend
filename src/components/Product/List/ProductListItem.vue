@@ -48,7 +48,7 @@
               <span class="text-xl">{{ formatPrice(product.price) }}</span>
               <span v-if="product.discount" class="line-through text-500 text-sm">{{
                 formatPrice(
-                  isExternalProduct(product) ? product.discount.oldPrice : product.oldPrice!
+                  isExternalProduct(product) ? product.discount.oldPrice : product.oldPrice!,
                 )
               }}</span>
             </div>
@@ -68,7 +68,7 @@ import {
   isExternalProduct,
   isInternalProduct,
   type ProductExternal,
-  type ProductInternal
+  type ProductInternal,
 } from '@/api/types/product';
 import { formatPrice } from '@/utilities/formatPrice';
 import { getProductStatusTagData } from '@/utilities/formatProductStatus';
@@ -76,16 +76,16 @@ import { getProductStatusTagData } from '@/utilities/formatProductStatus';
 const props = defineProps({
   product: {
     type: Object as PropType<ProductExternal | ProductInternal>,
-    required: true
+    required: true,
   },
   showStatus: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 
 const tagData = computed(
-  () => isInternalProduct(props.product) && getProductStatusTagData(props.product.status)
+  () => isInternalProduct(props.product) && getProductStatusTagData(props.product.status),
 );
 </script>
 
