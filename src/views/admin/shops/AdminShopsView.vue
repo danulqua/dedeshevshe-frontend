@@ -148,13 +148,23 @@ const deleteShop = async (shopId: number) => {
       life: 3000,
     });
     fetchShops(searchParams.value);
-  } catch (error) {
-    toast.add({
-      severity: 'error',
-      summary: 'Помилка',
-      detail: 'Не вдалося видалити супермаркет',
-      life: 3000,
-    });
+  } catch (error: any) {
+    if (error.response.data.message.indexOf('[P2003]') !== -1) {
+      toast.add({
+        severity: 'error',
+        summary: 'Помилка',
+        detail:
+          'Цей супермаркет містить продукти. Спочатку видаліть їх, або назначте іншому супермаркету',
+        life: 5000,
+      });
+    } else {
+      toast.add({
+        severity: 'error',
+        summary: 'Помилка',
+        detail: 'Не вдалося видалити супермаркет',
+        life: 3000,
+      });
+    }
   } finally {
     isLoading.value = false;
   }
