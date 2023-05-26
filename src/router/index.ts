@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { isAuthenticated } from '@/router/guards/isAuthenticated.guard';
-import { notForAuthenticated } from '@/router/guards/notForAuthenticated';
+import { notForAuthenticated } from '@/router/guards/notForAuthenticated.guard';
 import { withRoles } from '@/router/guards/withRoles.guard';
 import { UserRole } from '@/api/types/user';
 import { notFound } from '@/router/guards/notFound.guard';

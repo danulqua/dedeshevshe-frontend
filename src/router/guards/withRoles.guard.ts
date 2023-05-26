@@ -2,11 +2,10 @@ import type { UserRole } from '@/api/types/user';
 import { userService } from '@/api/user';
 import { useUserStore } from '@/stores/userStore';
 import { useToast } from 'primevue/usetoast';
-import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 export const withRoles =
   (...roles: UserRole[]) =>
-  async (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+  async () => {
     const userStore = useUserStore();
     const toast = useToast();
 
@@ -22,8 +21,10 @@ export const withRoles =
           life: 3000,
         });
 
-        next({ name: 'signIn' });
-      } else if (!roles.includes(userStore.user.role!)) {
+        return { name: 'signIn' };
+      }
+
+      if (!roles.includes(userStore.user.role!)) {
         toast.add({
           severity: 'error',
           summary: 'Помилка',
@@ -31,9 +32,7 @@ export const withRoles =
           life: 3000,
         });
 
-        next({ name: 'home' });
-      } else {
-        next();
+        return { name: 'home' };
       }
     } catch (error) {
       toast.add({
@@ -44,6 +43,6 @@ export const withRoles =
       });
 
       userStore.clearUser();
-      next({ name: 'signIn' });
+      return { name: 'signIn' };
     }
   };

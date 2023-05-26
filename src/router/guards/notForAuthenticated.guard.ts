@@ -1,19 +1,12 @@
 import { userService } from '@/api/user';
 import { useUserStore } from '@/stores/userStore';
 import { useToast } from 'primevue/usetoast';
-import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-export const notForAuthenticated = async (
-  to: RouteLocationNormalized,
-  from: RouteLocationNormalized,
-  next: NavigationGuardNext,
-) => {
+export const notForAuthenticated = async () => {
   const userStore = useUserStore();
   const toast = useToast();
 
-  if (['signIn', 'signUp', 'forgotPassword', 'resetPassword'].includes(to.name as string)) {
-    return next();
-  }
+  if (!userStore.user.isAuthenticated) return;
 
   try {
     const user = await userService.getMyProfile();
@@ -27,9 +20,7 @@ export const notForAuthenticated = async (
         life: 3000,
       });
 
-      next({ name: 'home' });
-    } else {
-      next();
+      return { name: 'home' };
     }
   } catch (error) {
     toast.add({
@@ -40,6 +31,6 @@ export const notForAuthenticated = async (
     });
 
     userStore.clearUser();
-    next({ name: 'signIn' });
+    return { name: 'signIn' };
   }
 };
