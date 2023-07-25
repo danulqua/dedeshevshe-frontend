@@ -2,7 +2,7 @@
   <header class="header flex align-items-center surface-50 shadow-2 relative z-5">
     <div class="container flex flex-1 align-items-center justify-content-between">
       <h1>
-        <RouterLink to="/" class="no-underline text-color">Grocify</RouterLink>
+        <RouterLink to="/" class="no-underline text-color">ДеДешевше</RouterLink>
       </h1>
       <RouterLink v-if="!userStore.user.isAuthenticated" :to="{ name: 'signIn' }">
         <PButton label="Увійти" icon="pi pi-sign-in" size="small"></PButton>

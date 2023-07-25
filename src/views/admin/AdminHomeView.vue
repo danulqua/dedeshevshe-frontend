@@ -1,5 +1,5 @@
 <template>
-  <h2>Адміністративна панель Grocify</h2>
+  <h2>Адміністративна панель ДеДешевше</h2>
 </template>
 
 <script setup lang="ts"></script>
