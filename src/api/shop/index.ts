@@ -9,7 +9,7 @@ import type {
 
 class ShopService {
   async getAllShops(searchParams: ShopSearchParams = {}) {
-    const response = await apiClient.get<ShopListDTO>('/api/shop/all', {
+    const response = await apiClient.get<ShopListDTO>('/shop/all', {
       params: searchParams,
     });
 
@@ -22,7 +22,7 @@ class ShopService {
   }
 
   async createShop(data: CreateShopDTO) {
-    const response = await apiClient.post<ShopDTO>('/api/shop', data);
+    const response = await apiClient.post<ShopDTO>('/shop', data);
     return response.data;
   }
 

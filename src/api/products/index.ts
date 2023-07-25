@@ -15,7 +15,7 @@ class ProductsService {
     globally: boolean,
     searchParams: ProductsSearchParams,
   ) {
-    const endpoint = globally ? '/api/product/global' : '/api/product/all';
+    const endpoint = globally ? '/product/global' : '/product/all';
     const response = await apiClient<ProductListDTO<T>>(endpoint, {
       params: {
         title: searchParams.title,
@@ -39,12 +39,12 @@ class ProductsService {
   }
 
   async getMyRequests() {
-    const response = await apiClient<ProductListDTO<ProductInternal>>('/api/product/request/my');
+    const response = await apiClient<ProductListDTO<ProductInternal>>('/product/request/my');
     return response.data;
   }
 
   async createRequest(product: CreateProductDTO) {
-    const response = await apiClient.post<ProductInternal>('/api/product/request', product);
+    const response = await apiClient.post<ProductInternal>('/product/request', product);
     return response.data;
   }
 
@@ -54,7 +54,7 @@ class ProductsService {
   }
 
   async createProduct(product: CreateProductDTO) {
-    const response = await apiClient.post<ProductInternal>('/api/product', product);
+    const response = await apiClient.post<ProductInternal>('/product', product);
     return response.data;
   }
 

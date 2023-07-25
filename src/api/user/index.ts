@@ -10,17 +10,17 @@ import type {
 
 class UserService {
   async getMyProfile() {
-    const response = await apiClient.get<UserDTO>('/api/user/profile');
+    const response = await apiClient.get<UserDTO>('/user/profile');
     return response.data;
   }
 
   async editProfile(dto: EditProfileDTO) {
-    const response = await apiClient.patch<UserDTO>('/api/user/editProfile', dto);
+    const response = await apiClient.patch<UserDTO>('/user/editProfile', dto);
     return response.data;
   }
 
   async getAllUsers(searchParams: UserSearchParams) {
-    const response = await apiClient.get<UserListDTO>('/api/user/all', {
+    const response = await apiClient.get<UserListDTO>('/user/all', {
       params: searchParams,
     });
 
@@ -33,7 +33,7 @@ class UserService {
   }
 
   async createUser(dto: CreateUserDTO) {
-    const response = await apiClient.post<UserDTO>('/api/user', dto);
+    const response = await apiClient.post<UserDTO>('/user', dto);
     return response.data;
   }
 
