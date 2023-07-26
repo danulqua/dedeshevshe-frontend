@@ -77,3 +77,5 @@ app.component('PColumn', Column);
 app.component('PChart', Chart);
 
 app.mount('#app');
+
+export default app;

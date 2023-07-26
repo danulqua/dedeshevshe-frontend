@@ -34,7 +34,7 @@ class ProductsService {
   }
 
   async getProduct(productId: string) {
-    const response = await apiClient<ProductInternal>(`/api/product/${productId}`);
+    const response = await apiClient<ProductInternal>(`/product/${productId}`);
     return response.data;
   }
 
@@ -49,7 +49,7 @@ class ProductsService {
   }
 
   async deleteProduct(productId: string) {
-    const response = await apiClient.delete(`/api/product/${productId}`);
+    const response = await apiClient.delete(`/product/${productId}`);
     return response.data;
   }
 
@@ -59,12 +59,12 @@ class ProductsService {
   }
 
   async updateProduct(productId: string, product: UpdateProductDTO) {
-    const response = await apiClient.patch<ProductInternal>(`/api/product/${productId}`, product);
+    const response = await apiClient.patch<ProductInternal>(`/product/${productId}`, product);
     return response.data;
   }
 
   async getPriceHistoryReport(productId: string, reportOption: ReportOption) {
-    const response = await apiClient.get<PriceHistory>(`/api/product/${productId}/priceHistory`, {
+    const response = await apiClient.get<PriceHistory>(`/product/${productId}/priceHistory`, {
       params: {
         option: reportOption || undefined,
       },

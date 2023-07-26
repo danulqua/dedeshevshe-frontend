@@ -4,7 +4,10 @@
   >
     <div class="flex justify-content-between align-items-center">
       <h1 class="relative mr-6">
-        <RouterLink :to="{ name: 'adminHome' }" class="no-underline text-color">
+        <RouterLink
+          :to="{ name: 'adminHome' }"
+          class="text-2xl sm:text-4xl no-underline text-color"
+        >
           ДеДешевше
         </RouterLink>
         <PTag severity="danger" class="tag uppercase">Admin</PTag>

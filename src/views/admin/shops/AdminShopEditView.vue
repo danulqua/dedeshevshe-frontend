@@ -72,7 +72,7 @@ import { useField } from 'vee-validate';
 import { z } from 'zod';
 import { toTypedSchema } from '@vee-validate/zod';
 
-const uploadImageUrl = `${import.meta.env.VITE_API_BASE_URL}/api/product/image/upload`;
+const uploadImageUrl = `${import.meta.env.VITE_API_BASE_URL}/product/image/upload`;
 
 const { value: title, errorMessage } = useField(
   'title',

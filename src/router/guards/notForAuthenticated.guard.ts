@@ -1,4 +1,3 @@
-import { userService } from '@/api/user';
 import { useUserStore } from '@/stores/userStore';
 import { useToast } from 'primevue/usetoast';
 
@@ -9,9 +8,6 @@ export const notForAuthenticated = async () => {
   if (!userStore.user.isAuthenticated) return;
 
   try {
-    const user = await userService.getMyProfile();
-    userStore.setUser(user);
-
     if (userStore.user.isAuthenticated) {
       toast.add({
         severity: 'warn',
