@@ -30,6 +30,7 @@ import type { ProductInternal } from '@/api/types/product';
 import ProductList from '@/components/Product/List/ProductList.vue';
 import { useToast } from 'primevue/usetoast';
 import UserProfile from '@/components/User/UserProfile.vue';
+import { AxiosError } from 'axios';
 
 const toast = useToast();
 
@@ -42,15 +43,19 @@ onMounted(async () => {
 
   try {
     products.value = (await productsService.getMyRequests()).items;
-  } catch {
+  } catch (error) {
     isError.value = true;
 
-    toast.add({
-      severity: 'error',
-      summary: 'Помилка',
-      detail: 'Не вдалося завантажити запити на додавання продуктів',
-      life: 3000,
-    });
+    if (error instanceof AxiosError) {
+      if ([401, 403].includes(error.response?.status!)) return;
+
+      toast.add({
+        severity: 'error',
+        summary: 'Помилка',
+        detail: 'Не вдалося завантажити запити на додавання продуктів',
+        life: 3000,
+      });
+    }
   } finally {
     isProductsLoading.value = false;
   }
