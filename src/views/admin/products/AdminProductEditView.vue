@@ -244,7 +244,7 @@ import { productsService } from '@/api/products';
 import type { Discount, ProductStatus } from '@/api/types/product';
 import { useRoute, useRouter } from 'vue-router';
 
-const uploadImageUrl = `${import.meta.env.VITE_API_BASE_URL}/api/product/image/upload`;
+const uploadImageUrl = `${import.meta.env.VITE_API_BASE_URL}/product/image/upload`;
 
 const { handleSubmit, errors } = useForm({ validationSchema: toTypedSchema(createProductSchema) });
 

@@ -28,7 +28,7 @@ class UserService {
   }
 
   async getUser(userId: string) {
-    const response = await apiClient.get<UserDTO>(`/api/user/${userId}`);
+    const response = await apiClient.get<UserDTO>(`/user/${userId}`);
     return response.data;
   }
 
@@ -38,12 +38,12 @@ class UserService {
   }
 
   async updateUser(userId: string, dto: EditUserDTO) {
-    const response = await apiClient.patch<UserDTO>(`/api/user/${userId}`, dto);
+    const response = await apiClient.patch<UserDTO>(`/user/${userId}`, dto);
     return response.data;
   }
 
   async deleteUser(userId: string) {
-    const response = await apiClient.delete<UserDTO>(`/api/user/${userId}`);
+    const response = await apiClient.delete<UserDTO>(`/user/${userId}`);
     return response.data;
   }
 }
