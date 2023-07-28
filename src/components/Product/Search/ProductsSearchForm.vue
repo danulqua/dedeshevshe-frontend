@@ -156,7 +156,6 @@ const validateAndSetFilters = (filters: SearchParams) => {
 
   productTitle.value = filters.title;
 
-  console.log(filters.maxPrice);
   if (filters.maxPrice && (isNaN(+filters.maxPrice) || +filters.maxPrice <= 0)) {
     maxPrice.value = null;
     searchParams.maxPrice = null;
@@ -200,17 +199,17 @@ watch(
 const searchProducts = async () => {
   if (!isValid.value || productsStore.isLoading) return;
 
+  searchParams.title = productTitle.value;
+  searchParams.maxPrice = maxPrice.value !== null ? String(maxPrice.value) : undefined;
+  searchParams.shopId = selectedShopId.value !== null ? String(selectedShopId.value) : undefined;
+  searchParams.discountsOnly = discountsOnly.value ? String(discountsOnly.value) : undefined;
+
   if (isFiltersChanged.value) {
     productsStore.page = 1;
     emit('search');
   }
 
   try {
-    // productsStore.title = productTitle.value;
-    // productsStore.shopId = selectedShopId.value;
-    // productsStore.maxPrice = maxPrice.value;
-    // productsStore.discountsOnly = discountsOnly.value;
-
     await productsStore.searchProducts({
       title: productTitle.value,
       maxPrice: maxPrice.value || undefined,
