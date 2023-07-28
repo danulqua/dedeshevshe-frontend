@@ -70,7 +70,6 @@ import { ref, onMounted, computed } from 'vue';
 import { useField } from 'vee-validate';
 import { z } from 'zod';
 import { toTypedSchema } from '@vee-validate/zod';
-import { useProductsStore } from '@/stores/productsStore';
 import { useShopsStore } from '@/stores/shopsStore';
 import type { ProductStatus } from '@/api/types/product';
 import type { ShopDTO } from '../../../api/types/shop';
@@ -83,17 +82,16 @@ const props = defineProps({
 });
 const emit = defineEmits(['search']);
 
-const productsStore = useProductsStore();
 const shopsStore = useShopsStore();
 
 const productTitle = ref('');
 const { value: maxPrice, errorMessage: errorMaxPrice } = useField(
   'maxPrice',
   toTypedSchema(z.number().min(0.01, 'Ціна не може бути 0').nullable()),
-  { initialValue: productsStore.maxPrice },
+  { initialValue: null },
 );
 const selectedShopId = ref<number | null>(null);
-const discountsOnly = ref(productsStore.discountsOnly);
+const discountsOnly = ref(false);
 const status = ref<Omit<ProductStatus, 'IN_REVIEW'>>();
 
 const isValid = computed(() => !errorMaxPrice.value);
