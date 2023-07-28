@@ -132,7 +132,11 @@ const isValid = computed(() => {
 });
 
 onMounted(() => {
-  validateAndSetFilters(searchParams);
+  const isQueryParamsValid = validateAndSetFilters(searchParams);
+
+  if (!isQueryParamsValid) return;
+
+  searchProducts();
 });
 
 const validateAndSetFilters = (filters: SearchParams) => {
@@ -147,7 +151,7 @@ const validateAndSetFilters = (filters: SearchParams) => {
     searchParams.maxPrice = undefined;
     searchParams.shopId = undefined;
     searchParams.discountsOnly = undefined;
-    return;
+    return false;
   }
 
   productTitle.value = filters.title;
@@ -174,6 +178,7 @@ const validateAndSetFilters = (filters: SearchParams) => {
     discountsOnly.value = true;
   }
 
+  return true;
   // page = searchParams.page || searchParams.page <= 0 ? 1 : searchParams.page;
 };
 
@@ -181,7 +186,13 @@ watch(
   () => shopsStore.shops,
   (shops) => {
     if (shops.length && searchParams.shopId) {
-      selectedShopId.value = +searchParams.shopId;
+      const shop = shops.find((s) => s.id === +searchParams.shopId!);
+      if (shop) {
+        selectedShopId.value = shop.id;
+      } else {
+        selectedShopId.value = null;
+        searchParams.shopId = undefined;
+      }
     }
   },
 );
@@ -195,10 +206,10 @@ const searchProducts = async () => {
   }
 
   try {
-    productsStore.title = productTitle.value;
-    productsStore.shopId = selectedShopId.value;
-    productsStore.maxPrice = maxPrice.value;
-    productsStore.discountsOnly = discountsOnly.value;
+    // productsStore.title = productTitle.value;
+    // productsStore.shopId = selectedShopId.value;
+    // productsStore.maxPrice = maxPrice.value;
+    // productsStore.discountsOnly = discountsOnly.value;
 
     await productsStore.searchProducts({
       title: productTitle.value,
