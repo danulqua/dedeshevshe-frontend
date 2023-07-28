@@ -31,7 +31,19 @@
         class="w-full"
         :disabled="shopsStore.isLoading"
         :loading="shopsStore.isLoading"
-      />
+      >
+        <template #option="{ option }: { option: ShopDTO }">
+          <div class="flex align-items-center h-2rem">
+            <img
+              v-if="option.image"
+              :alt="option.title"
+              :src="option.image.url"
+              class="max-w-6rem max-h-2rem mr-2"
+            />
+            <div v-else>{{ option.title }}</div>
+          </div>
+        </template>
+      </PDropdown>
     </div>
 
     <div>
@@ -82,6 +94,7 @@ import { toTypedSchema } from '@vee-validate/zod';
 import { productTitleSchema } from '@/schemas/searchProducts.schema';
 import { useProductsStore } from '@/stores/productsStore';
 import { useShopsStore } from '@/stores/shopsStore';
+import type { ShopDTO } from '../../../api/types/shop';
 
 const emit = defineEmits(['search']);
 

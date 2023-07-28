@@ -15,7 +15,19 @@
       placeholder="Супермаркет..."
       :disabled="shopsStore.isLoading"
       :loading="shopsStore.isLoading"
-    />
+    >
+      <template #option="{ option }: { option: ShopDTO }">
+        <div class="flex align-items-center h-2rem">
+          <img
+            v-if="option.image"
+            :alt="option.title"
+            :src="option.image.url"
+            class="max-w-6rem max-h-2rem mr-2"
+          />
+          <div v-else>{{ option.title }}</div>
+        </div>
+      </template>
+    </PDropdown>
     <div class="flex flex-column">
       <PInputNumber
         v-model="maxPrice"
@@ -61,6 +73,7 @@ import { toTypedSchema } from '@vee-validate/zod';
 import { useProductsStore } from '@/stores/productsStore';
 import { useShopsStore } from '@/stores/shopsStore';
 import type { ProductStatus } from '@/api/types/product';
+import type { ShopDTO } from '../../../api/types/shop';
 
 const props = defineProps({
   withStatus: {
