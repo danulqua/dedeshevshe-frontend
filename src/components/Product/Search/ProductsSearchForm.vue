@@ -144,6 +144,11 @@ onMounted(async () => {
       }
     },
   );
+
+  if (productsStore.totalPages < productsStore.page) {
+    searchParams.page = '1';
+    productsStore.page = 1;
+  }
 });
 
 const validateAndSetFilters = (filters: SearchParams) => {
