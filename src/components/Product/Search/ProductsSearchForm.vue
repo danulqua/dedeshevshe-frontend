@@ -152,14 +152,15 @@ const validateAndSetFilters = (filters: SearchParams) => {
 
   productTitle.value = filters.title;
 
-  if (filters.maxPrice && +filters.maxPrice <= 0) {
+  console.log(filters.maxPrice);
+  if (filters.maxPrice && (isNaN(+filters.maxPrice) || +filters.maxPrice <= 0)) {
     maxPrice.value = null;
     searchParams.maxPrice = null;
   } else if (filters.maxPrice && +filters.maxPrice > 0) {
     maxPrice.value = +filters.maxPrice;
   }
 
-  if (filters.shopId && +filters.shopId <= 0) {
+  if (filters.shopId && (isNaN(+filters.shopId) || +filters.shopId <= 0)) {
     selectedShopId.value = null;
     searchParams.shopId = null;
   } else if (filters.shopId && +filters.shopId > 0) {
