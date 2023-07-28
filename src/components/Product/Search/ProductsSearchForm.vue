@@ -152,12 +152,7 @@ onMounted(async () => {
 });
 
 const validateAndSetFilters = (filters: SearchParams) => {
-  if (!filters.title || filters.title.length <= 3) {
-    productTitle.value = '';
-    maxPrice.value = null;
-    selectedShopId.value = null;
-    discountsOnly.value = false;
-
+  if (!filters.title || filters.title.length < 3) {
     searchParams.title = undefined;
     searchParams.maxPrice = undefined;
     searchParams.shopId = undefined;

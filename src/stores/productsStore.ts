@@ -10,6 +10,7 @@ export const useProductsStore = defineStore('products', () => {
   const totalPages = ref(0);
   const totalCount = ref(0);
   const isLoading = ref(false);
+  const isFirstLoad = ref(true);
 
   const searchProducts = async (searchParams: ProductsSearchParams) => {
     try {
@@ -21,6 +22,7 @@ export const useProductsStore = defineStore('products', () => {
       totalCount.value = fetchedProducts.totalCount;
     } finally {
       isLoading.value = false;
+      isFirstLoad.value = false;
     }
   };
 
@@ -34,6 +36,7 @@ export const useProductsStore = defineStore('products', () => {
     totalPages,
     totalCount,
     isLoading,
+    isFirstLoad,
     searchProducts,
     setPage,
   };
