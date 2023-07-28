@@ -95,9 +95,19 @@ import { productTitleSchema } from '@/schemas/searchProducts.schema';
 import { useProductsStore } from '@/stores/productsStore';
 import { useShopsStore } from '@/stores/shopsStore';
 import type { ShopDTO } from '../../../api/types/shop';
+import { useUrlSearchParams } from '@vueuse/core';
 
 const emit = defineEmits(['search']);
 
+interface SearchParams {
+  title?: string;
+  shopId?: string | null;
+  maxPrice?: string | null;
+  discountsOnly?: string;
+  page?: string;
+}
+
+const searchParams = useUrlSearchParams<SearchParams>('history', { removeFalsyValues: true });
 const toast = useToast();
 const productsStore = useProductsStore();
 const shopsStore = useShopsStore();
@@ -107,23 +117,73 @@ const itemsPerPage = 9;
 const { value: productTitle, errorMessage: errorProductTitle } = useField(
   'productTitle',
   toTypedSchema(productTitleSchema),
-  { initialValue: productsStore.title },
+  { initialValue: '' },
 );
 const { value: maxPrice, errorMessage: errorMaxPrice } = useField(
   'maxPrice',
   toTypedSchema(z.number().min(0.01, 'Ціна не може бути 0').nullable()),
-  { initialValue: productsStore.maxPrice },
+  { initialValue: null },
 );
 const selectedShopId = ref<number | null>(null);
-const discountsOnly = ref(productsStore.discountsOnly);
+const discountsOnly = ref(false);
 
 const isValid = computed(() => {
   return productTitle.value && !errorProductTitle.value && !errorMaxPrice.value;
 });
 
 onMounted(() => {
-  selectedShopId.value = productsStore.shopId;
+  validateAndSetFilters(searchParams);
 });
+
+const validateAndSetFilters = (filters: SearchParams) => {
+  if (!filters.title || filters.title.length <= 3) {
+    productTitle.value = '';
+    maxPrice.value = null;
+    selectedShopId.value = null;
+    discountsOnly.value = false;
+    searchParams.page = undefined;
+
+    searchParams.title = undefined;
+    searchParams.maxPrice = undefined;
+    searchParams.shopId = undefined;
+    searchParams.discountsOnly = undefined;
+    return;
+  }
+
+  productTitle.value = filters.title;
+
+  if (filters.maxPrice && +filters.maxPrice <= 0) {
+    maxPrice.value = null;
+    searchParams.maxPrice = null;
+  } else if (filters.maxPrice && +filters.maxPrice > 0) {
+    maxPrice.value = +filters.maxPrice;
+  }
+
+  if (filters.shopId && +filters.shopId <= 0) {
+    selectedShopId.value = null;
+    searchParams.shopId = null;
+  } else if (filters.shopId && +filters.shopId > 0) {
+    selectedShopId.value = +filters.shopId;
+  }
+
+  if (filters.discountsOnly?.toLowerCase() !== 'true') {
+    discountsOnly.value = false;
+    searchParams.discountsOnly = undefined;
+  } else {
+    discountsOnly.value = true;
+  }
+
+  // page = searchParams.page || searchParams.page <= 0 ? 1 : searchParams.page;
+};
+
+watch(
+  () => shopsStore.shops,
+  (shops) => {
+    if (shops.length && searchParams.shopId) {
+      selectedShopId.value = +searchParams.shopId;
+    }
+  },
+);
 
 const searchProducts = async () => {
   if (!isValid.value || productsStore.isLoading) return;
