@@ -97,8 +97,6 @@ import { useShopsStore } from '@/stores/shopsStore';
 import type { ShopDTO } from '../../../api/types/shop';
 import { useUrlSearchParams } from '@vueuse/core';
 
-const emit = defineEmits(['search']);
-
 interface SearchParams {
   title?: string;
   shopId?: string | null;
@@ -131,12 +129,21 @@ const isValid = computed(() => {
   return productTitle.value && !errorProductTitle.value && !errorMaxPrice.value;
 });
 
-onMounted(() => {
+onMounted(async () => {
   const isQueryParamsValid = validateAndSetFilters(searchParams);
 
   if (!isQueryParamsValid) return;
 
-  searchProducts();
+  await searchProducts();
+
+  watch(
+    () => productsStore.page,
+    (newPage: number, oldPage: number) => {
+      if (newPage !== oldPage) {
+        paginate();
+      }
+    },
+  );
 });
 
 const validateAndSetFilters = (filters: SearchParams) => {
@@ -145,12 +152,12 @@ const validateAndSetFilters = (filters: SearchParams) => {
     maxPrice.value = null;
     selectedShopId.value = null;
     discountsOnly.value = false;
-    searchParams.page = undefined;
 
     searchParams.title = undefined;
     searchParams.maxPrice = undefined;
     searchParams.shopId = undefined;
     searchParams.discountsOnly = undefined;
+    searchParams.page = undefined;
     return false;
   }
 
@@ -177,8 +184,16 @@ const validateAndSetFilters = (filters: SearchParams) => {
     discountsOnly.value = true;
   }
 
+  if (
+    filters.page &&
+    (isNaN(+filters.page) || !Number.isInteger(+filters.page) || +filters.page <= 0)
+  ) {
+    searchParams.page = undefined;
+  } else if (filters.page && +filters.page > 0) {
+    productsStore.setPage(+filters.page);
+  }
+
   return true;
-  // page = searchParams.page || searchParams.page <= 0 ? 1 : searchParams.page;
 };
 
 watch(
@@ -203,10 +218,11 @@ const searchProducts = async () => {
   searchParams.maxPrice = maxPrice.value !== null ? String(maxPrice.value) : undefined;
   searchParams.shopId = selectedShopId.value !== null ? String(selectedShopId.value) : undefined;
   searchParams.discountsOnly = discountsOnly.value ? String(discountsOnly.value) : undefined;
+  searchParams.page = productsStore.page.toString();
 
   if (isFiltersChanged.value) {
+    searchParams.page = '1';
     productsStore.page = 1;
-    emit('search');
   }
 
   try {
@@ -236,12 +252,14 @@ const handleApplyFilters = () => {
 };
 
 const paginate = async () => {
+  searchParams.page = productsStore.page.toString();
+
   try {
     await productsStore.searchProducts({
-      title: productsStore.title,
-      maxPrice: productsStore.maxPrice || undefined,
-      shopId: productsStore.shopId || undefined,
-      discountsOnly: productsStore.discountsOnly || undefined,
+      title: searchParams.title,
+      maxPrice: searchParams.maxPrice ? +searchParams.maxPrice : undefined,
+      shopId: searchParams.shopId ? +searchParams.shopId : undefined,
+      discountsOnly: searchParams.discountsOnly === 'true' ? true : undefined,
       limit: 9,
       page: productsStore.page,
     });
@@ -255,20 +273,15 @@ const paginate = async () => {
   }
 };
 
-watch(
-  () => productsStore.page,
-  (oldPage: number, newPage: number) => {
-    if (oldPage !== newPage) {
-      paginate();
-    }
-  },
-);
-
 const isFiltersChanged = computed(() => {
+  const isDiscountsOnly = searchParams.discountsOnly === 'true';
+  const searchParamsShopId = searchParams.shopId ? +searchParams.shopId : null;
+  const searchParamsMaxPrice = searchParams.maxPrice ? +searchParams.maxPrice : null;
+
   return (
-    productsStore.shopId !== selectedShopId.value ||
-    productsStore.maxPrice !== maxPrice.value ||
-    productsStore.discountsOnly !== discountsOnly.value
+    searchParamsShopId !== selectedShopId.value ||
+    searchParamsMaxPrice !== maxPrice.value ||
+    isDiscountsOnly !== discountsOnly.value
   );
 });
 </script>

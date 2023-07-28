@@ -1,7 +1,7 @@
 <template>
   <div class="grid row-gap-4">
     <div class="col-12 lg:col-4">
-      <ProductsSearchForm @search="offset = 0" />
+      <ProductsSearchForm />
     </div>
     <div class="col-12 lg:col-8">
       <div v-if="productsStore.isLoading" class="flex justify-content-center">
@@ -34,9 +34,7 @@ import ProductsSearchForm from '@/components/Product/Search/ProductsSearchForm.v
 import CPaginator from '@/components/common/CPaginator.vue';
 import { useProductsStore } from '@/stores/productsStore';
 import { useShopsStore } from '@/stores/shopsStore';
-import { onMounted, ref } from 'vue';
-
-const offset = ref(0);
+import { onMounted } from 'vue';
 
 const productsStore = useProductsStore();
 

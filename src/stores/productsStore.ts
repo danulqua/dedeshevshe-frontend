@@ -5,12 +5,7 @@ import { ref } from 'vue';
 
 export const useProductsStore = defineStore('products', () => {
   const products = ref<(ProductInternal | ProductExternal)[]>([]);
-  const isFirstLoad = ref(true);
 
-  const title = ref('');
-  const shopId = ref<number | null>(null);
-  const maxPrice = ref<number | null>(null);
-  const discountsOnly = ref(false);
   const page = ref(1);
   const totalPages = ref(0);
   const totalCount = ref(0);
@@ -26,7 +21,6 @@ export const useProductsStore = defineStore('products', () => {
       totalCount.value = fetchedProducts.totalCount;
     } finally {
       isLoading.value = false;
-      isFirstLoad.value = false;
     }
   };
 
@@ -36,15 +30,10 @@ export const useProductsStore = defineStore('products', () => {
 
   return {
     products,
-    title,
-    shopId,
-    maxPrice,
-    discountsOnly,
     page,
     totalPages,
     totalCount,
     isLoading,
-    isFirstLoad,
     searchProducts,
     setPage,
   };

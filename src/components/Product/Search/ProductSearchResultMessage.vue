@@ -30,9 +30,7 @@ import { computed } from 'vue';
 const productsStore = useProductsStore();
 const userStore = useUserStore();
 
-const isVisible = computed(
-  () => !productsStore.isFirstLoad && !productsStore.isLoading && !productsStore.products.length,
-);
+const isVisible = computed(() => !productsStore.isLoading && !productsStore.products.length);
 </script>
 
 <style scoped></style>
