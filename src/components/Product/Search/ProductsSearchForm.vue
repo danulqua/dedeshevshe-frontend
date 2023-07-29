@@ -132,9 +132,9 @@ const isValid = computed(() => {
 onMounted(async () => {
   const isQueryParamsValid = validateAndSetFilters(searchParams);
 
-  if (!isQueryParamsValid) return;
-
-  await searchProducts();
+  if (isQueryParamsValid) {
+    await searchProducts();
+  }
 
   watch(
     () => productsStore.page,
@@ -145,7 +145,7 @@ onMounted(async () => {
     },
   );
 
-  if (productsStore.totalPages < productsStore.page) {
+  if (!productsStore.isFirstLoad && productsStore.totalPages < productsStore.page) {
     searchParams.page = '1';
     productsStore.page = 1;
   }
