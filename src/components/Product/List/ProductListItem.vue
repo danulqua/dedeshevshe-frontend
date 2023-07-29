@@ -38,7 +38,7 @@
               v-if="product.shop.image"
               :src="product.shop.image.url"
               :alt="product.shop.title"
-              class="w-6rem max-h-3rem"
+              class="w-6rem h-3rem"
               :style="{ objectFit: 'contain' }"
             />
             <span v-else>{{ product.shop.title }}</span>
