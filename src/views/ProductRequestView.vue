@@ -49,7 +49,19 @@
           :class="{ 'p-invalid': errors.shopId }"
           :disabled="shopsStore.isLoading"
           :loading="shopsStore.isLoading"
-        />
+        >
+          <template #option="{ option }: { option: ShopDTO }">
+            <div class="flex align-items-center h-2rem">
+              <img
+                v-if="option.image"
+                :alt="option.title"
+                :src="option.image.url"
+                class="max-w-6rem max-h-2rem mr-2"
+              />
+              <div v-else>{{ option.title }}</div>
+            </div>
+          </template>
+        </PDropdown>
         <ErrorMessage name="shopId" as="small" class="p-error">{{ errors.shopId }}</ErrorMessage>
       </div>
 
@@ -231,6 +243,7 @@ import { useShopsStore } from '@/stores/shopsStore';
 import { productsService } from '@/api/products';
 import type { Discount } from '@/api/types/product';
 import { useRouter } from 'vue-router';
+import type { ShopDTO } from '../api/types/shop';
 
 const uploadImageUrl = `${import.meta.env.VITE_API_BASE_URL}/product/image/upload`;
 
