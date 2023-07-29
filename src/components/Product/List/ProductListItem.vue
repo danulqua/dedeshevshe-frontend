@@ -9,9 +9,7 @@
             class="w-full h-14rem"
             :style="{ objectFit: 'contain' }"
           />
-          <PTag v-if="!product.isExternal" class="absolute" :style="{ right: '5px', top: '5px' }">
-            Користувацький
-          </PTag>
+          <PTag v-if="!product.isExternal" class="absolute product-source"> Користувацький </PTag>
 
           <div v-if="product.discount" class="product-discount">
             <div v-if="isExternalProduct(product)" class="flex align-items-center gap-2">
@@ -131,6 +129,11 @@ const tagData = computed(
       font-weight: bold;
     }
   }
+}
+
+.product-source {
+  top: 10px;
+  right: 10px;
 }
 
 .product-discount {
