@@ -10,7 +10,7 @@
     </template>
 
     <template v-else>
-      <ProductListSkeleton v-for="(_, index) in fakeArray" :key="index" />
+      <ProductListItemSkeleton v-for="(_, index) in fakeArray" :key="index" />
     </template>
   </div>
 </template>
@@ -21,7 +21,7 @@ import { isExternalProduct } from '@/api/types/product';
 import type { ProductExternal, ProductInternal } from '@/api/types/product';
 
 import ProductListItem from '@/components/Product/List/ProductListItem.vue';
-import ProductListSkeleton from './ProductListSkeleton.vue';
+import ProductListItemSkeleton from './ProductListItemSkeleton.vue';
 
 const props = defineProps({
   products: {
