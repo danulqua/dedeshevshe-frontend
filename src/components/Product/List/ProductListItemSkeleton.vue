@@ -3,19 +3,21 @@
     <div class="skeleton-card w-full h-full p-2">
       <PSkeleton rounded width="auto" height="14rem" />
 
-      <div class="flex flex-column gap-1 mt-3">
-        <PSkeleton width="auto" height="1.1rem" />
-        <PSkeleton width="10rem" height="1.1rem" />
+      <div :style="{ padding: '0 12px 8px' }">
+        <div class="flex flex-column gap-1 mt-3">
+          <PSkeleton width="auto" height="1.1rem" />
+          <PSkeleton width="10rem" height="1.1rem" />
+        </div>
+
+        <PSkeleton width="7rem" height="2rem" class="mt-4" />
+
+        <div class="flex flex-column gap-1" :style="{ marginTop: '36px' }">
+          <PSkeleton width="3rem" />
+          <PSkeleton width="4rem" />
+        </div>
+
+        <PSkeleton width="6rem" height="1.8rem" class="mt-3" />
       </div>
-
-      <PSkeleton width="7rem" height="2rem" class="mt-3" />
-
-      <div class="flex flex-column gap-1" :style="{ marginTop: '40px' }">
-        <PSkeleton width="3rem" />
-        <PSkeleton width="4rem" />
-      </div>
-
-      <PSkeleton width="5rem" height="1.8rem" class="mt-3" />
     </div>
   </div>
 </template>
