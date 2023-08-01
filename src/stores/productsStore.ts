@@ -16,6 +16,7 @@ export const useProductsStore = defineStore('products', () => {
   const searchProducts = async (searchParams: ProductsSearchParams) => {
     try {
       isError.value = false;
+      isFirstLoad.value = false;
       isLoading.value = true;
       const fetchedProducts = await productsService.getProducts(true, searchParams);
 
@@ -27,7 +28,6 @@ export const useProductsStore = defineStore('products', () => {
       console.log(error);
     } finally {
       isLoading.value = false;
-      isFirstLoad.value = false;
     }
   };
 
