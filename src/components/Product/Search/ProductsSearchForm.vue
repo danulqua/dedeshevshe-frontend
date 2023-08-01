@@ -76,11 +76,11 @@
     </div>
 
     <PButton
-      v-if="productTitle && isFiltersChanged"
-      label="Прийняти фільтри"
+      v-if="productTitle && isSearchParamsChanged"
+      label="Прийняти параметри"
       icon="pi pi-filter"
       class="align-self-start"
-      @click="handleApplyFilters"
+      @click="searchProducts"
     />
   </div>
 </template>
@@ -214,16 +214,21 @@ watch(
 const searchProducts = async () => {
   if (!isValid.value || productsStore.isLoading) return;
 
+  let isPageReset = false;
+
+  if (isSearchParamsChanged.value && productsStore.page !== 1) {
+    isPageReset = true;
+    productsStore.page = 1;
+    searchParams.page = '1';
+  }
+
   searchParams.title = productTitle.value;
   searchParams.maxPrice = maxPrice.value !== null ? String(maxPrice.value) : undefined;
   searchParams.shopId = selectedShopId.value !== null ? String(selectedShopId.value) : undefined;
   searchParams.discountsOnly = discountsOnly.value ? String(discountsOnly.value) : undefined;
   searchParams.page = productsStore.page.toString();
 
-  if (isFiltersChanged.value) {
-    searchParams.page = '1';
-    productsStore.page = 1;
-  }
+  if (isPageReset) return;
 
   try {
     await productsStore.searchProducts({
@@ -244,12 +249,12 @@ const searchProducts = async () => {
   }
 };
 
-const handleApplyFilters = () => {
-  if (!isValid.value || productsStore.isLoading) return;
+// const handleApplyFilters = () => {
+//   if (!isValid.value || productsStore.isLoading) return;
 
-  productsStore.page = 1;
-  searchProducts();
-};
+//   productsStore.page = 1;
+//   searchProducts();
+// };
 
 const paginate = async () => {
   searchParams.page = productsStore.page.toString();
@@ -273,12 +278,14 @@ const paginate = async () => {
   }
 };
 
-const isFiltersChanged = computed(() => {
-  const isDiscountsOnly = searchParams.discountsOnly === 'true';
+const isSearchParamsChanged = computed(() => {
+  const searchParamsTitle = searchParams.title ? searchParams.title : null;
   const searchParamsShopId = searchParams.shopId ? +searchParams.shopId : null;
   const searchParamsMaxPrice = searchParams.maxPrice ? +searchParams.maxPrice : null;
+  const isDiscountsOnly = searchParams.discountsOnly === 'true';
 
   return (
+    searchParamsTitle !== productTitle.value ||
     searchParamsShopId !== selectedShopId.value ||
     searchParamsMaxPrice !== maxPrice.value ||
     isDiscountsOnly !== discountsOnly.value
