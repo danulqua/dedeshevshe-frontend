@@ -4,14 +4,11 @@
       <ProductsSearchForm />
     </div>
     <div class="col-12 lg:col-8">
-      <div v-if="productsStore.isLoading" class="flex justify-content-center">
-        <PProgressSpinner />
-      </div>
-
       <ProductList
-        v-else-if="productsStore.products.length"
         :products="productsStore.products"
         :show-statuses="false"
+        :show-skeleton="productsStore.isLoading"
+        :skeleton-count="6"
       />
 
       <CPaginator
