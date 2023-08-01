@@ -39,6 +39,7 @@ import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import './assets/main.css';
+import Skeleton from 'primevue/skeleton';
 
 inject(); // Vercel Analytics
 const app = createApp(App);
@@ -75,6 +76,7 @@ app.component('PSidebar', Sidebar);
 app.component('PDataTable', DataTable);
 app.component('PColumn', Column);
 app.component('PChart', Chart);
+app.component('PSkeleton', Skeleton);
 
 app.mount('#app');
 
