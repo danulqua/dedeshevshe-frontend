@@ -19,7 +19,8 @@
         @page-change="productsStore.setPage($event)"
       />
 
-      <ProductSearchResultMessage />
+      <ProductSearchEmptyState v-if="productsStore.isFirstLoad" />
+      <ProductSearchResultMessage v-else />
     </div>
   </div>
 </template>
@@ -32,6 +33,7 @@ import CPaginator from '@/components/common/CPaginator.vue';
 import { useProductsStore } from '@/stores/productsStore';
 import { useShopsStore } from '@/stores/shopsStore';
 import { onMounted } from 'vue';
+import ProductSearchEmptyState from '../components/Product/Search/ProductSearchEmptyState.vue';
 
 const productsStore = useProductsStore();
 
