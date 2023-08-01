@@ -1,8 +1,8 @@
 <template>
   <div class="empty-text relative py-8">
-    <div class="text-center text-4xl font-bold">Ви ще нічого не шукали</div>
+    <div class="text-center text-4xl font-bold">Розпочніть з пошуку</div>
 
-    <div class="vegetables text-2xl">
+    <div class="vegetables text-2xl" :class="{ appear }">
       <span class="vegetable-1">🥕</span>
       <span class="vegetable-2">🥦</span>
       <span class="vegetable-3">🥒</span>
@@ -15,14 +15,24 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
+
+const appear = ref(false);
+
+onMounted(() => {
+  setTimeout(() => {
+    appear.value = true;
+  }, 1000);
+});
+</script>
 
 <style scoped lang="scss">
 .vegetables {
   span {
     position: absolute;
     z-index: -1;
-    transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.5s ease-in-out;
+    transition: transform 1.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 1s ease-in-out;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -30,7 +40,7 @@
   }
 }
 
-.empty-text:hover {
+.vegetables.appear {
   span {
     opacity: 1;
   }
