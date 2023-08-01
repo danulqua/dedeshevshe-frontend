@@ -6,18 +6,27 @@
     <div class="col-12 lg:col-8">
       <h2 class="mb-4">Запити на додавання {{ products.length ? `(${products.length})` : '' }}</h2>
 
-      <div v-if="isProductsLoading" class="flex justify-content-center">
-        <PProgressSpinner />
-      </div>
+      <ProductList
+        :products="products"
+        :show-statuses="true"
+        :show-skeleton="isProductsLoading"
+        :skeleton-count="6"
+      />
 
-      <ProductList v-else-if="products.length" :products="products" :show-statuses="true" />
-
-      <p v-else-if="!isError" class="flex flex-column gap-1 align-items-center text-lg">
-        <span class="text-center">У вас немає запитів на додавання.</span>
-        <span class="text-center">Бажаєте створити запит на додавання продукту у систему?</span>
+      <p
+        v-if="!isError"
+        class="flex flex-column gap-1 align-items-start lg:align-items-center text-lg"
+      >
+        <span>У вас немає запитів на додавання.</span>
+        <span> Бажаєте створити запит на додавання продукту у систему? </span>
         <RouterLink :to="{ name: 'createProductRequest' }">
           <PButton class="mt-4" label="Запит" icon="pi pi-plus" severity="success" />
         </RouterLink>
+      </p>
+      <p v-else class="flex flex-column gap-1 align-items-start lg:align-items-center text-lg">
+        <span class="text-center">
+          Виникла помилка при завантаженні запитів на додавання. Спробуйте пізніше.
+        </span>
       </p>
     </div>
   </div>

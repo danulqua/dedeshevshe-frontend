@@ -1,8 +1,13 @@
 <template>
   <h2 class="mb-4">Профіль користувача</h2>
 
-  <div v-if="isLoading" class="flex justify-content-center">
-    <PProgressSpinner />
+  <div v-if="isLoading" class="flex flex-column gap-2 justify-content-center">
+    <PSkeleton width="60%" height="1.2rem" />
+    <PSkeleton width="80%" height="1.2rem" />
+    <PSkeleton width="60%" height="1.2rem" />
+    <PSkeleton width="70%" height="1.2rem" />
+
+    <PSkeleton width="9rem" height="2.8rem" class="mt-3" />
   </div>
 
   <div v-else-if="!isLoading && !isError" class="flex flex-column gap-2">
@@ -27,10 +32,11 @@
       <span class="font-bold">Дата реєстрації:</span>
       <span>{{ formattedDate }}</span>
     </div>
+
+    <RouterLink :to="{ name: 'editProfile' }">
+      <PButton class="mt-3" label="Редагувати" icon="pi pi-pencil" size="small" outlined />
+    </RouterLink>
   </div>
-  <RouterLink :to="{ name: 'editProfile' }">
-    <PButton class="mt-3" label="Редагувати" icon="pi pi-pencil" size="small" outlined />
-  </RouterLink>
 </template>
 
 <script setup lang="ts">
