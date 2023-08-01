@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-column gap-3">
+  <div class="product-search-form flex flex-column gap-3">
     <div>
       <div class="p-inputgroup flex-1">
         <PInputText
@@ -214,6 +214,11 @@ watch(
 const searchProducts = async () => {
   if (!isValid.value || productsStore.isLoading) return;
 
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+
   let isPageReset = false;
 
   if (isSearchParamsChanged.value && productsStore.page !== 1) {
@@ -258,6 +263,10 @@ const searchProducts = async () => {
 
 const paginate = async () => {
   searchParams.page = productsStore.page.toString();
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
 
   try {
     await productsStore.searchProducts({
@@ -293,4 +302,9 @@ const isSearchParamsChanged = computed(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.product-search-form {
+  position: sticky;
+  top: 30px;
+}
+</style>

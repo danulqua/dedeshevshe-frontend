@@ -1,6 +1,6 @@
 <template>
   <div v-if="isVisible" class="w-9 mx-auto">
-    <div class="flex flex-column gap-1 align-items-center text-lg">
+    <div v-if="!productsStore.isError" class="flex flex-column gap-1 align-items-center text-lg">
       <span class="text-center">Продукт не знайдено!</span>
 
       <div v-if="!userStore.user.isAuthenticated" class="flex flex-column gap-1 align-items-center">
@@ -18,6 +18,9 @@
           <PButton class="mt-4" label="Запит" icon="pi pi-plus" severity="success" />
         </RouterLink>
       </div>
+    </div>
+    <div v-else class="flex flex-column gap-1 align-items-center text-lg">
+      <span class="text-center">Під час пошуку сталася помилка, спробуйте пізніше.</span>
     </div>
   </div>
 </template>
