@@ -10,7 +10,7 @@
         :products="products"
         :show-statuses="true"
         :show-skeleton="isProductsLoading"
-        :skeleton-count="6"
+        :skeleton-count="9"
       />
 
       <p

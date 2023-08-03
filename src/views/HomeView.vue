@@ -8,7 +8,7 @@
         :products="productsStore.products"
         :show-statuses="false"
         :show-skeleton="productsStore.isLoading"
-        :skeleton-count="6"
+        :skeleton-count="9"
       />
 
       <CPaginator
