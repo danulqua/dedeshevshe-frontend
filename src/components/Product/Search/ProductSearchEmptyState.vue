@@ -1,6 +1,6 @@
 <template>
   <div class="empty-text relative py-8">
-    <div class="text-center text-4xl font-bold">Розпочніть з пошуку</div>
+    <div class="text-center text-3xl sm:text-4xl font-bold">Розпочніть з пошуку</div>
 
     <div class="vegetables text-2xl" :class="{ appear }">
       <span class="vegetable-1">🥕</span>
@@ -70,11 +70,45 @@ onMounted(() => {
   }
 
   .vegetable-7 {
-    transform: translate(-236px, -19px);
+    transform: translate(-236px, -16px);
   }
 
   .vegetable-8 {
-    transform: translate(219px, -19px);
+    transform: translate(219px, -14px);
+  }
+
+  @media (max-width: 575px) {
+    .vegetable-1 {
+      transform: translate(-106px, 22px);
+    }
+
+    .vegetable-2 {
+      transform: translate(83px, -46px);
+    }
+
+    .vegetable-3 {
+      transform: translate(-14px, -59px);
+    }
+
+    .vegetable-4 {
+      transform: translate(-9px, 29px);
+    }
+
+    .vegetable-5 {
+      transform: translate(83px, 20px);
+    }
+
+    .vegetable-6 {
+      transform: translate(-106px, -46px);
+    }
+
+    .vegetable-7 {
+      transform: translate(-177px, -16px);
+    }
+
+    .vegetable-8 {
+      transform: translate(154px, -14px);
+    }
   }
 }
 </style>
